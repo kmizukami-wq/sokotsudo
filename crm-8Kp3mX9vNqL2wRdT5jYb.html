@@ -288,7 +288,57 @@ function closeSidebar(){document.getElementById('sidebar').classList.remove('ope
 function checkLineBrowser(){const ua=navigator.userAgent;if(/Line\//i.test(ua)){document.getElementById('auth-screen').innerHTML=`<div class="auth-box" style="text-align:center;"><div class="auth-logo">送骨堂</div><div class="auth-sub">CRM SYSTEM</div><div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:16px;margin-bottom:20px;color:#856404;font-size:13px;line-height:1.6;">⚠️ LINEのブラウザではGoogleログインができません。<br>下のボタンから外部ブラウザで開いてください。</div><a href="https://sokotsudo.com/crm-8Kp3mX9vNqL2wRdT5jYb.html" style="display:block;padding:13px;background:var(--gold);border-radius:8px;color:var(--navy);font-weight:700;font-size:15px;text-decoration:none;">ブラウザで開く</a></div>`;}}
 async function doGoogleLogin(){const errEl=document.getElementById('auth-err');errEl.textContent='';if(!sb){errEl.textContent='設定エラー: Supabase未初期化';return;}try{const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:'https://sokotsudo.com/crm-8Kp3mX9vNqL2wRdT5jYb.html',queryParams:{prompt:'select_account'}}});if(error){errEl.textContent='エラー: '+error.message;}}catch(e){errEl.textContent='例外エラー: '+e.message;}}
 async function doLogout(){await sb.auth.signOut();document.getElementById('app').classList.remove('visible');document.getElementById('auth-screen').style.display='flex';}
-async function startApp(user){currentUser=user;resetAutoLogoutTimer();if(!user.email.endsWith('@'+ALLOWED_DOMAIN)){await sb.auth.signOut();document.getElementById('auth-err').textContent=`@${ALLOWED_DOMAIN} のアカウントのみ利用できます`;return;}let{data:roleRow}=await sb.from('user_roles').select('*').eq('user_id',user.id).maybeSingle();if(!roleRow){const{data:byEmail}=await sb.from('user_roles').select('*').eq('email',user.email).maybeSingle();if(byEmail){await sb.from('user_roles').update({user_id:user.id}).eq('email',user.email);roleRow=byEmail;}else{await sb.from('user_roles').insert({user_id:user.id,email:user.email,role:'staff'});roleRow={role:'staff'};}}currentRole=roleRow.role||'staff';document.getElementById('auth-screen').style.display='none';document.getElementById('app').classList.add('visible');document.getElementById('sidebar-user').textContent=user.email;const badgeEl=document.createElement('div');badgeEl.innerHTML=`<span class="user-role-badge ${ROLE_BADGE_CLASS[currentRole]}">${ROLE_LABELS[currentRole]}</span>`;badgeEl.style.marginBottom='8px';const ui=document.getElementById('sidebar-user');if(!document.getElementById('role-badge')){badgeEl.id='role-badge';ui.parentNode.insertBefore(badgeEl,ui.nextSibling);}buildNav();showPage(can.viewDashboard()?'dashboard':'customers');}
+async function startApp(user){currentUser=user;resetAutoLogoutTimer();if(!user.email.endsWith('@'+ALLOWED_DOMAIN)){await sb.auth.signOut();document.getElementById('auth-err').textContent=`@${ALLOWED_DOMAIN} のアカウントのみ利用できます`;return;}let{data:roleRow}=await sb.from('user_roles').select('*').eq('user_id',user.id).maybeSingle();if(!roleRow){const{data:byEmail}=await sb.from('user_roles').select('*').eq('email',user.email).maybeSingle();if(byEmail){await sb.from('user_roles').update({user_id:user.id}).eq('email',user.email);roleRow=byEmail;}else{await sb.from('user_roles').insert({user_id:user.id,email:user.email,role:'staff'});roleRow={role:'staff'};}}currentRole=roleRow.role||'staff';document.getElementById('auth-screen').style.display='none';document.getElementById('app').classList.add('visible');document.getElementById('sidebar-user').textContent=user.email;const badgeEl=document.createElement('div');badgeEl.innerHTML=`<span class="user-role-badge ${ROLE_BADGE_CLASS[currentRole]}">${ROLE_LABELS[currentRole]}</span>`;badgeEl.style.marginBottom='8px';const ui=document.getElementById('sidebar-user');if(!document.getElementById('role-badge')){badgeEl.id='role-badge';ui.parentNode.insertBefore(badgeEl,ui.nextSibling);}buildNav();
+  // QRスキャン対応
+  const scanToken = new URLSearchParams(window.location.search).get('scan');
+  if(scanToken){
+    history.replaceState(null,'',window.location.pathname);
+    await showScanResult(scanToken);
+  } else {
+    showPage(can.viewDashboard()?'dashboard':'customers');
+  }
+}
+async function showScanResult(token){
+  const{data:bone,error}=await sb.from('bones')
+    .select('*,customers(id,name,phone),temples(name)')
+    .eq('qr_token',token)
+    .single();
+  if(error||!bone){
+    toast('QRコードが見つかりません','error');
+    showPage(can.viewDashboard()?'dashboard':'customers');
+    return;
+  }
+  const sc={'収蔵中':'badge-status-stored','輸送中':'badge-status-transit','一時帰宅中':'badge-status-home'}[bone.location_status]||'badge-gray';
+  const c=document.getElementById('page-content');
+  document.getElementById('topbar-actions').innerHTML=`<button class="btn btn-outline" onclick="showPage('customer-detail','${bone.customers?.id}')">← 顧客詳細へ</button>`;
+  c.innerHTML=`
+    <div class="card" style="max-width:500px;margin:0 auto;">
+      <div class="card-header">
+        <div class="card-title">📱 QRスキャン結果</div>
+      </div>
+      <div class="card-body" style="padding:20px;">
+        <div style="text-align:center;margin-bottom:20px;">
+          <div style="font-size:28px;margin-bottom:8px;">⚱️</div>
+          <div style="font-size:22px;font-weight:700;color:var(--navy);font-family:'Noto Serif JP',serif;">${esc(bone.name)}</div>
+          <div style="margin-top:8px;"><span class="badge ${sc}">${esc(bone.location_status||'収蔵中')}</span></div>
+        </div>
+        <div class="info-row"><div class="info-label">性別</div><div class="info-value">${esc(bone.gender||'—')}</div></div>
+        <div class="info-row"><div class="info-label">享年</div><div class="info-value">${bone.age_at_death?bone.age_at_death+'歳':'—'}</div></div>
+        <div class="info-row"><div class="info-label">保管寺院</div><div class="info-value">${esc(bone.temples?.name||'—')}</div></div>
+        <div class="info-row"><div class="info-label">納骨日</div><div class="info-value">${fmtDate(bone.entombment_date)}</div></div>
+        <div class="info-row"><div class="info-label">お客様</div><div class="info-value">${esc(bone.customers?.name||'—')}</div></div>
+        <div class="info-row"><div class="info-label">お客様電話</div><div class="info-value">${esc(bone.customers?.phone||'—')}</div></div>
+        <div class="info-row"><div class="info-label">QRトークン</div><div class="info-value" style="font-size:11px;color:var(--muted);">${esc(bone.qr_token||'—')}</div></div>
+        <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+          <button class="btn btn-outline" onclick="openStatusModal('${bone.id}','${esc(bone.location_status||'収蔵中')}','${bone.customers?.id||''}')">ステータス変更</button>
+          <button class="btn btn-gold" onclick="showPage('customer-detail','${bone.customers?.id}')">顧客詳細を見る</button>
+        </div>
+      </div>
+    </div>`;
+  // 現在のページをscanResultに
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+}
+
 function buildNav(){const nav=document.querySelector('.sidebar-nav');if(!nav)return;let items='';if(can.viewDashboard()){items+=`<div class="nav-section">メイン</div><div class="nav-item" onclick="showPage('dashboard')"><span class="nav-icon">📊</span>ダッシュボード</div>`;}items+=`<div class="nav-section">顧客管理</div><div class="nav-item" onclick="showPage('customers')"><span class="nav-icon">👥</span>顧客一覧</div><div class="nav-item" onclick="showPage('visits')"><span class="nav-icon">🏛</span>見学予約</div><div class="nav-item" onclick="showPage('deliveries')"><span class="nav-icon">📦</span>送骨予定</div>`;if(can.viewFinance()){items+=`<div class="nav-section">経理</div><div class="nav-item" onclick="showPage('payments-in')"><span class="nav-icon">💰</span>入金管理</div><div class="nav-item" onclick="showPage('payments-out')"><span class="nav-icon">🏦</span>出金管理</div>`;}items+=`<div class="nav-section">マスタ</div><div class="nav-item" onclick="showPage('temples')"><span class="nav-icon">⛩</span>寺院マスタ</div>`;if(can.manageUsers()){items+=`<div class="nav-section">管理</div><div class="nav-item" onclick="showPage('users')"><span class="nav-icon">🔑</span>ユーザー管理</div>`;}nav.innerHTML=items;}
 document.addEventListener('DOMContentLoaded',()=>{const lp=document.getElementById('login-pass');if(lp)lp.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});});
 let _confirmCallback=null;
