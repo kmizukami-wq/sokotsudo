@@ -1043,7 +1043,6 @@ footer {
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <!-- Logo mark -->
     <svg width="130" height="92" viewBox="0 0 420 290" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 36px;display:block;">
   <path d="M52 152 Q68 148 210 58 Q352 148 368 152 Z" fill="#e8eaf0"/>
   <path d="M34 145 Q43 135 52 152" fill="none" stroke="#e8eaf0" stroke-width="10" stroke-linecap="round"/>
@@ -1210,65 +1209,7 @@ footer {
     </div>
 
     <div class="results-list" style="margin-top:32px;" id="resultsList">
-      <!-- Results -->
-      <div class="search-result-card">
-        <div class="result-icon">
-          <svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg>
-        </div>
-        <div>
-          <div class="result-name">光明寺 納骨堂</div>
-          <div class="result-area">📍 東京都渋谷区 · 浄土宗</div>
-          <div class="result-tags">
-            <span class="tag gold">年1回送骨込</span>
-            <span class="tag">永代供養</span>
-            <span class="tag">QR管理</span>
-            <span class="tag">個別安置</span>
-          </div>
-        </div>
-        <div class="result-price">
-          <div class="price-from">契約金</div>
-          <div><span class="price-num">90,000</span><span class="price-unit">円</span></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px;">管理費 36,000円/年</div>
-        </div>
-      </div>
-      <div class="search-result-card">
-        <div class="result-icon">
-          <svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg>
-        </div>
-        <div>
-          <div class="result-name">蓮華院 永代供養墓</div>
-          <div class="result-area">📍 東京都世田谷区 · 真言宗</div>
-          <div class="result-tags">
-            <span class="tag gold">年2回送骨込</span>
-            <span class="tag">永代供養</span>
-            <span class="tag">QR管理</span>
-          </div>
-        </div>
-        <div class="result-price">
-          <div class="price-from">契約金</div>
-          <div><span class="price-num">120,000</span><span class="price-unit">円</span></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px;">管理費 36,000円/年</div>
-        </div>
-      </div>
-      <div class="search-result-card">
-        <div class="result-icon">
-          <svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg>
-        </div>
-        <div>
-          <div class="result-name">浄心寺 納骨堂</div>
-          <div class="result-area">📍 神奈川県横浜市 · 曹洞宗</div>
-          <div class="result-tags">
-            <span class="tag gold">年1回送骨込</span>
-            <span class="tag">永代供養</span>
-            <span class="tag">宗派不問</span>
-          </div>
-        </div>
-        <div class="result-price">
-          <div class="price-from">契約金</div>
-          <div><span class="price-num">90,000</span><span class="price-unit">円</span></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px;">管理費 36,000円/年</div>
-        </div>
-      </div>
+      <!-- Results rendered by JS on page load -->
     </div>
   </div>
 </section>
@@ -1280,7 +1221,7 @@ footer {
     <h2 class="section-title white">簡単お見積り</h2>
     <div class="divider"></div>
     <div class="estimate-box">
-      <!-- 行1: エリア選択 -->
+      <!-- エリア選択 -->
       <div class="estimate-row" style="grid-template-columns:1fr;">
         <div>
           <div class="field-label">ご希望エリア</div>
@@ -1309,11 +1250,13 @@ footer {
             <div style="text-align:right;">
               <div style="font-size:11px;color:rgba(255,255,255,0.4);">契約金</div>
               <div style="font-size:18px;font-weight:700;color:var(--gold-light);" id="estTemplePrice">—</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">志納金</div>
+              <div style="font-size:15px;font-weight:700;color:var(--gold-light);" id="estTempleKinugi">—</div>
             </div>
           </div>
         </div>
       </div>
-      <!-- 行2: 管理期間スライダー -->
+      <!-- 管理期間スライダー -->
       <div class="estimate-row" style="grid-template-columns:1fr;">
         <div>
           <div class="field-label">管理期間：<span id="estPeriodLabel" style="color:var(--gold-light);font-size:14px;">3年</span></div>
@@ -1338,18 +1281,16 @@ footer {
           </select>
         </div>
       </div>
-      <!-- 骨箱は非表示だが計算には¥20,000を含める -->
-      <input type="hidden" id="estBox" value="1">
       <button class="btn-primary" style="width:100%;" onclick="calcEstimate(); document.getElementById('estResult').classList.add('show')">お見積りを表示</button>
 
       <div class="estimate-result" id="estResult">
         <div class="est-breakdown">
           <div class="est-line" id="estContract"><span>契約金</span><span id="estContractAmt">¥90,000</span></div>
-          <div class="est-line" id="estManage"><span>管理費（3年分）</span><span>¥108,000</span></div>
-          <div class="est-line" id="estExtraLine" style="display:none"><span>追加送骨料</span><span>¥30,000/回</span></div>
-          <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span>¥20,000</span></div>
-          <div class="est-line" style="border-bottom:none;opacity:0.4;font-size:12px;"><span>寺院への志納金</span><span>別途 ¥10,000</span></div>
-          <div class="est-line total" id="estTotal"><span>概算合計</span><span>¥198,000〜</span></div>
+          <div class="est-line" id="estKinugiLine"><span>寺院への志納金</span><span id="estKinugiAmt">¥10,000</span></div>
+          <div class="est-line" id="estManage"><span>管理費（3年分）</span><span id="estManageAmt">¥108,000</span></div>
+          <div class="est-line" id="estBoxLine"><span>骨箱</span><span>¥20,000</span></div>
+          <div class="est-line" id="estExtraLine" style="display:none"><span>追加送骨料</span><span id="estExtraAmt">¥30,000/回</span></div>
+          <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">¥228,000〜</span></div>
         </div>
         <a href="#apply" class="btn-primary" style="width:100%;text-align:center;display:block;">このプランで申込む</a>
       </div>
@@ -1423,7 +1364,6 @@ footer {
             <button onclick="changeMonth(1)">▶</button>
           </div>
           <div class="cal-grid" id="calGrid">
-            <!-- Days rendered by JS -->
           </div>
         </div>
         <div>
@@ -1686,27 +1626,27 @@ footer {
       <div class="apply-panel" id="ap0" style="display:block;">
         <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">お寺・納骨堂をお選びください</h3>
         <div class="temple-grid">
-          <div class="temple-card" onclick="selectTemple(this,'光明寺 納骨堂','渋谷区',90000)">
+          <div class="temple-card" onclick="selectTemple(this,'光明寺 納骨堂','渋谷区',90000,10000)">
             <div class="temple-card-name">光明寺 納骨堂</div>
             <div class="temple-card-area">東京都渋谷区 · 浄土宗</div>
           </div>
-          <div class="temple-card" onclick="selectTemple(this,'蓮華院','世田谷区',120000)">
+          <div class="temple-card" onclick="selectTemple(this,'蓮華院','世田谷区',120000,10000)">
             <div class="temple-card-name">蓮華院</div>
             <div class="temple-card-area">東京都世田谷区 · 真言宗</div>
           </div>
-          <div class="temple-card" onclick="selectTemple(this,'浄心寺 納骨堂','横浜市',90000)">
+          <div class="temple-card" onclick="selectTemple(this,'浄心寺 納骨堂','横浜市',90000,10000)">
             <div class="temple-card-name">浄心寺 納骨堂</div>
             <div class="temple-card-area">神奈川県横浜市 · 曹洞宗</div>
           </div>
-          <div class="temple-card" onclick="selectTemple(this,'慈光院','さいたま市',90000)">
+          <div class="temple-card" onclick="selectTemple(this,'慈光院','さいたま市',90000,10000)">
             <div class="temple-card-name">慈光院</div>
             <div class="temple-card-area">埼玉県さいたま市 · 宗派不問</div>
           </div>
-          <div class="temple-card" onclick="selectTemple(this,'観音寺','千葉市',90000)">
+          <div class="temple-card" onclick="selectTemple(this,'観音寺','千葉市',90000,10000)">
             <div class="temple-card-name">観音寺</div>
             <div class="temple-card-area">千葉県千葉市 · 宗派不問</div>
           </div>
-          <div class="temple-card" onclick="selectTemple(this,'大応寺','大阪市',90000)">
+          <div class="temple-card" onclick="selectTemple(this,'大応寺','大阪市',90000,10000)">
             <div class="temple-card-name">大応寺</div>
             <div class="temple-card-area">大阪府大阪市 · 浄土宗</div>
           </div>
@@ -1747,8 +1687,10 @@ footer {
           <div class="cost-row"><span>ご選択のお寺</span><span id="apTemple" style="color:var(--gold-light);">—</span></div>
           <div class="cost-row"><span>管理期間</span><span id="apPeriod">3年</span></div>
           <div class="cost-row"><span>契約金</span><span id="apContract">¥90,000</span></div>
+          <div class="cost-row"><span>寺院への志納金</span><span id="apKinugi">¥10,000</span></div>
           <div class="cost-row"><span>管理費（一括）</span><span id="apManage">¥108,000</span></div>
-          <div class="cost-row total"><span>お支払い合計</span><span id="apTotal">¥198,000</span></div>
+          <div class="cost-row"><span>骨箱</span><span id="apBox">¥20,000</span></div>
+          <div class="cost-row total"><span>お支払い合計</span><span id="apTotal">¥228,000</span></div>
         </div>
         <p style="font-size:12px;color:rgba(255,255,255,0.35);margin:16px 0 24px;">※費用は選択内容により変動します。</p>
         <div style="display:flex;gap:12px;">
@@ -1763,7 +1705,6 @@ footer {
         <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:20px;">すべて必須項目です</p>
         <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
 
-          <!-- 氏名・ふりがな -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
               <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">氏名 <span style="color:#e55;">*</span></label>
@@ -1775,7 +1716,6 @@ footer {
             </div>
           </div>
 
-          <!-- ご年齢（1行） -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
               <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">ご年齢 <span style="color:#e55;">*</span></label>
@@ -1784,7 +1724,6 @@ footer {
             <div></div>
           </div>
 
-          <!-- 郵便番号（1行）＋住所自動入力 -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
               <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">郵便番号 <span style="color:#e55;">*</span></label>
@@ -1799,7 +1738,6 @@ footer {
             <div></div>
           </div>
 
-          <!-- 住所5分割 -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
               <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">都道府県 <span style="color:#e55;">*</span></label>
@@ -1812,20 +1750,16 @@ footer {
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">町名 <span style="color:#e55;">*</span></label>
-              <input type="text" id="infoTown" placeholder="〇〇町" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
-            </div>
-            <div>
               <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">番地以降 <span style="color:#e55;">*</span></label>
               <input type="text" id="infoStreet" placeholder="1-2-3" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
+            <div></div>
           </div>
           <div>
             <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">建物名・部屋番号など</label>
             <input type="text" id="infoBldg" placeholder="〇〇マンション 101号室" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
           </div>
 
-          <!-- 電話番号（1行） -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
               <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">電話番号 <span style="color:#e55;">*</span></label>
@@ -1834,7 +1768,6 @@ footer {
             <div></div>
           </div>
 
-          <!-- メールアドレス（縦並び） -->
           <div>
             <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">メールアドレス <span style="color:#e55;">*</span></label>
             <input type="email" id="infoEmail" placeholder="example@mail.com" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
@@ -2080,13 +2013,14 @@ function switchTab(btn, panelId) {
   document.getElementById(panelId).classList.add('active');
 }
 
+// ── Temple data (with kinugi) ──
 var estTemples = [
-  { name:'光明寺 納骨堂',    area:'東京都',  sect:'浄土宗',   price:90000  },
-  { name:'蓮華院 永代供養墓', area:'東京都',  sect:'真言宗',   price:120000 },
-  { name:'浄心寺 納骨堂',    area:'神奈川県', sect:'曹洞宗',   price:90000  },
-  { name:'慈光院',           area:'埼玉県',  sect:'宗派不問', price:90000  },
-  { name:'観音寺',           area:'千葉県',  sect:'宗派不問', price:90000  },
-  { name:'大応寺',           area:'大阪府',  sect:'浄土宗',   price:90000  },
+  { name:'光明寺 納骨堂',    area:'東京都',  sect:'浄土宗',   price:90000,  kinugi:10000 },
+  { name:'蓮華院 永代供養墓', area:'東京都',  sect:'真言宗',   price:120000, kinugi:10000 },
+  { name:'浄心寺 納骨堂',    area:'神奈川県', sect:'曹洞宗',   price:90000,  kinugi:10000 },
+  { name:'慈光院',           area:'埼玉県',  sect:'宗派不問', price:90000,  kinugi:10000 },
+  { name:'観音寺',           area:'千葉県',  sect:'宗派不問', price:90000,  kinugi:10000 },
+  { name:'大応寺',           area:'大阪府',  sect:'浄土宗',   price:90000,  kinugi:10000 },
 ];
 
 function onAreaChange() {
@@ -2098,7 +2032,7 @@ function onAreaChange() {
   var filtered = estTemples.filter(function(t) { return t.area === area; });
   templeSelect.innerHTML = '<option value="">選択してください</option>' +
     filtered.map(function(t) {
-      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　契約金 ¥' + t.price.toLocaleString() + '</option>';
+      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　契約金 ¥' + t.price.toLocaleString() + '　志納金 ¥' + t.kinugi.toLocaleString() + '</option>';
     }).join('');
   templeRow.style.display = 'block';
   templeInfo.style.display = 'none';
@@ -2114,18 +2048,20 @@ function onTempleChange() {
     document.getElementById('estTempleName').textContent = t.name;
     document.getElementById('estTempleSect').textContent = t.sect;
     document.getElementById('estTemplePrice').textContent = '¥' + t.price.toLocaleString();
+    document.getElementById('estTempleKinugi').textContent = '¥' + t.kinugi.toLocaleString();
     info.style.display = 'block';
   }
   calcEstimate();
 }
 
+// ── Search temple data (with kinugi) ──
 var temples = [
-  { name:'光明寺 納骨堂',    area:'東京都', city:'渋谷区',     sect:'浄土宗',   price:90000,  tags:['年1回送骨込','永代供養','QR管理','個別安置'] },
-  { name:'蓮華院 永代供養墓', area:'東京都', city:'世田谷区',   sect:'真言宗',   price:120000, tags:['年2回送骨込','永代供養','QR管理'] },
-  { name:'浄心寺 納骨堂',    area:'神奈川県', city:'横浜市',   sect:'曹洞宗',   price:90000,  tags:['年1回送骨込','永代供養','宗派不問'] },
-  { name:'慈光院',           area:'埼玉県', city:'さいたま市', sect:'宗派不問', price:90000,  tags:['年1回送骨込','永代供養','QR管理'] },
-  { name:'観音寺',           area:'千葉県', city:'千葉市',     sect:'宗派不問', price:90000,  tags:['年1回送骨込','永代供養'] },
-  { name:'大応寺',           area:'大阪府', city:'大阪市',     sect:'浄土宗',   price:90000,  tags:['年1回送骨込','永代供養','QR管理'] },
+  { name:'光明寺 納骨堂',    area:'東京都', city:'渋谷区',     sect:'浄土宗',   price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','QR管理','個別安置'] },
+  { name:'蓮華院 永代供養墓', area:'東京都', city:'世田谷区',   sect:'真言宗',   price:120000, kinugi:10000, tags:['年2回送骨込','永代供養','QR管理'] },
+  { name:'浄心寺 納骨堂',    area:'神奈川県', city:'横浜市',   sect:'曹洞宗',   price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','宗派不問'] },
+  { name:'慈光院',           area:'埼玉県', city:'さいたま市', sect:'宗派不問', price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','QR管理'] },
+  { name:'観音寺',           area:'千葉県', city:'千葉市',     sect:'宗派不問', price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養'] },
+  { name:'大応寺',           area:'大阪府', city:'大阪市',     sect:'浄土宗',   price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','QR管理'] },
 ];
 
 function updateResults() {
@@ -2159,9 +2095,13 @@ function updateResults() {
       '<div><div class="result-name">' + t.name + '</div>' +
       '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
       '<div class="result-tags">' + tagsHtml + '</div></div>' +
-      '<div class="result-price"><div class="price-from">契約金</div>' +
+      '<div class="result-price">' +
+      '<div class="price-from">契約金</div>' +
       '<div><span class="price-num">' + t.price.toLocaleString() + '</span><span class="price-unit">円</span></div>' +
-      '<div style="font-size:11px;color:var(--muted);margin-top:2px;">管理費 36,000円/年</div></div>' +
+      '<div style="font-size:11px;color:var(--muted);margin-top:2px;">管理費 36,000円/年</div>' +
+      '<div style="font-size:10px;color:var(--muted);margin-top:6px;">志納金</div>' +
+      '<div><span class="price-num" style="font-size:16px;">' + t.kinugi.toLocaleString() + '</span><span class="price-unit">円</span></div>' +
+      '</div>' +
       '</div>';
   }).join('');
 }
@@ -2221,31 +2161,43 @@ function selectDate(el, dateStr) {
   if (label) label.textContent = dateStr + ' の空き時間';
   if (slots)  slots.style.display = 'block';
 }
-document.addEventListener('DOMContentLoaded', renderCal);
+document.addEventListener('DOMContentLoaded', function() {
+  renderCal();
+  updateResults();
+});
 
 // ── Estimate ──
 function calcEstimate() {
   var period  = parseInt(document.getElementById('estPeriod').value) || 3;
   var extra   = parseInt(document.getElementById('estExtra').value)  || 0;
   var templeName = (document.getElementById('estTemple') || {}).value || '';
-  var tData = typeof estTemples !== 'undefined' && estTemples.find(function(t) { return t.name === templeName; });
-  var contract = tData ? tData.price : 90000;
+  var tData = estTemples.find(function(t) { return t.name === templeName; });
+  var contract = tData ? tData.price  : 90000;
+  var kinugi   = tData ? tData.kinugi : 10000;
   var manage   = 36000 * period;
-  var extraFee = extra * 30000;
   var boxFee   = 20000;
-  var total    = contract + manage + extraFee + boxFee;
+  var extraFee = extra * 30000 * period; // 追加送骨：回数×¥30,000×年数
+  var total    = contract + kinugi + manage + boxFee + extraFee;
 
-  var mEl = document.getElementById('estManage');
-  if (mEl) mEl.innerHTML = '<span>管理費（' + (period+'年分') + '）</span><span>¥' + manage.toLocaleString() + '</span>';
+  var mEl = document.getElementById('estManageAmt');
+  if (mEl) mEl.textContent = '¥' + manage.toLocaleString();
+
+  var mLabelEl = document.getElementById('estManage');
+  if (mLabelEl) mLabelEl.querySelector('span').textContent = '管理費（' + period + '年分）';
+
+  var kEl = document.getElementById('estKinugiAmt');
+  if (kEl) kEl.textContent = '¥' + kinugi.toLocaleString();
 
   var exEl = document.getElementById('estExtraLine');
-  if (exEl) exEl.style.display = extra > 0 ? '' : 'none';
+  var exAmtEl = document.getElementById('estExtraAmt');
+  if (exEl) {
+    exEl.style.display = extra > 0 ? '' : 'none';
+    if (exAmtEl && extra > 0) exAmtEl.textContent = '¥' + (extra * 30000).toLocaleString() + '/回';
+  }
 
-  var bxEl = document.getElementById('estBoxLine');
-  if (bxEl) bxEl.style.display = 'none';
+  var tEl = document.getElementById('estTotalAmt');
+  if (tEl) tEl.textContent = '¥' + total.toLocaleString() + '〜';
 
-  var tEl = document.getElementById('estTotal');
-  if (tEl) tEl.innerHTML = '<span>概算合計</span><span>¥' + total.toLocaleString() + '〜</span>';
   var cEl = document.getElementById('estContractAmt');
   if (cEl) cEl.textContent = '¥' + contract.toLocaleString();
 }
@@ -2271,13 +2223,14 @@ function autoFillAddress(zip) {
 }
 
 // ── Apply ──
-var applyState = { temple:'', contract:90000, period:3 };
+var applyState = { temple:'', contract:90000, kinugi:10000, period:3 };
 
-function selectTemple(el, name, area, price) {
+function selectTemple(el, name, area, price, kinugi) {
   document.querySelectorAll('.temple-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   applyState.temple = name;
   applyState.contract = price;
+  applyState.kinugi = kinugi;
 }
 function nextFromTemple() {
   if (!applyState.temple) { alert('お寺・納骨堂をお選びください'); return; }
@@ -2292,7 +2245,6 @@ function nextFromInfo() {
     {id:'infoZip',    label:'郵便番号'},
     {id:'infoPref',   label:'都道府県'},
     {id:'infoCity',   label:'市区町村'},
-    {id:'infoTown',   label:'町名'},
     {id:'infoStreet', label:'番地以降'},
     {id:'infoTel',    label:'電話番号'},
     {id:'infoEmail',  label:'メールアドレス'},
@@ -2366,17 +2318,20 @@ function updatePeriod(val) {
 }
 function updateApplySummary() {
   var manage = 36000 * applyState.period;
-  var total  = applyState.contract + manage;
+  var box    = 20000;
+  var total  = applyState.contract + applyState.kinugi + manage + box;
   function s(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; }
   s('apTemple',   applyState.temple || '（未選択）');
   s('apPeriod',   applyState.period + '年');
   s('apContract', '¥' + applyState.contract.toLocaleString());
+  s('apKinugi',   '¥' + applyState.kinugi.toLocaleString());
   s('apManage',   '¥' + manage.toLocaleString() + '（36,000×' + applyState.period + '年・一括）');
+  s('apBox',      '¥20,000');
   s('apTotal',    '¥' + total.toLocaleString());
 }
 function submitApplyData() {
   var data = {
-    temple: applyState.temple, contract: applyState.contract, period: applyState.period,
+    temple: applyState.temple, contract: applyState.contract, kinugi: applyState.kinugi, period: applyState.period,
     name:   (document.getElementById('infoName')   ||{}).value||'',
     kana:   (document.getElementById('infoKana')   ||{}).value||'',
     age:    (document.getElementById('infoAge')    ||{}).value||'',
@@ -2398,39 +2353,6 @@ function checkConsent() {
   var btn = document.getElementById('nextFromConsent');
   if (btn) btn.disabled = !cb.checked;
 }
-
-// ── Nav hamburger ──
-(function() {
-  var hamburger = document.getElementById('sk-nav-hamburger');
-  var mobileMenu = document.getElementById('sk-nav-mobile-menu');
-  if (!hamburger || !mobileMenu) return;
-  hamburger.addEventListener('click', function() {
-    mobileMenu.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded', String(mobileMenu.classList.contains('open')));
-  });
-  mobileMenu.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() {
-      mobileMenu.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
-  });
-})();
-(function() {
-  var nav = document.getElementById('sk-nav');
-  if (!nav) return;
-  window.addEventListener('scroll', function() { nav.classList.toggle('scrolled', window.scrollY > 50); });
-})();
-(function() {
-  var cta = document.querySelector('.cta-float');
-  if (!cta) return;
-  window.addEventListener('scroll', function() { cta.classList.toggle('visible', window.scrollY > 300); });
-})();
-(function() {
-  var btn = document.getElementById('skPageTop');
-  if (!btn) return;
-  window.addEventListener('scroll', function() { btn.classList.toggle('visible', window.scrollY > 400); });
-  btn.addEventListener('click', function() { window.scrollTo({top:0, behavior:'smooth'}); });
-})();
 </script>
 </body>
 </html>
