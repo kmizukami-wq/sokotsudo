@@ -1394,18 +1394,18 @@ footer {
         <div class="vform-row2">
           <div class="vform-row">
             <label>お名前 <span>必須</span></label>
-            <input class="vform-input" type="text" placeholder="山田 太郎">
+            <input class="vform-input" type="text" id="visitName" placeholder="山田 太郎">
           </div>
           <div class="vform-row">
             <label>参加人数 <span>必須</span></label>
-            <select class="vform-select">
+            <select class="vform-select" id="visitHeadcount">
               <option>1名</option><option>2名</option><option>3名</option><option>4名以上</option>
             </select>
           </div>
         </div>
         <div class="vform-row">
           <label>電話番号 <span>必須</span></label>
-          <input class="vform-input" type="tel" placeholder="090-0000-0000">
+          <input class="vform-input" type="tel" id="visitTel" placeholder="090-0000-0000">
         </div>
         <div class="vform-row">
           <label>メールアドレス <span>必須</span></label>
@@ -1427,13 +1427,13 @@ footer {
             <div id="ihaiFields" style="display:none;">
               <div class="vform-row">
                 <label>ご遺骨の数</label>
-                <select class="vform-select">
+                <select class="vform-select" id="visitBoneCount">
                   <option>1柱</option><option>2柱</option><option>3柱</option><option>4柱以上</option>
                 </select>
               </div>
               <div class="vform-row">
                 <label>現在の管理場所</label>
-                <select class="vform-select">
+                <select class="vform-select" id="visitBoneLoc">
                   <option>選択してください</option>
                   <option>寺院</option><option>霊園</option>
                   <option>納骨堂</option><option>自宅</option><option>その他</option>
@@ -1441,7 +1441,7 @@ footer {
               </div>
               <div class="vform-row">
                 <label>ご遺骨の管理住所</label>
-                <input class="vform-input" type="text" placeholder="〒000-0000 都道府県市区町村...">
+                <input class="vform-input" type="text" id="visitBoneAddr" placeholder="〒000-0000 都道府県市区町村...">
               </div>
             </div>
           </div>
@@ -1449,7 +1449,7 @@ footer {
 
         <div style="display:flex;gap:12px;margin-top:24px;">
           <button class="btn-outline" onclick="switchVisit(1)">← 戻る</button>
-          <button class="btn-primary" onclick="alert('ご予約を受け付けました。確認メールをお送りします。')">見学を予約する</button>
+          <button class="btn-primary" onclick="submitVisitForm(this)">見学を予約する</button>
         </div>
       </div>
     </div>
@@ -1982,21 +1982,15 @@ function submitContactForm(btn) {
   var body  = rows[4]?.querySelector('textarea')?.value?.trim();
   if (!name || !email) { alert('お名前とメールアドレスは必須です。'); return; }
   btn.disabled = true; btn.textContent = '送信中...';
-  fetch('https://formspree.io/f/mdawaldp', {
+  fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-contact', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      name: name,
-      _replyto: email,
-      email: email,
-      tel: tel || '（未入力）',
-      type: type || '（未入力）',
-      message: body || '（未入力）'
-    })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name, email: email, tel: tel||'', type: type||'', message: body||'' })
   })
-  .then(function(r) {
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
     btn.disabled = false; btn.textContent = '送信する';
-    if (r.ok) { alert('お問い合わせを受け付けました。\n担当者からのご連絡をお待ちください。'); }
+    if (data.success) { alert('お問い合わせを受け付けました。\n担当者からのご連絡をお待ちください。'); }
     else { alert('送信に失敗しました。時間をおいて再度お試しください。'); }
   })
   .catch(function() {
@@ -2330,22 +2324,68 @@ function updateApplySummary() {
   s('apTotal',    '¥' + total.toLocaleString());
 }
 function submitApplyData() {
-  var data = {
-    temple: applyState.temple, contract: applyState.contract, kinugi: applyState.kinugi, period: applyState.period,
-    name:   (document.getElementById('infoName')   ||{}).value||'',
-    kana:   (document.getElementById('infoKana')   ||{}).value||'',
-    age:    (document.getElementById('infoAge')    ||{}).value||'',
-    zip:    (document.getElementById('infoZip')    ||{}).value||'',
-    pref:   (document.getElementById('infoPref')   ||{}).value||'',
-    city:   (document.getElementById('infoCity')   ||{}).value||'',
-    town:   (document.getElementById('infoTown')   ||{}).value||'',
-    street: (document.getElementById('infoStreet') ||{}).value||'',
-    bldg:   (document.getElementById('infoBldg')   ||{}).value||'',
-    tel:    (document.getElementById('infoTel')    ||{}).value||'',
-    email:  (document.getElementById('infoEmail')  ||{}).value||'',
-    submittedAt: new Date().toISOString()
-  };
-  console.log('[送骨堂] 申込データ:', JSON.stringify(data, null, 2));
+  fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-apply', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      temple:   applyState.temple,
+      contract: applyState.contract,
+      kinugi:   applyState.kinugi,
+      period:   applyState.period,
+      name:     (document.getElementById('infoName')   ||{}).value||'',
+      kana:     (document.getElementById('infoKana')   ||{}).value||'',
+      age:      (document.getElementById('infoAge')    ||{}).value||'',
+      zip:      (document.getElementById('infoZip')    ||{}).value||'',
+      pref:     (document.getElementById('infoPref')   ||{}).value||'',
+      city:     (document.getElementById('infoCity')   ||{}).value||'',
+      town:     (document.getElementById('infoTown')   ||{}).value||'',
+      street:   (document.getElementById('infoStreet') ||{}).value||'',
+      bldg:     (document.getElementById('infoBldg')   ||{}).value||'',
+      tel:      (document.getElementById('infoTel')    ||{}).value||'',
+      email:    (document.getElementById('infoEmail')  ||{}).value||'',
+    })
+  }).catch(function() {});
+}
+
+function submitVisitForm(btn) {
+  var locEl     = document.querySelector('.loc-card.selected');
+  var dateEl    = document.querySelector('.cal-day.selected');
+  var timeEl    = document.querySelector('.time-slot.selected:not(.full)');
+  var name      = (document.getElementById('visitName')      ||{}).value.trim();
+  var tel       = (document.getElementById('visitTel')       ||{}).value.trim();
+  var email     = (document.getElementById('visitEmail')     ||{}).value.trim();
+  var headcount = (document.getElementById('visitHeadcount') ||{}).value || '';
+  var hasBones  = document.querySelector('input[name="ihai"]:checked')?.value === 'yes' ? 'あり' : 'なし';
+  var boneCount = (document.getElementById('visitBoneCount') ||{}).value || '';
+  var boneLoc   = (document.getElementById('visitBoneLoc')   ||{}).value || '';
+  var boneAddr  = (document.getElementById('visitBoneAddr')  ||{}).value || '';
+  var location  = locEl ? (locEl.querySelector('strong, b, .loc-name') ?
+    locEl.querySelector('strong, b, .loc-name').textContent.trim() :
+    locEl.textContent.trim().split('\n')[0].trim()) : '';
+  var date = dateEl ? (dateEl.dataset.date || dateEl.textContent.trim()) : '';
+  var time = timeEl ? timeEl.textContent.trim() : '';
+  if (!name || !tel || !email) { alert('お名前・電話番号・メールアドレスは必須です。'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '送信中...'; }
+  fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: name, tel: tel, email: email,
+      location: location, date: date, time: time,
+      headcount: headcount, has_bones: hasBones,
+      bone_count: boneCount, bone_location: boneLoc, bone_address: boneAddr
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (btn) { btn.disabled = false; btn.textContent = '見学を予約する'; }
+    if (data.success) { switchVisit(3); }
+    else { alert('送信に失敗しました。時間をおいて再度お試しください。'); }
+  })
+  .catch(function() {
+    if (btn) { btn.disabled = false; btn.textContent = '見学を予約する'; }
+    alert('送信に失敗しました。時間をおいて再度お試しください。');
+  });
 }
 
 function checkConsent() {
