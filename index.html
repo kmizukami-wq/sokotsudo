@@ -1982,50 +1982,27 @@ function submitContactForm(btn) {
   var body  = rows[4]?.querySelector('textarea')?.value?.trim();
   if (!name || !email) { alert('お名前とメールアドレスは必須です。'); return; }
   btn.disabled = true; btn.textContent = '送信中...';
-
-  var now = new Date().toLocaleString('ja-JP', {timeZone:'Asia/Tokyo'});
-  var slackMsg = {
-    text: '📩 *送骨堂 お問い合わせが届きました*',
-    attachments: [{
-      color: '#c9a227',
-      fields: [
-        { title: 'お名前',           value: name,              short: true  },
-        { title: 'メールアドレス',   value: email,             short: true  },
-        { title: '電話番号',         value: tel || '（未入力）', short: true },
-        { title: '種別',             value: type || '（未入力）', short: true },
-        { title: 'お問い合わせ内容', value: body || '（未入力）', short: false },
-        { title: '受信日時',         value: now,               short: true  }
-      ]
-    }]
-  };
-
-  // Formspree送信
-  var p1 = fetch('https://formspree.io/f/mdawaldp', {
+  fetch('https://formspree.io/f/mdawaldp', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ name: name, _replyto: email, email: email, tel: tel||'（未入力）', type: type||'（未入力）', message: body||'（未入力）' })
-  });
-
-  // Slack通知
-  var p2 = fetch('https://hooks.slack.com/services/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', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(slackMsg)
-  });
-
-  Promise.all([p1, p2])
-    .then(function(results) {
-      btn.disabled = false; btn.textContent = '送信する';
-      if (results[0].ok) {
-        alert('お問い合わせを受け付けました。\n担当者からのご連絡をお待ちください。');
-      } else {
-        alert('送信に失敗しました。時間をおいて再度お試しください。');
-      }
+    body: JSON.stringify({
+      name: name,
+      _replyto: email,
+      email: email,
+      tel: tel || '（未入力）',
+      type: type || '（未入力）',
+      message: body || '（未入力）'
     })
-    .catch(function() {
-      btn.disabled = false; btn.textContent = '送信する';
-      alert('送信に失敗しました。時間をおいて再度お試しください。');
-    });
+  })
+  .then(function(r) {
+    btn.disabled = false; btn.textContent = '送信する';
+    if (r.ok) { alert('お問い合わせを受け付けました。\n担当者からのご連絡をお待ちください。'); }
+    else { alert('送信に失敗しました。時間をおいて再度お試しください。'); }
+  })
+  .catch(function() {
+    btn.disabled = false; btn.textContent = '送信する';
+    alert('送信に失敗しました。時間をおいて再度お試しください。');
+  });
 }
 
 // ── Tab switching ──
