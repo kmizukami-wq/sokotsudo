@@ -2150,6 +2150,8 @@ function renderCal() {
 function selectDate(el, dateStr) {
   document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
+  el.dataset.date = dateStr;
+  window._selectedVisitDate = dateStr;
   var label = document.getElementById('selectedDateLabel');
   var slots  = document.getElementById('timeSlots');
   if (label) label.textContent = dateStr + ' の空き時間';
@@ -2359,10 +2361,10 @@ function submitVisitForm(btn) {
   var boneCount = (document.getElementById('visitBoneCount') ||{}).value || '';
   var boneLoc   = (document.getElementById('visitBoneLoc')   ||{}).value || '';
   var boneAddr  = (document.getElementById('visitBoneAddr')  ||{}).value || '';
-  var location  = locEl ? (locEl.querySelector('strong, b, .loc-name') ?
-    locEl.querySelector('strong, b, .loc-name').textContent.trim() :
+  var location  = locEl ? (locEl.querySelector('.loc-name') ?
+    locEl.querySelector('.loc-name').textContent.trim() :
     locEl.textContent.trim().split('\n')[0].trim()) : '';
-  var date = dateEl ? (dateEl.dataset.date || dateEl.textContent.trim()) : '';
+  var date = window._selectedVisitDate || (dateEl ? (dateEl.dataset.date || '') : '');
   var time = timeEl ? timeEl.textContent.trim() : '';
   if (!name || !tel || !email) { alert('お名前・電話番号・メールアドレスは必須です。'); return; }
   if (btn) { btn.disabled = true; btn.textContent = '送信中...'; }
