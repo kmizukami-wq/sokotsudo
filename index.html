@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -1324,31 +1325,8 @@ footer {
     <!-- Step 1: Location -->
     <div id="vstep0" class="visit-panel active">
       <h3 style="font-family:var(--serif);font-size:18px;color:var(--navy2);margin-bottom:20px;">見学場所をお選びください</h3>
-      <div class="location-grid">
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">光明寺 納骨堂</div>
-          <div class="loc-area">東京都渋谷区</div>
-        </div>
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">蓮華院</div>
-          <div class="loc-area">東京都世田谷区</div>
-        </div>
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">浄心寺 納骨堂</div>
-          <div class="loc-area">神奈川県横浜市</div>
-        </div>
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">慈光院</div>
-          <div class="loc-area">埼玉県さいたま市</div>
-        </div>
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">観音寺 永代供養墓</div>
-          <div class="loc-area">千葉県千葉市</div>
-        </div>
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">大応寺</div>
-          <div class="loc-area">大阪府大阪市</div>
-        </div>
+      <div class="location-grid" id="locGrid">
+        <div style="color:var(--muted);font-size:13px;padding:12px;">読み込み中...</div>
       </div>
       <button class="btn-primary" onclick="switchVisit(1)">次へ：日程を選ぶ →</button>
     </div>
@@ -1984,15 +1962,56 @@ function switchTab(btn, panelId) {
   document.getElementById(panelId).classList.add('active');
 }
 
-// ── Temple data (with kinugi) ──
-var estTemples = [
-  { name:'光明寺 納骨堂',    area:'東京都',  sect:'浄土宗',   price:90000,  kinugi:10000 },
-  { name:'蓮華院 永代供養墓', area:'東京都',  sect:'真言宗',   price:120000, kinugi:10000 },
-  { name:'浄心寺 納骨堂',    area:'神奈川県', sect:'曹洞宗',   price:90000,  kinugi:10000 },
-  { name:'慈光院',           area:'埼玉県',  sect:'宗派不問', price:90000,  kinugi:10000 },
-  { name:'観音寺',           area:'千葉県',  sect:'宗派不問', price:90000,  kinugi:10000 },
-  { name:'大応寺',           area:'大阪府',  sect:'浄土宗',   price:90000,  kinugi:10000 },
-];
+// ── Temple data (dynamic from Supabase) ──
+var estTemples = [];
+var temples = [];
+
+async function fetchTemplesFromDB() {
+  const SUPABASE_URL = 'https://jbnhvwncddvvtpaigzeq.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impibmh2d25jZGR2dnRwYWlnemVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNDYyNjUsImV4cCI6MjA4ODYyMjI2NX0.T2fI1wBydv-cnPMgXQwVpDlUzXcuf4P9yXobjGb4j7E';
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/temples?show_on_web=eq.true&order=name`, {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+    });
+    const data = await res.json();
+    if (!data || !Array.isArray(data)) return;
+
+    // estTemples・temples両配列を更新
+    estTemples = data.map(t => ({
+      name: t.name, area: t.area||'', sect: t.sect||'',
+      price: t.contract_amount||0, kinugi: t.donation_amount||0
+    }));
+    temples = data.map(t => {
+      var tags = [];
+      if (t.feature_eitaikuyo) tags.push('永代供養');
+      if (t.feature_qr) tags.push('QR管理');
+      if (t.feature_individual) tags.push('個別安置');
+      return { name: t.name, area: t.area||'', city: '', sect: t.sect||'',
+               price: t.contract_amount||0, kinugi: t.donation_amount||0, tags: tags };
+    });
+
+    // 見学フォームのloc-cardを更新
+    var locGrid = document.getElementById('locGrid');
+    if (locGrid) {
+      if (data.length === 0) {
+        locGrid.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px;">現在準備中です。</div>';
+      } else {
+        locGrid.innerHTML = data.map(t =>
+          `<div class="loc-card" onclick="selectLoc(this)">
+            <div class="loc-name">${t.name}</div>
+            <div class="loc-area">${t.area||''}</div>
+          </div>`
+        ).join('');
+      }
+    }
+
+    // 料金シミュレーター・検索結果を再描画
+    updateResults();
+    calcEstimate();
+  } catch(e) {
+    console.error('寺院データ取得エラー', e);
+  }
+}
 
 function onAreaChange() {
   var area = document.getElementById('estArea').value;
@@ -2025,15 +2044,7 @@ function onTempleChange() {
   calcEstimate();
 }
 
-// ── Search temple data (with kinugi) ──
-var temples = [
-  { name:'光明寺 納骨堂',    area:'東京都', city:'渋谷区',     sect:'浄土宗',   price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','QR管理','個別安置'] },
-  { name:'蓮華院 永代供養墓', area:'東京都', city:'世田谷区',   sect:'真言宗',   price:120000, kinugi:10000, tags:['年2回送骨込','永代供養','QR管理'] },
-  { name:'浄心寺 納骨堂',    area:'神奈川県', city:'横浜市',   sect:'曹洞宗',   price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','宗派不問'] },
-  { name:'慈光院',           area:'埼玉県', city:'さいたま市', sect:'宗派不問', price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','QR管理'] },
-  { name:'観音寺',           area:'千葉県', city:'千葉市',     sect:'宗派不問', price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養'] },
-  { name:'大応寺',           area:'大阪府', city:'大阪市',     sect:'浄土宗',   price:90000,  kinugi:10000, tags:['年1回送骨込','永代供養','QR管理'] },
-];
+// ── Search temple data (dynamic from Supabase, see fetchTemplesFromDB) ──
 
 function updateResults() {
   var activeTab = (document.querySelector('.search-tab.active') || {}).textContent || '';
@@ -2137,6 +2148,7 @@ function selectDate(el, dateStr) {
 document.addEventListener('DOMContentLoaded', function() {
   renderCal();
   updateResults();
+  fetchTemplesFromDB();
 });
 
 // ── Estimate ──
