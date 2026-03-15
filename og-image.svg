@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- 背景 -->
+  <rect width="1200" height="630" fill="#0f1c30"/>
+  <!-- 微妙なグラデーション -->
+  <radialGradient id="bg" cx="30%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#1a2744" stop-opacity="1"/>
+    <stop offset="100%" stop-color="#0f1c30" stop-opacity="1"/>
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- ゴールドのアクセントライン -->
+  <rect x="0" y="620" width="1200" height="10" fill="#c9a227"/>
+  <!-- ロゴ (小さく中心左寄りに配置) -->
+  <g transform="translate(120, 160) scale(1.8)">
+    <path d="M52 152 Q68 148 210 58 Q352 148 368 152 Z" fill="#e8eaf0"/>
+    <path d="M34 145 Q43 135 52 152" fill="none" stroke="#e8eaf0" stroke-width="10" stroke-linecap="round"/>
+    <path d="M368 152 Q377 135 386 145" fill="none" stroke="#e8eaf0" stroke-width="10" stroke-linecap="round"/>
+    <rect x="28" y="145" width="364" height="17" rx="4" fill="#e8eaf0"/>
+    <path d="M108 170 Q210 72 312 170" fill="none" stroke="#c9a227" stroke-width="14" stroke-linecap="round"/>
+    <path d="M130 170 Q210 96 290 170" fill="none" stroke="#c9a227" stroke-width="14" stroke-linecap="round"/>
+    <rect x="192" y="84" width="17" height="17" rx="2.5" fill="#c9a227"/>
+    <rect x="213" y="84" width="17" height="17" rx="2.5" fill="#c9a227"/>
+    <rect x="162" y="104" width="15" height="15" rx="2" fill="#c9a227"/>
+    <rect x="140" y="122" width="14" height="14" rx="2" fill="#c9a227"/>
+    <rect x="243" y="104" width="15" height="15" rx="2" fill="#c9a227"/>
+    <rect x="266" y="122" width="14" height="14" rx="2" fill="#c9a227"/>
+    <rect x="109" y="168" width="13" height="34" rx="3" fill="#c9a227"/>
+    <rect x="84" y="190" width="36" height="11" rx="3" fill="#c9a227"/>
+    <circle cx="84" cy="214" r="10" fill="none" stroke="#c9a227" stroke-width="5.5"/>
+    <rect x="298" y="168" width="13" height="34" rx="3" fill="#c9a227"/>
+    <rect x="300" y="190" width="36" height="11" rx="3" fill="#c9a227"/>
+    <circle cx="336" cy="214" r="10" fill="none" stroke="#c9a227" stroke-width="5.5"/>
+  </g>
+  <!-- タイトル -->
+  <text x="120" y="490" font-family="serif" font-size="64" font-weight="bold" fill="white" letter-spacing="4">送骨堂</text>
+  <text x="120" y="555" font-family="serif" font-size="32" fill="#c9a227" letter-spacing="2">— 招く供養</text>
+  <!-- キャッチコピー -->
+  <text x="680" y="280" font-family="sans-serif" font-size="28" fill="#e8eaf0" opacity="0.9">お墓を「参る」から</text>
+  <text x="680" y="330" font-family="sans-serif" font-size="28" fill="#c9a227" font-weight="bold">お骨を「招く」時代へ。</text>
+  <!-- 説明 -->
+  <text x="680" y="410" font-family="sans-serif" font-size="20" fill="#aaa">寺院の安心 × QR管理 × あなたのそばにいる供養。</text>
+  <text x="680" y="460" font-family="sans-serif" font-size="20" fill="#888">sokotsudo.com</text>
+</svg>
