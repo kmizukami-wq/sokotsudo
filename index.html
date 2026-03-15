@@ -1625,31 +1625,8 @@ footer {
       <!-- Panel 0: Temple -->
       <div class="apply-panel" id="ap0" style="display:block;">
         <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">お寺・納骨堂をお選びください</h3>
-        <div class="temple-grid">
-          <div class="temple-card" onclick="selectTemple(this,'光明寺 納骨堂','渋谷区',90000,10000)">
-            <div class="temple-card-name">光明寺 納骨堂</div>
-            <div class="temple-card-area">東京都渋谷区 · 浄土宗</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'蓮華院','世田谷区',120000,10000)">
-            <div class="temple-card-name">蓮華院</div>
-            <div class="temple-card-area">東京都世田谷区 · 真言宗</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'浄心寺 納骨堂','横浜市',90000,10000)">
-            <div class="temple-card-name">浄心寺 納骨堂</div>
-            <div class="temple-card-area">神奈川県横浜市 · 曹洞宗</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'慈光院','さいたま市',90000,10000)">
-            <div class="temple-card-name">慈光院</div>
-            <div class="temple-card-area">埼玉県さいたま市 · 宗派不問</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'観音寺','千葉市',90000,10000)">
-            <div class="temple-card-name">観音寺</div>
-            <div class="temple-card-area">千葉県千葉市 · 宗派不問</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'大応寺','大阪市',90000,10000)">
-            <div class="temple-card-name">大応寺</div>
-            <div class="temple-card-area">大阪府大阪市 · 浄土宗</div>
-          </div>
+        <div class="temple-grid" id="templeGrid">
+          <div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">読み込み中...</div>
         </div>
         <button class="btn-primary" onclick="nextFromTemple()">次へ →</button>
       </div>
@@ -2221,6 +2198,34 @@ function autoFillAddress(zip) {
 // ── Apply ──
 var applyState = { temple:'', contract:90000, kinugi:10000, period:3 };
 
+// Supabaseから寺院一覧を動的取得
+async function loadTemples() {
+  const SUPABASE_URL = 'https://jbnhvwncddvvtpaigzeq.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impibmh2d25jZGR2dnRwYWlnemVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNDYyNjUsImV4cCI6MjA4ODYyMjI2NX0.T2fI1wBydv-cnPMgXQwVpDlUzXcuf4P9yXobjGb4j7E';
+  const grid = document.getElementById('templeGrid');
+  if (!grid) return;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/temples?show_on_web=eq.true&order=name`, {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+    });
+    const temples = await res.json();
+    if (!temples || temples.length === 0) {
+      grid.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">現在準備中です。お問い合わせください。</div>';
+      return;
+    }
+    grid.innerHTML = temples.map(t => {
+      const features = [t.feature_eitaikuyo?'永代供養':'', t.feature_qr?'QR管理':'', t.feature_individual?'個別安置':''].filter(Boolean);
+      return `<div class="temple-card" onclick="selectTemple(this,'${t.name.replace(/'/g,"\\'")}','${(t.area||'').replace(/'/g,"\\'")}',${t.contract_amount||0},${t.donation_amount||0})">
+        <div class="temple-card-name">${t.name}</div>
+        <div class="temple-card-area">${t.area||''}${t.sect?' · '+t.sect:''}</div>
+        ${features.length ? `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">${features.map(f=>`<span style="font-size:10px;background:rgba(255,255,255,0.1);border-radius:2px;padding:2px 6px;">${f}</span>`).join('')}</div>` : ''}
+      </div>`;
+    }).join('');
+  } catch(e) {
+    grid.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">読み込みに失敗しました。</div>';
+  }
+}
+
 function selectTemple(el, name, area, price, kinugi) {
   document.querySelectorAll('.temple-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
@@ -2276,6 +2281,7 @@ function goApply(idx) {
   document.querySelectorAll('.apply-step-btn').forEach(function(b, i) {
     b.classList.toggle('active', i === idx);
   });
+  if (idx === 0) loadTemples();
   updateApplySummary();
   var sec = document.getElementById('apply');
   if (sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
