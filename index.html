@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ééª¨å  â æãä¾é¤</title>
+<title>送骨堂 — 招く供養</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -34,15 +33,15 @@ body {
   overflow-x: hidden;
 }
 
-/* âââ SCROLLBAR âââ */
+/* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--gray); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
 
-/* âââ LOGO SVG âââ */
+/* ─── LOGO SVG ─── */
 .logo-svg { display: block; }
 
-/* âââ NAV âââ */
+/* ─── NAV ─── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: rgba(15,28,48,0.97);
@@ -84,7 +83,7 @@ nav {
   display: flex; align-items: center; gap: 6px;
 }
 
-/* âââ HERO âââ */
+/* ─── HERO ─── */
 #hero {
   min-height: 100vh;
   background: var(--navy);
@@ -187,7 +186,7 @@ nav {
   background: linear-gradient(var(--gold), transparent);
 }
 
-/* âââ SECTIONS COMMON âââ */
+/* ─── SECTIONS COMMON ─── */
 section { padding: 96px 40px; }
 .section-inner { max-width: 1080px; margin: 0 auto; }
 .section-label {
@@ -218,7 +217,7 @@ section { padding: 96px 40px; }
   margin: 20px 0 40px;
 }
 
-/* âââ ABOUT âââ */
+/* ─── ABOUT ─── */
 #about { background: var(--off); }
 .about-grid {
   display: grid;
@@ -257,14 +256,14 @@ section { padding: 96px 40px; }
   line-height: 1.6;
 }
 .problem-list li::before {
-  content: 'Ã';
+  content: '×';
   color: #e05555;
   font-weight: 700;
   flex-shrink: 0;
   margin-top: 1px;
 }
 .solution-list li::before {
-  content: 'â';
+  content: '◎';
   color: var(--gold);
   font-weight: 700;
   flex-shrink: 0;
@@ -288,7 +287,7 @@ section { padding: 96px 40px; }
   padding-left: 20px;
 }
 
-/* âââ SEARCH âââ */
+/* ─── SEARCH ─── */
 #search { background: var(--white); }
 .search-tabs {
   display: flex; gap: 0;
@@ -345,7 +344,7 @@ section { padding: 96px 40px; }
   -webkit-appearance: none;
 }
 .search-select-wrap::after {
-  content: 'â¾';
+  content: '▾';
   position: absolute; right: 12px; bottom: 14px;
   color: var(--muted); pointer-events: none;
   font-size: 12px;
@@ -405,7 +404,7 @@ section { padding: 96px 40px; }
 .price-unit { font-size: 12px; color: var(--muted); }
 .results-list { display: flex; flex-direction: column; gap: 12px; }
 
-/* âââ ESTIMATE âââ */
+/* ─── ESTIMATE ─── */
 #estimate { background: var(--navy); }
 .estimate-box {
   background: rgba(255,255,255,0.04);
@@ -471,7 +470,7 @@ section { padding: 96px 40px; }
   border-bottom: none;
 }
 
-/* âââ CALENDAR / VISIT âââ */
+/* ─── CALENDAR / VISIT ─── */
 #visit { background: var(--off); }
 .visit-steps {
   display: grid;
@@ -559,7 +558,7 @@ section { padding: 96px 40px; }
 }
 .cal-day:hover { background: var(--gold-pale); }
 .cal-day.available::after {
-  content: 'â';
+  content: '●';
   position: absolute;
   bottom: 2px; left: 50%;
   transform: translateX(-50%);
@@ -630,7 +629,7 @@ section { padding: 96px 40px; }
 }
 .radio-group input[type="radio"] { accent-color: var(--gold); }
 
-/* âââå¢ãã¾ã âââ */
+/* ───墓じまい ─── */
 #hakajimae { background: var(--white); }
 .haka-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin-top: 40px; }
 .haka-steps { display: flex; flex-direction: column; gap: 0; }
@@ -681,9 +680,9 @@ section { padding: 96px 40px; }
   display: flex; align-items: flex-start; gap: 10px;
   font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.6;
 }
-.haka-feature ul li::before { content: 'â'; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.haka-feature ul li::before { content: '✓'; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
 
-/* âââ COMPANY âââ */
+/* ─── COMPANY ─── */
 #company { background: var(--off); }
 .company-table { width: 100%; border-collapse: collapse; margin-top: 32px; }
 .company-table tr { border-bottom: 1px solid #e0ddd8; }
@@ -703,7 +702,7 @@ section { padding: 96px 40px; }
   line-height: 1.7;
 }
 
-/* âââ FAQ âââ */
+/* ─── FAQ ─── */
 #faq { background: var(--white); }
 .faq-list { max-width: 720px; margin-top: 40px; }
 .faq-item {
@@ -739,7 +738,7 @@ section { padding: 96px 40px; }
 }
 .faq-item.open .faq-a { display: block; }
 
-/* âââ APPLY âââ */
+/* ─── APPLY ─── */
 #apply { background: var(--navy); }
 .apply-box {
   background: rgba(255,255,255,0.04);
@@ -873,7 +872,7 @@ section { padding: 96px 40px; }
   line-height: 2;
 }
 
-/* âââ CONTACT âââ */
+/* ─── CONTACT ─── */
 #contact { background: var(--off); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 .contact-info { }
@@ -902,7 +901,7 @@ section { padding: 96px 40px; }
 .cform-input:focus, .cform-textarea:focus { outline: none; border-color: var(--gold); }
 .cform-textarea { resize: vertical; min-height: 120px; }
 
-/* âââ FOOTER âââ */
+/* ─── FOOTER ─── */
 footer {
   background: #080f1a;
   padding: 64px 40px 32px;
@@ -939,7 +938,7 @@ footer {
 }
 .footer-copy { font-size: 11px; }
 
-/* âââ CTA FLOAT âââ */
+/* ─── CTA FLOAT ─── */
 .cta-float {
   position: fixed;
   bottom: 24px; right: 24px;
@@ -963,7 +962,7 @@ footer {
 .cta-float .btn-tel { background: var(--white); color: var(--navy2); }
 .cta-float .btn-apply { background: var(--gold); color: var(--navy); }
 
-/* âââ ANIMATIONS âââ */
+/* ─── ANIMATIONS ─── */
 @keyframes tabShake {
   0%,100% { transform: translateX(0); }
   20%,60% { transform: translateX(-4px); }
@@ -978,7 +977,7 @@ footer {
   50% { transform: translateX(-50%) translateY(6px); }
 }
 
-/* âââ RESPONSIVE âââ */
+/* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   nav { padding: 0 16px; }
   .nav-links { display: none; }
@@ -997,8 +996,8 @@ footer {
 
 <!-- FLOATING CTA -->
 <div class="cta-float">
-  <a href="tel:0120000000" class="btn-tel">ç¡æç¸è«</a>
-  <a href="#apply" class="btn-apply">ãç³è¾¼ã¯ãã¡ã</a>
+  <a href="tel:0120000000" class="btn-tel">無料相談</a>
+  <a href="#apply" class="btn-apply">お申込はこちら</a>
 </div>
 
 <!-- NAV -->
@@ -1025,17 +1024,17 @@ footer {
   <rect x="300" y="190" width="36" height="11" rx="3"   fill="#c9a227"/>
   <circle cx="336" cy="214" r="10" fill="none" stroke="#c9a227" stroke-width="5.5"/>
 </svg>
-    <span>ééª¨å </span>
+    <span>送骨堂</span>
   </a>
   <div class="nav-links">
-    <a href="#about">ééª¨å ã¨ã¯</a>
-    <a href="#search">ééª¨å ãæ¢ã</a>
-    <a href="#visit">è¦å­¦ç³è¾¼</a>
-    <a href="#hakajimae">å¢ãã¾ã</a>
-    <a href="#faq">ããããè³ªå</a>
-    <a href="#contact">ãåãåãã</a>
+    <a href="#about">送骨堂とは</a>
+    <a href="#search">送骨堂を探す</a>
+    <a href="#visit">見学申込</a>
+    <a href="#hakajimae">墓じまい</a>
+    <a href="#faq">よくある質問</a>
+    <a href="#contact">お問い合わせ</a>
     <a href="tel:0120000000" class="nav-tel">0120-XXX-XXX</a>
-    <a href="#apply" class="nav-cta">ãç³è¾¼</a>
+    <a href="#apply" class="nav-cta">お申込</a>
   </div>
 </nav>
 
@@ -1065,17 +1064,17 @@ footer {
   <rect x="300" y="190" width="36" height="11" rx="3"   fill="#c9a227"/>
   <circle cx="336" cy="214" r="10" fill="none" stroke="#c9a227" stroke-width="5.5"/>
 </svg>
-    <div class="hero-eyebrow">Sokotsudo â æãä¾é¤</div>
+    <div class="hero-eyebrow">Sokotsudo — 招く供養</div>
     <h1 class="hero-title">
-      ãå¢ããåãããã<strong>ãéª¨ããæããæä»£ã¸ã</strong>
+      お墓を「参る」から<strong>お骨を「招く」時代へ。</strong>
     </h1>
     <p class="hero-sub">
-      ãéºéª¨ãããå¸æã®æ¥æã«ãèªå®ãæ½è¨­ã¸ãå±ããã¾ãã<br>
-      å¯ºé¢ã®å®å¿ Ã QRç®¡ç Ã ããªãã®ãã°ã«ããä¾é¤ã
+      ご遺骨を、ご希望の日時にご自宅や施設へお届けします。<br>
+      寺院の安心 × QR管理 × あなたのそばにいる供養。
     </p>
     <div class="hero-btns">
-      <a href="#search" class="btn-primary">ééª¨å ãæ¢ã</a>
-      <a href="#about" class="btn-outline">ééª¨å ã¨ã¯</a>
+      <a href="#search" class="btn-primary">送骨堂を探す</a>
+      <a href="#about" class="btn-outline">送骨堂とは</a>
     </div>
   </div>
   <div class="hero-scroll">SCROLL</div>
@@ -1085,53 +1084,53 @@ footer {
 <section id="about">
   <div class="section-inner">
     <div class="section-label">About</div>
-    <h2 class="section-title">ééª¨å ã¨ã¯</h2>
+    <h2 class="section-title">送骨堂とは</h2>
     <div class="divider"></div>
     <div class="about-grid">
       <div class="about-visual">
         <div class="about-card">
-          <div class="about-card-label">BEFORE â å¾æ¥ã®èª²é¡</div>
+          <div class="about-card-label">BEFORE — 従来の課題</div>
           <ul class="problem-list">
-            <li>ãå¢ãé ãã¦ãåãã«ãããªã</li>
-            <li>å¾ç¶ãããªãã®ã§ãå¢ãä½ãã®ã¯ä¸å®</li>
-            <li>ãå¢ãå»ºã¦ãä½è£ããªã</li>
-            <li>å¥åº·ã®åé¡ã§ãåããé£ãã</li>
+            <li>お墓が遠くてお参りにいけない</li>
+            <li>後継がいないのでお墓を作るのは不安</li>
+            <li>お墓を建てる余裕がない</li>
+            <li>健康の問題でお参りが難しい</li>
           </ul>
-          <div class="arrow-mid">â¼</div>
-          <div class="about-card-label" style="color:#4ecdc4;">AFTER â ééª¨å ã®è§£æ±ºç­</div>
+          <div class="arrow-mid">▼</div>
+          <div class="about-card-label" style="color:#4ecdc4;">AFTER — 送骨堂の解決策</div>
           <ul class="solution-list">
-            <li>ãéºéª¨ããèªå®ãæ½è¨­ã¸ãå±ãï¼ä¸æå¸°å®ï¼</li>
-            <li>å¸ææéå¾ã«æ°¸ä»£ä¾é¤ããã¾ã</li>
-            <li>ä½ã³ã¹ãã§åæè²»ç¨ãæãããã¾ã</li>
-            <li>å¯ºé¢QRã³ã¼ãç®¡çã§å®å¿ã»éæ</li>
+            <li>ご遺骨をご自宅や施設へお届け（一時帰宅）</li>
+            <li>希望期間後に永代供養されます</li>
+            <li>低コストで初期費用を抑えられます</li>
+            <li>寺院QRコード管理で安心・透明</li>
           </ul>
         </div>
       </div>
       <div class="about-text">
         <div class="about-copy">
-          ãå¢ããåãããããéª¨ããæããã¸ã
+          お墓を「参る」からお骨を「招く」へ。
         </div>
         <p class="section-lead">
-          ééª¨å ã¯ãå¯ºé¢ã®ç´éª¨å ã¾ãã¯æ°¸ä»£ä¾é¤å¢ã§ãéºéª¨ãQRã³ã¼ãç®¡çãããå¸æã®æ¥æã«å°ç¨è»ã§ãèªå®ãæ½è¨­ã«ãéºéª¨ããå±ããããµã¼ãã¹ã§ãã<br><br>
-          ããå¢ãé ãããä½èª¿ãæããããªãè¡ããªããã¨ããç©ççãªå£ãåãæãããã¤ã§ããã©ãã§ããå¤§åãªäººãæ³ããç°å¢ããæä¾ãã¾ãã
+          送骨堂は、寺院の納骨堂または永代供養墓でご遺骨をQRコード管理し、ご希望の日時に専用車でご自宅や施設にご遺骨をお届けするサービスです。<br><br>
+          「お墓が遠い」「体調が思わしくなく行けない」という物理的な壁を取り払い、いつでも、どこでも、大切な人を想える環境をご提供します。
         </p>
         <div style="margin-top:32px; display:flex; flex-direction:column; gap:16px;">
           <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--off);border-radius:4px;border-left:3px solid var(--gold);">
             <div>
-              <div style="font-size:13px;font-weight:700;color:var(--navy2);margin-bottom:2px;">å¯ºé¢ãããã¯ã¼ã¯600å¯ºä»¥ä¸</div>
-              <div style="font-size:12px;color:var(--muted);">å®å¿ã®å¯ºé¢ç®¡çä½å¶</div>
+              <div style="font-size:13px;font-weight:700;color:var(--navy2);margin-bottom:2px;">寺院ネットワーク600寺以上</div>
+              <div style="font-size:12px;color:var(--muted);">安心の寺院管理体制</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--off);border-radius:4px;border-left:3px solid var(--gold);">
             <div>
-              <div style="font-size:13px;font-weight:700;color:var(--navy2);margin-bottom:2px;">QRã³ã¼ãã§ãã¸ã¿ã«ç®¡ç</div>
-              <div style="font-size:12px;color:var(--muted);">ãã¤ã§ããéºéª¨ã®ç¶æãç¢ºèª</div>
+              <div style="font-size:13px;font-weight:700;color:var(--navy2);margin-bottom:2px;">QRコードでデジタル管理</div>
+              <div style="font-size:12px;color:var(--muted);">いつでもご遺骨の状態を確認</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--off);border-radius:4px;border-left:3px solid var(--gold);">
             <div>
-              <div style="font-size:13px;font-weight:700;color:var(--navy2);margin-bottom:2px;">å°ç¨è»ã§ã®ä¸å¯§ãªãå±ã</div>
-              <div style="font-size:12px;color:var(--muted);">é»ãã³ãã¼è²¨ç©è»½èªåè»ééäºæ¥­</div>
+              <div style="font-size:13px;font-weight:700;color:var(--navy2);margin-bottom:2px;">専用車での丁寧なお届け</div>
+              <div style="font-size:12px;color:var(--muted);">黒ナンバー貨物軽自動車運送事業</div>
             </div>
           </div>
         </div>
@@ -1144,69 +1143,69 @@ footer {
 <section id="search">
   <div class="section-inner">
     <div class="section-label">Search</div>
-    <h2 class="section-title">ééª¨å ãæ¢ã</h2>
+    <h2 class="section-title">送骨堂を探す</h2>
     <div class="divider"></div>
     <div class="search-tabs">
-      <button class="search-tab active" onclick="switchTab(this,'tab-area')">ð ã¨ãªã¢ããæ¢ã</button>
-      <button class="search-tab" onclick="switchTab(this,'tab-sect')">å®æ´¾ã§æ¢ã</button>
-      <button class="search-tab" onclick="switchTab(this,'tab-price')">éé¡ã§æ¢ã</button>
+      <button class="search-tab active" onclick="switchTab(this,'tab-area')">📍 エリアから探す</button>
+      <button class="search-tab" onclick="switchTab(this,'tab-sect')">宗派で探す</button>
+      <button class="search-tab" onclick="switchTab(this,'tab-price')">金額で探す</button>
     </div>
 
     <div id="tab-area" class="search-panel active">
       <div class="search-grid">
         <div class="search-select-wrap">
-          <label>é½éåºç</label>
+          <label>都道府県</label>
           <select class="search-input" onchange="updateResults()">
-            <option>é¸æãã¦ãã ãã</option>
-            <option>æ±äº¬é½</option><option>ç¥å¥å·ç</option><option>å¼çç</option>
-            <option>åèç</option><option>å¤§éªåº</option><option>äº¬é½åº</option>
-            <option>æç¥ç</option><option>ç¦å²¡ç</option>
+            <option>選択してください</option>
+            <option>東京都</option><option>神奈川県</option><option>埼玉県</option>
+            <option>千葉県</option><option>大阪府</option><option>京都府</option>
+            <option>愛知県</option><option>福岡県</option>
           </select>
         </div>
         <div class="search-select-wrap">
-          <label>å¸åºçºæ</label>
+          <label>市区町村</label>
           <select class="search-input" onchange="updateResults()">
-            <option>é¸æãã¦ãã ãã</option>
-            <option>æ¸è°·åº</option><option>æ°å®¿åº</option><option>æ¸¯åº</option>
-            <option>ä¸ç°è°·åº</option><option>ç®é»åº</option>
+            <option>選択してください</option>
+            <option>渋谷区</option><option>新宿区</option><option>港区</option>
+            <option>世田谷区</option><option>目黒区</option>
           </select>
         </div>
         <div>
-          <label style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:6px;">ã­ã¼ã¯ã¼ã</label>
-          <input class="search-input" type="text" placeholder="å¯ºé¢åã»å°åãªã©" style="border:1px solid #e0ddd8;border-radius:2px;background:var(--off);">
+          <label style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:6px;">キーワード</label>
+          <input class="search-input" type="text" placeholder="寺院名・地名など" style="border:1px solid #e0ddd8;border-radius:2px;background:var(--off);">
         </div>
       </div>
-      <button class="btn-primary" onclick="updateResults()">æ¤ç´¢ãã</button>
+      <button class="btn-primary" onclick="updateResults()">検索する</button>
     </div>
 
     <div id="tab-sect" class="search-panel">
       <div class="search-grid">
         <div class="search-select-wrap">
-          <label>å®æ´¾</label>
+          <label>宗派</label>
           <select class="search-input" onchange="updateResults()">
-            <option>å®æ´¾ãé¸æ</option>
-            <option>æµåå®</option><option>æµåçå®ï¼æ¬é¡å¯ºæ´¾ï¼</option>
-            <option>æµåçå®ï¼å¤§è°·æ´¾ï¼</option><option>è¨æ¸å®</option>
-            <option>æ¹æ´å®</option><option>çè¨å®</option>
-            <option>å¤©å°å®</option><option>æ¥è®å®</option>
-            <option>å®æ´¾ä¸å</option>
+            <option>宗派を選択</option>
+            <option>浄土宗</option><option>浄土真宗（本願寺派）</option>
+            <option>浄土真宗（大谷派）</option><option>臨済宗</option>
+            <option>曹洞宗</option><option>真言宗</option>
+            <option>天台宗</option><option>日蓮宗</option>
+            <option>宗派不問</option>
           </select>
         </div>
       </div>
-      <button class="btn-primary">æ¤ç´¢ãã</button>
+      <button class="btn-primary">検索する</button>
     </div>
 
     <div id="tab-price" class="search-panel">
       <div style="margin-bottom:24px;">
-        <label style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:12px;">å¥ç´éï¼ä¸éï¼</label>
+        <label style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:12px;">契約金（上限）</label>
         <input type="range" min="90000" max="300000" step="10000" value="150000" style="width:100%;accent-color:var(--gold);margin-bottom:8px;" id="priceRange" oninput="document.getElementById('priceVal').textContent=Number(this.value).toLocaleString();updateResults()">
         <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);">
-          <span>Â¥90,000ã</span>
-          <span style="color:var(--gold);font-weight:700;">ãÂ¥<span id="priceVal">150,000</span></span>
-          <span>Â¥300,000ã</span>
+          <span>¥90,000〜</span>
+          <span style="color:var(--gold);font-weight:700;">〜¥<span id="priceVal">150,000</span></span>
+          <span>¥300,000〜</span>
         </div>
       </div>
-      <button class="btn-primary">æ¤ç´¢ãã</button>
+      <button class="btn-primary">検索する</button>
     </div>
 
     <div class="results-list" style="margin-top:32px;" id="resultsList">
@@ -1219,81 +1218,81 @@ footer {
 <section id="estimate">
   <div class="section-inner">
     <div class="section-label" style="color:var(--gold-light);">Estimate</div>
-    <h2 class="section-title white">ç°¡åãè¦ç©ã</h2>
+    <h2 class="section-title white">簡単お見積り</h2>
     <div class="divider"></div>
     <div class="estimate-box">
-      <!-- ã¨ãªã¢é¸æ -->
+      <!-- エリア選択 -->
       <div class="estimate-row" style="grid-template-columns:1fr;">
         <div>
-          <div class="field-label">ãå¸æã¨ãªã¢</div>
+          <div class="field-label">ご希望エリア</div>
           <select class="field-select" id="estArea" onchange="onAreaChange()">
-            <option value="">ã¨ãªã¢ãé¸æãã¦ãã ãã</option>
-            <option value="æ±äº¬é½">æ±äº¬é½</option>
-            <option value="ç¥å¥å·ç">ç¥å¥å·ç</option>
-            <option value="å¼çç">å¼çç</option>
-            <option value="åèç">åèç</option>
-            <option value="å¤§éªåº">å¤§éªåº</option>
+            <option value="">エリアを選択してください</option>
+            <option value="東京都">東京都</option>
+            <option value="神奈川県">神奈川県</option>
+            <option value="埼玉県">埼玉県</option>
+            <option value="千葉県">千葉県</option>
+            <option value="大阪府">大阪府</option>
           </select>
         </div>
       </div>
-      <!-- ééª¨å é¸æï¼ã¨ãªã¢é¸æå¾ã«è¡¨ç¤ºï¼ -->
+      <!-- 送骨堂選択（エリア選択後に表示） -->
       <div id="estTempleRow" style="display:none;margin-bottom:16px;">
-        <div class="field-label">ééª¨å ãé¸æ</div>
+        <div class="field-label">送骨堂を選択</div>
         <select class="field-select" id="estTemple" onchange="onTempleChange()">
-          <option value="">é¸æãã¦ãã ãã</option>
+          <option value="">選択してください</option>
         </select>
         <div id="estTempleInfo" style="display:none;margin-top:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(201,162,39,0.3);border-radius:4px;padding:12px 16px;">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
             <div>
-              <div style="font-size:13px;font-weight:700;color:var(--white);" id="estTempleName">â</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;" id="estTempleSect">â</div>
+              <div style="font-size:13px;font-weight:700;color:var(--white);" id="estTempleName">—</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;" id="estTempleSect">—</div>
             </div>
             <div style="text-align:right;">
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);">å¥ç´é</div>
-              <div style="font-size:18px;font-weight:700;color:var(--gold-light);" id="estTemplePrice">â</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">å¿ç´é</div>
-              <div style="font-size:15px;font-weight:700;color:var(--gold-light);" id="estTempleKinugi">â</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);">契約金</div>
+              <div style="font-size:18px;font-weight:700;color:var(--gold-light);" id="estTemplePrice">—</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">志納金</div>
+              <div style="font-size:15px;font-weight:700;color:var(--gold-light);" id="estTempleKinugi">—</div>
             </div>
           </div>
         </div>
       </div>
-      <!-- ç®¡çæéã¹ã©ã¤ãã¼ -->
+      <!-- 管理期間スライダー -->
       <div class="estimate-row" style="grid-template-columns:1fr;">
         <div>
-          <div class="field-label">ç®¡çæéï¼<span id="estPeriodLabel" style="color:var(--gold-light);font-size:14px;">3å¹´</span></div>
+          <div class="field-label">管理期間：<span id="estPeriodLabel" style="color:var(--gold-light);font-size:14px;">3年</span></div>
           <input type="range" min="3" max="30" step="1" value="3" id="estPeriod"
             style="width:100%;accent-color:var(--gold);margin:10px 0 4px;"
-            oninput="document.getElementById('estPeriodLabel').textContent=this.value+'å¹´';calcEstimate()">
+            oninput="document.getElementById('estPeriodLabel').textContent=this.value+'年';calcEstimate()">
           <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);">
-            <span>3å¹´</span><span>30å¹´</span>
+            <span>3年</span><span>30年</span>
           </div>
           <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:8px;">
-            â»ç®¡çæéå¾ã¯æ´æ°ãããåç¥ä¾é¤ããé¸æããã ãã¾ã
+            ※管理期間後は更新するか合祀供養かご選択いただけます
           </div>
         </div>
       </div>
       <div class="estimate-row">
         <div>
-          <div class="field-label">è¿½å ééª¨ï¼ä»»æï¼<span style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:400;display:block;margin-top:3px;">å¹´1åã®ééª¨ã¯ç®¡çè²»ã«å«ã¾ãã¾ã</span></div>
+          <div class="field-label">追加送骨（任意）<span style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:400;display:block;margin-top:3px;">年1回の送骨は管理費に含まれます</span></div>
           <select class="field-select" id="estExtra" onchange="calcEstimate()">
-            <option value="0">è¿½å ãªã</option>
-            <option value="1">å¹´1åè¿½å ï¼+Â¥30,000/åï¼</option>
-            <option value="2">å¹´2åè¿½å ï¼+Â¥60,000/å¹´ï¼</option>
+            <option value="0">追加なし</option>
+            <option value="1">年1回追加（+¥30,000/回）</option>
+            <option value="2">年2回追加（+¥60,000/年）</option>
           </select>
         </div>
       </div>
-      <button class="btn-primary" style="width:100%;" onclick="calcEstimate(); document.getElementById('estResult').classList.add('show')">ãè¦ç©ããè¡¨ç¤º</button>
+      <button class="btn-primary" style="width:100%;" onclick="calcEstimate(); document.getElementById('estResult').classList.add('show')">お見積りを表示</button>
 
       <div class="estimate-result" id="estResult">
         <div class="est-breakdown">
-          <div class="est-line" id="estContract"><span>å¥ç´é</span><span id="estContractAmt">Â¥90,000</span></div>
-          <div class="est-line" id="estKinugiLine"><span>å¯ºé¢ã¸ã®å¿ç´é</span><span id="estKinugiAmt">Â¥10,000</span></div>
-          <div class="est-line" id="estManage"><span>ç®¡çè²»ï¼3å¹´åï¼</span><span id="estManageAmt">Â¥108,000</span></div>
-          <div class="est-line" id="estBoxLine"><span>éª¨ç®±</span><span>Â¥20,000</span></div>
-          <div class="est-line" id="estExtraLine" style="display:none"><span>è¿½å ééª¨æ</span><span id="estExtraAmt">Â¥30,000/å</span></div>
-          <div class="est-line total" id="estTotal"><span>æ¦ç®åè¨</span><span id="estTotalAmt">Â¥228,000ã</span></div>
+          <div class="est-line" id="estContract"><span>契約金</span><span id="estContractAmt">¥90,000</span></div>
+          <div class="est-line" id="estKinugiLine"><span>寺院への志納金</span><span id="estKinugiAmt">¥10,000</span></div>
+          <div class="est-line" id="estManage"><span>管理費（3年分）</span><span id="estManageAmt">¥108,000</span></div>
+          <div class="est-line" id="estBoxLine"><span>骨箱</span><span>¥20,000</span></div>
+          <div class="est-line" id="estExtraLine" style="display:none"><span>追加送骨料</span><span id="estExtraAmt">¥30,000/回</span></div>
+          <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">¥228,000〜</span></div>
         </div>
-        <a href="#apply" class="btn-primary" style="width:100%;text-align:center;display:block;">ãã®ãã©ã³ã§ç³è¾¼ã</a>
+        <a href="#apply" class="btn-primary" style="width:100%;text-align:center;display:block;">このプランで申込む</a>
       </div>
     </div>
   </div>
@@ -1303,62 +1302,55 @@ footer {
 <section id="visit">
   <div class="section-inner">
     <div class="section-label">Visit</div>
-    <h2 class="section-title">è¦å­¦ç³è¾¼</h2>
+    <h2 class="section-title">見学申込</h2>
     <div class="divider"></div>
-    <p class="section-lead" style="margin-bottom:40px;">å®éã®ééª¨å ããè¦å­¦ããã ãã¾ããå°éã¹ã¿ããããæ¡åãããã¾ãã</p>
+    <p class="section-lead" style="margin-bottom:40px;">実際の送骨堂をご見学いただけます。専門スタッフがご案内いたします。</p>
 
     <div class="visit-steps">
       <div class="vstep active" onclick="switchVisit(0)">
         <div class="vstep-num">STEP 01</div>
-        <div class="vstep-title">ç¾å ´ãé¸æ</div>
+        <div class="vstep-title">現場を選択</div>
       </div>
       <div class="vstep" onclick="switchVisit(1)">
         <div class="vstep-num">STEP 02</div>
-        <div class="vstep-title">æ¥ç¨ã»æéãé¸æ</div>
+        <div class="vstep-title">日程・時間を選択</div>
       </div>
       <div class="vstep" onclick="switchVisit(2)">
         <div class="vstep-num">STEP 03</div>
-        <div class="vstep-title">äºç´æå ±ãå¥å</div>
+        <div class="vstep-title">予約情報を入力</div>
       </div>
     </div>
 
     <!-- Step 1: Location -->
     <div id="vstep0" class="visit-panel active">
-      <h3 style="font-family:var(--serif);font-size:18px;color:var(--navy2);margin-bottom:20px;">è¦å­¦å ´æããé¸ã³ãã ãã</h3>
+      <h3 style="font-family:var(--serif);font-size:18px;color:var(--navy2);margin-bottom:20px;">見学場所をお選びください</h3>
       <div class="location-grid" id="locGrid">
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">サンプル寺　永代供養墓</div>
-          <div class="loc-area">東京都台東区</div>
-        </div>
-        <div class="loc-card" onclick="selectLoc(this)">
-          <div class="loc-name">サンプル寺　納骨堂</div>
-          <div class="loc-area">東京都中央区</div>
-        </div>
+        <div style="color:var(--muted);font-size:13px;padding:12px;">読み込み中...</div>
       </div>
-      <button class="btn-primary" onclick="switchVisit(1)">æ¬¡ã¸ï¼æ¥ç¨ãé¸ã¶ â</button>
+      <button class="btn-primary" onclick="switchVisit(1)">次へ：日程を選ぶ →</button>
     </div>
 
     <!-- Step 2: Calendar -->
     <div id="vstep1" class="visit-panel">
-      <h3 style="font-family:var(--serif);font-size:18px;color:var(--navy2);margin-bottom:20px;">ãå¸æã®æ¥æããé¸ã³ãã ãã</h3>
+      <h3 style="font-family:var(--serif);font-size:18px;color:var(--navy2);margin-bottom:20px;">ご希望の日時をお選びください</h3>
       <div style="display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start;flex-wrap:wrap;">
         <div class="cal-wrap">
           <div class="cal-header">
-            <button onclick="changeMonth(-1)">â</button>
-            <div class="cal-month" id="calMonth">2026å¹´3æ</div>
-            <button onclick="changeMonth(1)">â¶</button>
+            <button onclick="changeMonth(-1)">◀</button>
+            <div class="cal-month" id="calMonth">2026年3月</div>
+            <button onclick="changeMonth(1)">▶</button>
           </div>
           <div class="cal-grid" id="calGrid">
           </div>
         </div>
         <div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;letter-spacing:0.1em;">â ç©ºãæ¥ç¨</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;letter-spacing:0.1em;">● 空き日程</div>
           <div id="timeSlots" style="display:none;">
             <div style="font-size:13px;font-weight:700;color:var(--navy2);margin-bottom:12px;" id="selectedDateLabel"></div>
             <div class="time-slots">
               <div class="time-slot" onclick="selectTime(this)">10:00</div>
               <div class="time-slot" onclick="selectTime(this)">11:00</div>
-              <div class="time-slot full">13:00 æº</div>
+              <div class="time-slot full">13:00 満</div>
               <div class="time-slot" onclick="selectTime(this)">14:00</div>
               <div class="time-slot" onclick="selectTime(this)">15:00</div>
               <div class="time-slot" onclick="selectTime(this)">16:00</div>
@@ -1367,146 +1359,146 @@ footer {
         </div>
       </div>
       <div style="margin-top:32px;display:flex;gap:12px;">
-        <button class="btn-outline" onclick="switchVisit(0)">â æ»ã</button>
-        <button class="btn-primary" onclick="switchVisit(2)">æ¬¡ã¸ï¼æå ±ãå¥å â</button>
+        <button class="btn-outline" onclick="switchVisit(0)">← 戻る</button>
+        <button class="btn-primary" onclick="switchVisit(2)">次へ：情報を入力 →</button>
       </div>
     </div>
 
     <!-- Step 3: Form -->
     <div id="vstep2" class="visit-panel">
-      <h3 style="font-family:var(--serif);font-size:18px;color:var(--navy2);margin-bottom:24px;">äºç´æå ±ã®ãå¥å</h3>
+      <h3 style="font-family:var(--serif);font-size:18px;color:var(--navy2);margin-bottom:24px;">予約情報のご入力</h3>
       <div class="vform">
         <div class="vform-row2">
           <div class="vform-row">
-            <label>ãåå <span>å¿é </span></label>
-            <input class="vform-input" type="text" id="visitName" placeholder="å±±ç° å¤ªé">
+            <label>お名前 <span>必須</span></label>
+            <input class="vform-input" type="text" id="visitName" placeholder="山田 太郎">
           </div>
           <div class="vform-row">
-            <label>åå äººæ° <span>å¿é </span></label>
+            <label>参加人数 <span>必須</span></label>
             <select class="vform-select" id="visitHeadcount">
-              <option>1å</option><option>2å</option><option>3å</option><option>4åä»¥ä¸</option>
+              <option>1名</option><option>2名</option><option>3名</option><option>4名以上</option>
             </select>
           </div>
         </div>
         <div class="vform-row">
-          <label>é»è©±çªå· <span>å¿é </span></label>
+          <label>電話番号 <span>必須</span></label>
           <input class="vform-input" type="tel" id="visitTel" placeholder="090-0000-0000">
         </div>
         <div class="vform-row">
-          <label>ã¡ã¼ã«ã¢ãã¬ã¹ <span>å¿é </span></label>
+          <label>メールアドレス <span>必須</span></label>
           <input class="vform-input" type="email" id="visitEmail" placeholder="example@mail.com">
         </div>
         <div class="vform-row">
-          <label>ã¡ã¼ã«ã¢ãã¬ã¹ï¼ç¢ºèªï¼ <span>å¿é </span></label>
-          <input class="vform-input" type="email" id="visitEmail2" placeholder="example@mail.comï¼åå¥åï¼">
+          <label>メールアドレス（確認） <span>必須</span></label>
+          <input class="vform-input" type="email" id="visitEmail2" placeholder="example@mail.com（再入力）">
         </div>
 
-        <!-- ãéºéª¨ã®æç¡ -->
+        <!-- ご遺骨の有無 -->
         <div class="vform-row">
-          <label>ãéºéª¨ã®æç¡</label>
+          <label>ご遺骨の有無</label>
           <div class="kondition-box">
             <div class="radio-group" style="margin-bottom:16px;">
-              <label><input type="radio" name="ihai" value="no" checked onchange="toggleIhai(false)"> ãªã</label>
-              <label><input type="radio" name="ihai" value="yes" onchange="toggleIhai(true)"> ãã</label>
+              <label><input type="radio" name="ihai" value="no" checked onchange="toggleIhai(false)"> なし</label>
+              <label><input type="radio" name="ihai" value="yes" onchange="toggleIhai(true)"> あり</label>
             </div>
             <div id="ihaiFields" style="display:none;">
               <div class="vform-row">
-                <label>ãéºéª¨ã®æ°</label>
+                <label>ご遺骨の数</label>
                 <select class="vform-select" id="visitBoneCount">
-                  <option>1æ±</option><option>2æ±</option><option>3æ±</option><option>4æ±ä»¥ä¸</option>
+                  <option>1柱</option><option>2柱</option><option>3柱</option><option>4柱以上</option>
                 </select>
               </div>
               <div class="vform-row">
-                <label>ç¾å¨ã®ç®¡çå ´æ</label>
+                <label>現在の管理場所</label>
                 <select class="vform-select" id="visitBoneLoc">
-                  <option>é¸æãã¦ãã ãã</option>
-                  <option>å¯ºé¢</option><option>éå</option>
-                  <option>ç´éª¨å </option><option>èªå®</option><option>ãã®ä»</option>
+                  <option>選択してください</option>
+                  <option>寺院</option><option>霊園</option>
+                  <option>納骨堂</option><option>自宅</option><option>その他</option>
                 </select>
               </div>
               <div class="vform-row">
-                <label>ãéºéª¨ã®ç®¡çä½æ</label>
-                <input class="vform-input" type="text" id="visitBoneAddr" placeholder="ã000-0000 é½éåºçå¸åºçºæ...">
+                <label>ご遺骨の管理住所</label>
+                <input class="vform-input" type="text" id="visitBoneAddr" placeholder="〒000-0000 都道府県市区町村...">
               </div>
             </div>
           </div>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:24px;">
-          <button class="btn-outline" onclick="switchVisit(1)">â æ»ã</button>
-          <button class="btn-primary" onclick="submitVisitForm(this)">è¦å­¦ãäºç´ãã</button>
+          <button class="btn-outline" onclick="switchVisit(1)">← 戻る</button>
+          <button class="btn-primary" onclick="submitVisitForm(this)">見学を予約する</button>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- å¢ãã¾ã -->
+<!-- 墓じまい -->
 <section id="hakajimae">
   <div class="section-inner">
     <div class="section-label">Grave Reform</div>
-    <h2 class="section-title">å¢ãã¾ãã»æ¹è¬ãµãã¼ã</h2>
+    <h2 class="section-title">墓じまい・改葬サポート</h2>
     <div class="divider"></div>
     <div class="haka-grid">
       <div>
-        <h3 style="font-family:var(--serif);font-size:20px;color:var(--navy2);margin-bottom:12px;">å¢ãã¾ãã¨ã¯</h3>
+        <h3 style="font-family:var(--serif);font-size:20px;color:var(--navy2);margin-bottom:12px;">墓じまいとは</h3>
         <p style="font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:32px;">
-          ç¾å¨ã®ãå¢ãæ¤å»ããå¥ã®å ´æã«æ¹è¬ï¼ãéª¨ãç§»ããã¨ï¼ãããã¨ã§ããå¾ç¶èåé¡ãç®¡çã®è² æãé æ¹ã¸ã®å¼è¶ããªã©æ§ããªçç±ã§å¢å ãã¦ãã¾ããééª¨å ã§ã¯å¢ãã¾ãããééª¨ãµã¼ãã¹ã¸ã®ç§»è¡ã¾ã§ä¸è²«ãã¦ãµãã¼ããã¾ãã
+          現在のお墓を撤去し、別の場所に改葬（お骨を移すこと）することです。後継者問題、管理の負担、遠方への引越しなど様々な理由で増加しています。送骨堂では墓じまいから送骨サービスへの移行まで一貫してサポートします。
         </p>
         <div class="haka-steps">
           <div class="haka-step">
             <div class="haka-num">01</div>
             <div>
-              <div class="haka-step-title">ãç¸è«ã»ç¾ç¶ç¢ºèª</div>
-              <div class="haka-step-desc">ç¾å¨ã®ãå¢ã®ç¶æ³ã¨å¸æããã¢ãªã³ã°</div>
+              <div class="haka-step-title">ご相談・現状確認</div>
+              <div class="haka-step-desc">現在のお墓の状況と希望をヒアリング</div>
             </div>
           </div>
           <div class="haka-step">
             <div class="haka-num">02</div>
             <div>
-              <div class="haka-step-title">æ¹è¬è¨±å¯ç³è«</div>
-              <div class="haka-step-desc">å¸åºçºæã¸ã®æ¹è¬è¨±å¯è¨¼ã®åå¾ããµãã¼ãâ»å£«æ¥­ã«ãã</div>
+              <div class="haka-step-title">改葬許可申請</div>
+              <div class="haka-step-desc">市区町村への改葬許可証の取得をサポート※士業による</div>
             </div>
           </div>
           <div class="haka-step">
             <div class="haka-num">03</div>
             <div>
-              <div class="haka-step-title">éç¼ä¾é¤ã»ãéºéª¨åãåºã</div>
-              <div class="haka-step-desc">å§ä¾¶ã«ããéç¼ä¾é¤å¾ããéºéª¨ãåãåºããå¿è¦ã§ããã°ãéª¨ã®ã¯ãªã¼ãã³ã°</div>
+              <div class="haka-step-title">閉眼供養・ご遺骨取り出し</div>
+              <div class="haka-step-desc">僧侶による閉眼供養後、ご遺骨を取り出し、必要であればお骨のクリーニング</div>
             </div>
           </div>
           <div class="haka-step">
             <div class="haka-num">04</div>
             <div>
-              <div class="haka-step-title">ãå¢ã®è§£ä½ã»æ¤å»</div>
-              <div class="haka-step-desc">ç³ææ¥­èã«ãããå¢ã®æ¤å»ã¨åç¶åå¾©</div>
+              <div class="haka-step-title">お墓の解体・撤去</div>
+              <div class="haka-step-desc">石材業者によるお墓の撤去と原状回復</div>
             </div>
           </div>
           <div class="haka-step">
             <div class="haka-num">05</div>
             <div>
-              <div class="haka-step-title">ééª¨å ãµã¼ãã¹ã¸ç§»è¡</div>
-              <div class="haka-step-desc">ææºå¯ºé¢ã¸ã®ç´éª¨ã»QRç®¡çã»ééª¨ãµã¼ãã¹éå§</div>
+              <div class="haka-step-title">送骨堂サービスへ移行</div>
+              <div class="haka-step-desc">提携寺院への納骨・QR管理・送骨サービス開始</div>
             </div>
           </div>
         </div>
       </div>
       <div class="haka-feature">
-        <div class="haka-feature-title">ééª¨å ã®ãµãã¼ãåå®¹</div>
+        <div class="haka-feature-title">送骨堂のサポート内容</div>
         <ul>
-          <li>æ¹è¬è¨±å¯ç³è«æ¸é¡ã®ä½æãµãã¼ãâ»ç¤¾åå£«æ¥­ã«ãã</li>
-          <li>ææºå¯ºé¢ã»æ¤å»ãè¡ãç³æåºã®ãç´¹ä»</li>
-          <li>ãéºéª¨ã®ä¹¾ç¥ã»æ°´æãå¦ç</li>
-          <li>å°ç¨éª¨ç®±ã®ãæä¾</li>
-          <li>ææºå¯ºé¢ã¸ã®ç´éª¨ã»éç¼ä¾é¤æé</li>
-          <li>ç´éª¨å¾ã®ééª¨ãµã¼ãã¹éå§</li>
-          <li>QRã³ã¼ãã«ãããã¸ã¿ã«ç®¡ç</li>
+          <li>改葬許可申請書類の作成サポート※社内士業による</li>
+          <li>提携寺院・撤去を行う石材店のご紹介</li>
+          <li>ご遺骨の乾燥・水抜き処理</li>
+          <li>専用骨箱のご提供</li>
+          <li>提携寺院への納骨・開眼供養手配</li>
+          <li>納骨後の送骨サービス開始</li>
+          <li>QRコードによるデジタル管理</li>
         </ul>
         <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);">
           <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;">CONSULTATION FREE</div>
-          <div style="font-size:15px;color:var(--white);">ã¾ãã¯ãæ°è»½ã«ãç¸è«ãã ãã</div>
+          <div style="font-size:15px;color:var(--white);">まずはお気軽にご相談ください</div>
         </div>
-        <a href="#contact" class="btn-primary" style="margin-top:20px;display:inline-block;">ç¡æç¸è«ã¯ãã¡ã</a>
+        <a href="#contact" class="btn-primary" style="margin-top:20px;display:inline-block;">無料相談はこちら</a>
       </div>
     </div>
   </div>
@@ -1516,16 +1508,16 @@ footer {
 <section id="company">
   <div class="section-inner">
     <div class="section-label">Company</div>
-    <h2 class="section-title">ä¼ç¤¾æ¦è¦</h2>
+    <h2 class="section-title">会社概要</h2>
     <div class="divider"></div>
     <table class="company-table">
-      <tr><th>ä¼ç¤¾å</th><td>æ ªå¼ä¼ç¤¾ ééª¨å </td></tr>
-      <tr><th>ä»£è¡¨è</th><td>æ°´ä¸ ç±è¼å¾·</td></tr>
-      <tr><th>äºæ¥­åå®¹</th><td>éºéª¨ééã»ç®¡çãµã¼ãã¹ãå¯ºé¢ã»ç´éª¨å ã®ãããã³ã°ãµã¼ãã¹ãå¢ãã¾ãã»æ¹è¬ãµãã¼ããå¯ºé¢ã®ã³ã³ãµã«ãã£ã³ã°</td></tr>
-      <tr><th>è¨±å¯ã»è³æ ¼</th><td>è²¨ç©è»½èªåè»ééäºæ¥­ï¼é»ãã³ãã¼ï¼<br>åæ¨ç»é²ã»ãã¸ãã¹ã¢ãã«ç¹è¨±ç³è«ä¸­ï¼äºå®ï¼</td></tr>
-      <tr><th>ææºå®ç¸¾</th><td>600å¯ºä»¥ä¸ã®å¯ºé¢ãããã¯ã¼ã¯<br>NPOæ³äººçµæ´»ãµãã¼ãã»ã³ã¿ã¼ï¼5ä¸äººè¶ã®ç¸è«å®ç¸¾</td></tr>
-      <tr><th>æå¨å°</th><td>ã111-0051 æ±äº¬é½å°æ±åºèµå4-33-9</td></tr>
-      <tr><th>é»è©±çªå·</th><td>0120-XXX-XXXï¼åä»æéï¼æ¯æ¥10:00ã17:00ï¼</td></tr>
+      <tr><th>会社名</th><td>株式会社 送骨堂</td></tr>
+      <tr><th>代表者</th><td>水上 由輝德</td></tr>
+      <tr><th>事業内容</th><td>遺骨配送・管理サービス、寺院・納骨堂のマッチングサービス、墓じまい・改葬サポート、寺院のコンサルティング</td></tr>
+      <tr><th>許可・資格</th><td>貨物軽自動車運送事業（黒ナンバー）<br>商標登録・ビジネスモデル特許申請中（予定）</td></tr>
+      <tr><th>提携実績</th><td>600寺以上の寺院ネットワーク<br>NPO法人終活サポートセンター：5万人超の相談実績</td></tr>
+      <tr><th>所在地</th><td>〒111-0051 東京都台東区蔵前4-33-9</td></tr>
+      <tr><th>電話番号</th><td>0120-XXX-XXX（受付時間：毎日10:00〜17:00）</td></tr>
     </table>
   </div>
 </section>
@@ -1534,57 +1526,57 @@ footer {
 <section id="faq">
   <div class="section-inner">
     <div class="section-label">FAQ</div>
-    <h2 class="section-title">ããããè³ªå</h2>
+    <h2 class="section-title">よくある質問</h2>
     <div class="divider"></div>
     <div class="faq-list">
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
-          <span>ééª¨å ã¨éå¸¸ã®ç´éª¨å ã®éãã¯ä½ã§ããï¼</span>
+          <span>送骨堂と通常の納骨堂の違いは何ですか？</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">éå¸¸ã®ç´éª¨å ã¯ãéºéª¨ãé ããåãããã¹ã¿ã¤ã«ã§ãããééª¨å ã¯ãå¸æã®æ¥æã«ãéºéª¨ããèªå®ãæ½è¨­ã¸ãå±ããããåãä¾é¤ããæå¤§ã®ç¹å¾´ã§ãããåãã«è¡ããªãæ¹ã§ããå¤§åãªæ¹ããèªå®ã§ä¾é¤ãã¦ããã ãã¾ãã</div>
+        <div class="faq-a">通常の納骨堂はご遺骨を預けお参りするスタイルですが、送骨堂はご希望の日時にご遺骨をご自宅や施設へお届けする「動く供養」が最大の特徴です。お参りに行けない方でも、大切な方をご自宅で供養していただけます。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
-          <span>ãéºéª¨ã®ééã¯å®å¨ã§ããï¼</span>
+          <span>ご遺骨の配送は安全ですか？</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">å°ç¨ã®é»ãã³ãã¼è²¨ç©è»½èªåè»ãä½¿ç¨ããå°éã¹ã¿ãããç´æ¥ãå±ããã¾ããå®éä¾¿ã§ã®ééã¯è¡ãã¾ãããã¾ãããã¹ã¦ã®ãéºéª¨ã¯QRã³ã¼ãã§ç®¡çããããã¤ã§ãç¶æ³ãç¢ºèªããã ãã¾ããééª¨æãä¸å¨ã®å¯¾ç­ãè¬ãã¾ãã</div>
+        <div class="faq-a">専用の黒ナンバー貨物軽自動車を使用し、専門スタッフが直接お届けします。宅配便での配送は行いません。また、すべてのご遺骨はQRコードで管理され、いつでも状況を確認いただけます。送骨時も万全の対策を講じます。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
-          <span>å®æ´¾ã®å¶éã¯ããã¾ããï¼</span>
+          <span>宗派の制限はありますか？</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">ææºå¯ºé¢ã«ãã£ã¦ç°ãªãã¾ããå®æ´¾ä¸åã®å¯ºé¢ãå¤ããããã¾ããæ¤ç´¢æã«ãå®æ´¾ã§æ¢ãããããç¢ºèªããã ãã¾ããä¸æãªå ´åã¯ãæ°è»½ã«ãç¸è«ãã ããã</div>
+        <div class="faq-a">提携寺院によって異なります。宗派不問の寺院も多くございます。検索時に「宗派で探す」からご確認いただけます。不明な場合はお気軽にご相談ください。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
-          <span>æä½å¥ç´æéã¯ããã¾ããï¼</span>
+          <span>最低契約期間はありますか？</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">æä½3å¹´éããã®ãå¥ç´ã¨ãªãã¾ãã3å¹´çµéå¾ã¯å¼ãç¶ãæ´æ°ããã ãããæ°¸ä»£ä¾é¤ã«åãæ¿ãã¦ããã ããã¨ãã§ãã¾ãã</div>
+        <div class="faq-a">最低3年間からのご契約となります。3年経過後は引き続き更新いただくか、永代供養に切り替えていただくことができます。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
-          <span>å¹´1åã®ééª¨ä»¥å¤ã«è¿½å ã§ãå±ãã¯ã§ãã¾ããï¼</span>
+          <span>年1回の送骨以外に追加でお届けはできますか？</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">ã¯ããè¿½å ééª¨ã¯30,000å/åã§ãä¾é ¼ããã ãã¾ãããçã»ãå½¼å²¸ã»å½æ¥ãªã©ããå¸æã®æ¥æã«ãå±ããããã¾ãã</div>
+        <div class="faq-a">はい、追加送骨は30,000円/回でご依頼いただけます。お盆・お彼岸・命日など、ご希望の日時にお届けいたします。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
-          <span>å¢ãã¾ãã®ãµãã¼ãããé¡ãã§ãã¾ããï¼</span>
+          <span>墓じまいのサポートもお願いできますか？</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">ã¯ããæ¹è¬è¨±å¯ç³è«ã®ãµãã¼ããããç³æåºã®ãç´¹ä»ãéºéª¨ã®å¦ç½®ã¾ã§ä¸è²«ãã¦ãµãã¼ããããã¾ããã¾ãã¯ç¡æç¸è«ãããæ°è»½ã«ã©ããã</div>
+        <div class="faq-a">はい、改葬許可申請のサポートから、石材店のご紹介、遺骨の処置まで一貫してサポートいたします。まずは無料相談からお気軽にどうぞ。</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
-          <span>æ¯æãæ¹æ³ãæãã¦ãã ããã</span>
+          <span>支払い方法を教えてください。</span>
           <div class="faq-icon">+</div>
         </div>
-        <div class="faq-a">éè¡æ¯è¾¼ã«ã¦ãå¯¾å¿å¯è½ã§ãã</div>
+        <div class="faq-a">銀行振込にてご対応可能です。</div>
       </div>
     </div>
   </div>
@@ -1594,116 +1586,107 @@ footer {
 <section id="apply">
   <div class="section-inner">
     <div class="section-label" style="color:var(--gold-light);">Apply</div>
-    <h2 class="section-title white">ãç³è¾¼</h2>
+    <h2 class="section-title white">お申込</h2>
     <div class="divider"></div>
 
     <div class="apply-box">
       <div class="apply-steps-nav">
-        <button class="apply-step-btn active" onclick="switchApplyGuarded(0)">â  ãå¯ºã®é¸æ</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(1)">â¡ ç®¡çæé</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(2)">â¢ è²»ç¨ç¢ºèª</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(3)">â£ ãå®¢æ§æå ±</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(4)">â¤è¦ç´åæ</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(5)">â¥ ä»å¾ã®æµã</button>
+        <button class="apply-step-btn active" onclick="switchApplyGuarded(0)">① お寺の選択</button>
+        <button class="apply-step-btn" onclick="switchApplyGuarded(1)">② 管理期間</button>
+        <button class="apply-step-btn" onclick="switchApplyGuarded(2)">③ 費用確認</button>
+        <button class="apply-step-btn" onclick="switchApplyGuarded(3)">④ お客様情報</button>
+        <button class="apply-step-btn" onclick="switchApplyGuarded(4)">⑤規約同意</button>
+        <button class="apply-step-btn" onclick="switchApplyGuarded(5)">⑥ 今後の流れ</button>
       </div>
 
       <!-- Panel 0: Temple -->
       <div class="apply-panel" id="ap0" style="display:block;">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">ãå¯ºã»ç´éª¨å ããé¸ã³ãã ãã</h3>
+        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">お寺・納骨堂をお選びください</h3>
         <div class="temple-grid" id="templeGrid">
-          <div class="temple-card" onclick="selectTemple(this,'サンプル寺　永代供養墓','東京都台東区',90000,10000)">
-            <div class="temple-card-name">サンプル寺　永代供養墓</div>
-            <div class="temple-card-area">東京都台東区 · 宗派不問</div>
-            <div style="margin-top:4px;font-size:10px;opacity:0.6;">永代供養 · QR管理 · 個別安置</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'サンプル寺　納骨堂','東京都中央区',180000,10000)">
-            <div class="temple-card-name">サンプル寺　納骨堂</div>
-            <div class="temple-card-area">東京都中央区</div>
-            <div style="margin-top:4px;font-size:10px;opacity:0.6;">永代供養 · QR管理 · 個別安置</div>
-          </div>
+          <div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">読み込み中...</div>
         </div>
-        <button class="btn-primary" onclick="nextFromTemple()">æ¬¡ã¸ â</button>
+        <button class="btn-primary" onclick="nextFromTemple()">次へ →</button>
       </div>
 
       <!-- Panel 1: Period -->
       <div class="apply-panel" id="ap1">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">ç®¡çæéããé¸ã³ãã ãã</h3>
+        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">管理期間をお選びください</h3>
         <div style="margin-bottom:32px;">
           <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
             <div class="period-value" id="periodDisplay">3</div>
-            <div style="font-size:18px;color:rgba(255,255,255,0.5);">å¹´</div>
+            <div style="font-size:18px;color:rgba(255,255,255,0.5);">年</div>
           </div>
           <input type="range" min="3" max="30" step="1" value="3" class="period-slider" id="periodSlider"
             oninput="updatePeriod(this.value)">
           <div class="period-display">
-            <span>æä½ 3å¹´</span>
-            <span>30å¹´</span>
+            <span>最低 3年</span>
+            <span>30年</span>
           </div>
         </div>
         <div style="background:rgba(255,255,255,0.04);border-radius:4px;padding:20px;margin-bottom:24px;">
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:8px;">ç®¡çè²»ï¼ä¸æ¬æãï¼</div>
-          <div style="font-size:28px;font-family:var(--serif);color:var(--gold-light);font-weight:700;" id="periodFeeDisplay">Â¥108,000</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;">Â¥36,000 Ã <span id="periodYearLabel">3</span>å¹´å</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:8px;">管理費（一括払い）</div>
+          <div style="font-size:28px;font-family:var(--serif);color:var(--gold-light);font-weight:700;" id="periodFeeDisplay">¥108,000</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;">¥36,000 × <span id="periodYearLabel">3</span>年分</div>
         </div>
         <div style="display:flex;gap:12px;">
-          <button class="btn-outline" onclick="goApply(0)">â æ»ã</button>
-          <button class="btn-primary" style="flex:1;" onclick="goApply(2)">æ¬¡ã¸ â</button>
+          <button class="btn-outline" onclick="goApply(0)">← 戻る</button>
+          <button class="btn-primary" style="flex:1;" onclick="goApply(2)">次へ →</button>
         </div>
       </div>
 
       <!-- Panel 2: Cost -->
       <div class="apply-panel" id="ap2">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">è²»ç¨ã®ãç¢ºèª</h3>
+        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">費用のご確認</h3>
         <div class="cost-breakdown">
-          <div class="cost-row"><span>ãé¸æã®ãå¯º</span><span id="apTemple" style="color:var(--gold-light);">â</span></div>
-          <div class="cost-row"><span>ç®¡çæé</span><span id="apPeriod">3å¹´</span></div>
-          <div class="cost-row"><span>å¥ç´é</span><span id="apContract">Â¥90,000</span></div>
-          <div class="cost-row"><span>å¯ºé¢ã¸ã®å¿ç´é</span><span id="apKinugi">Â¥10,000</span></div>
-          <div class="cost-row"><span>ç®¡çè²»ï¼ä¸æ¬ï¼</span><span id="apManage">Â¥108,000</span></div>
-          <div class="cost-row"><span>éª¨ç®±</span><span id="apBox">Â¥20,000</span></div>
-          <div class="cost-row total"><span>ãæ¯æãåè¨</span><span id="apTotal">Â¥228,000</span></div>
+          <div class="cost-row"><span>ご選択のお寺</span><span id="apTemple" style="color:var(--gold-light);">—</span></div>
+          <div class="cost-row"><span>管理期間</span><span id="apPeriod">3年</span></div>
+          <div class="cost-row"><span>契約金</span><span id="apContract">¥90,000</span></div>
+          <div class="cost-row"><span>寺院への志納金</span><span id="apKinugi">¥10,000</span></div>
+          <div class="cost-row"><span>管理費（一括）</span><span id="apManage">¥108,000</span></div>
+          <div class="cost-row"><span>骨箱</span><span id="apBox">¥20,000</span></div>
+          <div class="cost-row total"><span>お支払い合計</span><span id="apTotal">¥228,000</span></div>
         </div>
-        <p style="font-size:12px;color:rgba(255,255,255,0.35);margin:16px 0 24px;">â»è²»ç¨ã¯é¸æåå®¹ã«ããå¤åãã¾ãã</p>
+        <p style="font-size:12px;color:rgba(255,255,255,0.35);margin:16px 0 24px;">※費用は選択内容により変動します。</p>
         <div style="display:flex;gap:12px;">
-          <button class="btn-outline" onclick="goApply(1)">â æ»ã</button>
-          <button class="btn-primary" style="flex:1;" onclick="markStepCompleted(3);goApply(3)">æ¬¡ã¸ â</button>
+          <button class="btn-outline" onclick="goApply(1)">← 戻る</button>
+          <button class="btn-primary" style="flex:1;" onclick="markStepCompleted(3);goApply(3)">次へ →</button>
         </div>
       </div>
 
       <!-- Panel 3: Customer Info -->
       <div class="apply-panel" id="ap3">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">ãå®¢æ§æå ±ã®ãå¥å</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:20px;">ãã¹ã¦å¿é é ç®ã§ã</p>
+        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">お客様情報のご入力</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:20px;">すべて必須項目です</p>
         <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">æ°å <span style="color:#e55;">*</span></label>
-              <input type="text" id="infoName" placeholder="å±±ç° å¤ªé" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">氏名 <span style="color:#e55;">*</span></label>
+              <input type="text" id="infoName" placeholder="山田 太郎" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">ãµãããª <span style="color:#e55;">*</span></label>
-              <input type="text" id="infoKana" placeholder="ãã¾ã  ããã" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">ふりがな <span style="color:#e55;">*</span></label>
+              <input type="text" id="infoKana" placeholder="やまだ たろう" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">ãå¹´é½¢ <span style="color:#e55;">*</span></label>
-              <input type="number" id="infoAge" placeholder="ä¾ï¼65" min="0" max="120" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">ご年齢 <span style="color:#e55;">*</span></label>
+              <input type="number" id="infoAge" placeholder="例：65" min="0" max="120" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
             <div></div>
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">éµä¾¿çªå· <span style="color:#e55;">*</span></label>
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">郵便番号 <span style="color:#e55;">*</span></label>
               <div style="display:flex;gap:8px;align-items:center;">
                 <input type="text" id="infoZip" placeholder="000-0000" maxlength="8"
                   style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;flex:1;"
                   oninput="autoFillAddress(this.value)">
                 <button type="button" onclick="autoFillAddress(document.getElementById('infoZip').value)"
-                  style="padding:10px 12px;background:var(--gold);color:var(--navy);border:none;border-radius:4px;font-size:12px;cursor:pointer;white-space:nowrap;">ä½ææ¤ç´¢</button>
+                  style="padding:10px 12px;background:var(--gold);color:var(--navy);border:none;border-radius:4px;font-size:12px;cursor:pointer;white-space:nowrap;">住所検索</button>
               </div>
             </div>
             <div></div>
@@ -1711,112 +1694,112 @@ footer {
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">é½éåºç <span style="color:#e55;">*</span></label>
-              <input type="text" id="infoPref" placeholder="æ±äº¬é½" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">都道府県 <span style="color:#e55;">*</span></label>
+              <input type="text" id="infoPref" placeholder="東京都" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">å¸åºçºæ <span style="color:#e55;">*</span></label>
-              <input type="text" id="infoCity" placeholder="æ¸è°·åº" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">市区町村 <span style="color:#e55;">*</span></label>
+              <input type="text" id="infoCity" placeholder="渋谷区" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">çªå°ä»¥é <span style="color:#e55;">*</span></label>
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">番地以降 <span style="color:#e55;">*</span></label>
               <input type="text" id="infoStreet" placeholder="1-2-3" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
             <div></div>
           </div>
           <div>
-            <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">å»ºç©åã»é¨å±çªå·ãªã©</label>
-            <input type="text" id="infoBldg" placeholder="ãããã³ã·ã§ã³ 101å·å®¤" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
+            <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">建物名・部屋番号など</label>
+            <input type="text" id="infoBldg" placeholder="〇〇マンション 101号室" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
-              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">é»è©±çªå· <span style="color:#e55;">*</span></label>
+              <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">電話番号 <span style="color:#e55;">*</span></label>
               <input type="tel" id="infoTel" placeholder="090-0000-0000" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
             </div>
             <div></div>
           </div>
 
           <div>
-            <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">ã¡ã¼ã«ã¢ãã¬ã¹ <span style="color:#e55;">*</span></label>
+            <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">メールアドレス <span style="color:#e55;">*</span></label>
             <input type="email" id="infoEmail" placeholder="example@mail.com" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">ã¡ã¼ã«ã¢ãã¬ã¹ï¼ç¢ºèªï¼ <span style="color:#e55;">*</span></label>
-            <input type="email" id="infoEmail2" placeholder="example@mail.comï¼åå¥åï¼" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
+            <label style="display:block;font-size:12px;color:var(--gold-light);margin-bottom:6px;">メールアドレス（確認） <span style="color:#e55;">*</span></label>
+            <input type="email" id="infoEmail2" placeholder="example@mail.com（再入力）" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:4px;color:var(--white);font-size:14px;box-sizing:border-box;">
           </div>
 
         </div>
         <div id="infoError" style="color:#e55;font-size:13px;margin-bottom:12px;display:none;"></div>
         <div style="display:flex;gap:12px;">
-          <button class="btn-outline" onclick="goApply(2)">â æ»ã</button>
-          <button class="btn-primary" style="flex:1;" onclick="nextFromInfo()">æ¬¡ã¸ â</button>
+          <button class="btn-outline" onclick="goApply(2)">← 戻る</button>
+          <button class="btn-primary" style="flex:1;" onclick="nextFromInfo()">次へ →</button>
         </div>
       </div>
 
       <!-- Panel 4: Consent -->
       <div class="apply-panel" id="ap4">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">è¦ç´ã»åæ</h3>
+        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">規約・同意</h3>
         <div style="background:rgba(255,255,255,0.04);border-radius:4px;padding:20px;height:200px;overflow-y:auto;margin-bottom:20px;font-size:13px;color:rgba(255,255,255,0.6);line-height:2;">
-          <strong style="color:var(--white);display:block;margin-bottom:12px;">ééª¨å  å©ç¨è¦ç´</strong>
-          ç¬¬1æ¡ï¼ç®çï¼æ¬è¦ç´ã¯ãééª¨å ãæä¾ããç´éª¨ã»ç®¡çãµã¼ãã¹ï¼ä»¥ä¸ãæ¬ãµã¼ãã¹ãï¼ã®å©ç¨æ¡ä»¶ãå®ãããã®ã§ãã<br><br>
-          ç¬¬2æ¡ï¼å¥ç´ã®æç«ï¼ç³è¾¼ã¿ã¯æ¬è¦ç´ã¸ã®åæããã£ã¦æç«ãã¾ãã<br><br>
-          ç¬¬3æ¡ï¼è²»ç¨ï¼å¥ç´éããã³ç®¡çè²»ã¯ä¸æ¬åæãã¨ãã¾ãã<br><br>
-          ç¬¬4æ¡ï¼ç®¡çï¼ãé ãããããéºéª¨ã¯ãææºå¯ºé¢ã«ã¦ä¸éã«ãå®ããã¾ãã<br><br>
-          ç¬¬5æ¡ï¼ééï¼ãå¸æã«ãããèªå®ãæ½è¨­ã¸ã®ãéºéª¨ééãµã¼ãã¹ããå©ç¨ããã ãã¾ãã<br><br>
-          ç¬¬6æ¡ï¼è§£ç´ï¼å¥ç´å¾ã®è§£ç´ã«ã¤ãã¦ã¯ãæå®ã®æç¶ããå¿è¦ã§ãã<br><br>
-          ç¬¬7æ¡ï¼åäººæå ±ï¼ãå®¢æ§ã®åäººæå ±ã¯ããã©ã¤ãã·ã¼ããªã·ã¼ã«å¾ãé©åã«ç®¡çãã¾ãã
+          <strong style="color:var(--white);display:block;margin-bottom:12px;">送骨堂 利用規約</strong>
+          第1条（目的）本規約は、送骨堂が提供する納骨・管理サービス（以下「本サービス」）の利用条件を定めるものです。<br><br>
+          第2条（契約の成立）申込みは本規約への同意をもって成立します。<br><br>
+          第3条（費用）契約金および管理費は一括前払いとします。<br><br>
+          第4条（管理）お預かりしたご遺骨は、提携寺院にて丁重にお守りします。<br><br>
+          第5条（配送）ご希望によりご自宅や施設へのご遺骨配送サービスをご利用いただけます。<br><br>
+          第6条（解約）契約後の解約については、所定の手続きが必要です。<br><br>
+          第7条（個人情報）お客様の個人情報は、プライバシーポリシーに従い適切に管理します。
         </div>
         <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:24px;">
           <input type="checkbox" id="consentCheck" onchange="checkConsent()" style="width:18px;height:18px;accent-color:var(--gold);">
-          <span style="font-size:14px;color:var(--white);">ä¸è¨ã®è¦ç´ã«åæãã¾ã</span>
+          <span style="font-size:14px;color:var(--white);">上記の規約に同意します</span>
         </label>
         <div style="display:flex;gap:12px;">
-          <button class="btn-outline" onclick="goApply(3)">â æ»ã</button>
-          <button class="btn-primary" id="nextFromConsent" disabled style="flex:1;" onclick="markStepCompleted(5);submitApplyData();goApply(5)">æ¬¡ã¸ï¼ä»å¾ã®æµã â</button>
+          <button class="btn-outline" onclick="goApply(3)">← 戻る</button>
+          <button class="btn-primary" id="nextFromConsent" disabled style="flex:1;" onclick="markStepCompleted(5);submitApplyData();goApply(5)">次へ：今後の流れ →</button>
         </div>
       </div>
 
       <!-- Panel 5: Next Steps -->
       <div class="apply-panel" id="ap5">
-        <h3 style="font-family:var(--serif);font-size:22px;color:var(--gold-light);margin-bottom:8px;text-align:center;">ãç³è¾¼ãåãä»ãã¾ãã</h3>
-        <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:32px;">ãç»é²ãããã¨ããããã¾ã</p>
+        <h3 style="font-family:var(--serif);font-size:22px;color:var(--gold-light);margin-bottom:8px;text-align:center;">お申込を受け付けました</h3>
+        <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:32px;">ご登録ありがとうございます</p>
         <div style="background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.3);border-radius:6px;padding:28px;margin-bottom:28px;">
-          <div style="font-size:13px;letter-spacing:0.3em;color:var(--gold);margin-bottom:20px;">ä»å¾ã®æµã</div>
+          <div style="font-size:13px;letter-spacing:0.3em;color:var(--gold);margin-bottom:20px;">今後の流れ</div>
           <div style="display:flex;flex-direction:column;gap:20px;">
             <div style="display:flex;gap:16px;align-items:flex-start;">
               <div style="min-width:32px;height:32px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--navy);">1</div>
               <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">ãæå½èãããé»è©±ã«ã¦ãé£çµ¡</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">ãç³è¾¼å¾2ã3å¶æ¥­æ¥ä»¥åã«ãæå½èãããç»é²ã®é»è©±çªå·ã¸ãé£çµ¡ãããã¾ãã</div>
+                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">ご担当者よりお電話にてご連絡</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.45);">お申込後2〜3営業日以内に、担当者よりご登録の電話番号へご連絡いたします。</div>
               </div>
             </div>
             <div style="display:flex;gap:16px;align-items:flex-start;">
               <div style="min-width:32px;height:32px;background:rgba(201,162,39,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);">2</div>
               <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">ãå¯ºã»æ¥ç¨ã®ãç¢ºèª</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">ãå¸æã®ãå¯ºã¨ç®¡çæéããæ¯æãæ¹æ³ãç¢ºèªãããã¾ãã</div>
+                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">お寺・日程のご確認</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.45);">ご希望のお寺と管理期間、お支払い方法を確認いたします。</div>
               </div>
             </div>
             <div style="display:flex;gap:16px;align-items:flex-start;">
               <div style="min-width:32px;height:32px;background:rgba(201,162,39,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);">3</div>
               <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">éè¡æ¯è¾¼ã»ãå¥éç¢ºèª</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">ãå¥éç¢ºèªå¾ã3å¶æ¥­æ¥ä»¥åã«ãµã¼ãã¹éå§ã®ãæ¡åããéããã¾ãã</div>
+                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">銀行振込・ご入金確認</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.45);">ご入金確認後、3営業日以内にサービス開始のご案内をお送りします。</div>
               </div>
             </div>
             <div style="display:flex;gap:16px;align-items:flex-start;">
               <div style="min-width:32px;height:32px;background:rgba(201,162,39,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);">4</div>
               <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">ãµã¼ãã¹éå§</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">QRã³ã¼ãä»ãç®¡çã«ã¼ãããéµéããå©ç¨éå§ã¨ãªãã¾ãã</div>
+                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">サービス開始</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.45);">QRコード付き管理カードをご郵送。ご利用開始となります。</div>
               </div>
             </div>
           </div>
         </div>
-        <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">ãä¸æãªç¹ã¯ãæ°è»½ã«ãåãåãããã ãã</p>
+        <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">ご不明な点はお気軽にお問い合わせください</p>
       </div>
 
     </div><!-- /.apply-box -->
@@ -1827,21 +1810,21 @@ footer {
 <section id="contact">
   <div class="section-inner">
     <div class="section-label">Contact</div>
-    <h2 class="section-title">ãåãåãã</h2>
+    <h2 class="section-title">お問い合わせ</h2>
     <div class="divider"></div>
     <div class="contact-grid">
       <div class="contact-info">
         <p style="font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:32px;">
-          ãä¸æãªç¹ããç¸è«ããããã¾ãããããæ°è»½ã«ãåãåãããã ãããå°éã¹ã¿ãããä¸å¯§ã«ãå¯¾å¿ãããã¾ãã
+          ご不明な点やご相談がございましたら、お気軽にお問い合わせください。専門スタッフが丁寧にご対応いたします。
         </p>
         <div style="margin-bottom:24px;">
           <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;">PHONE</div>
           <div class="tel-big">0120-XXX-XXX</div>
-          <div class="tel-note">æ¯æ¥ 10:00ã17:00ï¼å¹´ä¸­ç¡ä¼ï¼</div>
+          <div class="tel-note">毎日 10:00〜17:00（年中無休）</div>
         </div>
         <div>
           <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;">ADDRESS</div>
-          <div style="font-size:14px;color:var(--text);line-height:1.7;">ã111-0051<br>æ±äº¬é½å°æ±åºèµå4-33-9</div>
+          <div style="font-size:14px;color:var(--text);line-height:1.7;">〒111-0051<br>東京都台東区蔵前4-33-9</div>
           <div style="margin-top:16px;border-radius:4px;overflow:hidden;border:1px solid #e0ddd8;">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.4!2d139.7906!3d35.7003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188e9b26e4e3a5%3A0x1!2z5p2x5Lqs6YO95Y-w5p2x5Yy65Li45YmN77yU5LiB55uu77yT77yT4oiS77yZ!5e0!3m2!1sja!2sjp!4v1"
@@ -1852,32 +1835,32 @@ footer {
       </div>
       <div class="contact-form">
         <div class="cform-row">
-          <label>ãåå</label>
-          <input class="cform-input" type="text" placeholder="å±±ç° å¤ªé">
+          <label>お名前</label>
+          <input class="cform-input" type="text" placeholder="山田 太郎">
         </div>
         <div class="cform-row">
-          <label>ã¡ã¼ã«ã¢ãã¬ã¹</label>
+          <label>メールアドレス</label>
           <input class="cform-input" type="email" placeholder="example@mail.com">
         </div>
         <div class="cform-row">
-          <label>é»è©±çªå·</label>
+          <label>電話番号</label>
           <input class="cform-input" type="tel" placeholder="090-0000-0000">
         </div>
         <div class="cform-row">
-          <label>ãåãåããç¨®å¥</label>
+          <label>お問い合わせ種別</label>
           <select class="cform-input" style="-webkit-appearance:none;">
-            <option>ãµã¼ãã¹ã«ã¤ãã¦</option>
-            <option>æéã«ã¤ãã¦</option>
-            <option>è¦å­¦ç³è¾¼ã«ã¤ãã¦</option>
-            <option>å¢ãã¾ãã«ã¤ãã¦</option>
-            <option>ãã®ä»</option>
+            <option>サービスについて</option>
+            <option>料金について</option>
+            <option>見学申込について</option>
+            <option>墓じまいについて</option>
+            <option>その他</option>
           </select>
         </div>
         <div class="cform-row">
-          <label>ãåãåããåå®¹</label>
-          <textarea class="cform-textarea" placeholder="ãè³ªåã»ãç¸è«åå®¹ããèãããã ãã"></textarea>
+          <label>お問い合わせ内容</label>
+          <textarea class="cform-textarea" placeholder="ご質問・ご相談内容をお聞かせください"></textarea>
         </div>
-        <button class="btn-primary" style="width:100%;" id="contactSubmitBtn" onclick="submitContactForm(this)">éä¿¡ãã</button>
+        <button class="btn-primary" style="width:100%;" id="contactSubmitBtn" onclick="submitContactForm(this)">送信する</button>
       </div>
     </div>
   </div>
@@ -1904,46 +1887,46 @@ footer {
   <rect x="300" y="190" width="36" height="11" rx="3"   fill="#c9a227"/>
   <circle cx="336" cy="214" r="10" fill="none" stroke="#c9a227" stroke-width="5.5"/>
 </svg>
-        <div class="footer-brand-text">ééª¨å </div>
-        <div class="footer-tagline" style="white-space:nowrap;">ãå¢ããåãããããéª¨ããæããæä»£ã¸</div>
+        <div class="footer-brand-text">送骨堂</div>
+        <div class="footer-tagline" style="white-space:nowrap;">お墓を「参る」からお骨を「招く」時代へ</div>
       </div>
       <div>
-        <div class="footer-col-title">ãµã¼ãã¹</div>
+        <div class="footer-col-title">サービス</div>
         <ul class="footer-links">
-          <li><a href="#about">ééª¨å ã¨ã¯</a></li>
-          <li><a href="#search">ééª¨å ãæ¢ã</a></li>
-          <li><a href="#estimate">ãè¦ç©ã</a></li>
-          <li><a href="#visit">è¦å­¦ç³è¾¼</a></li>
-          <li><a href="#apply">ãç³è¾¼</a></li>
+          <li><a href="#about">送骨堂とは</a></li>
+          <li><a href="#search">送骨堂を探す</a></li>
+          <li><a href="#estimate">お見積り</a></li>
+          <li><a href="#visit">見学申込</a></li>
+          <li><a href="#apply">お申込</a></li>
         </ul>
       </div>
       <div>
-        <div class="footer-col-title">ãµãã¼ã</div>
+        <div class="footer-col-title">サポート</div>
         <ul class="footer-links">
-          <li><a href="#hakajimae">å¢ãã¾ã</a></li>
-          <li><a href="#faq">ããããè³ªå</a></li>
-          <li><a href="#contact">ãåãåãã</a></li>
-          <li><a href="#company">ä¼ç¤¾æ¦è¦</a></li>
+          <li><a href="#hakajimae">墓じまい</a></li>
+          <li><a href="#faq">よくある質問</a></li>
+          <li><a href="#contact">お問い合わせ</a></li>
+          <li><a href="#company">会社概要</a></li>
         </ul>
       </div>
       <div>
         <div class="footer-col-title">Legal</div>
         <ul class="footer-links">
-          <li><a href="#">ãã©ã¤ãã·ã¼ããªã·ã¼</a></li>
-          <li><a href="#">å©ç¨è¦ç´</a></li>
-          <li><a href="#">ç¹å®ååå¼æ³</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">利用規約</a></li>
+          <li><a href="#">特定商取引法</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">Â© 2026 ééª¨å . All rights reserved.</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.2);">åæ¨ã»ãã¸ãã¹ã¢ãã«ç¹è¨±ç³è«ä¸­</div>
+      <div class="footer-copy">© 2026 送骨堂. All rights reserved.</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.2);">商標・ビジネスモデル特許申請中</div>
     </div>
   </div>
 </footer>
 
 <script>
-// ââ Contact form submit ââ
+// ── Contact form submit ──
 function submitContactForm(btn) {
   var rows = document.querySelectorAll('#contact .contact-form .cform-row');
   var name  = rows[0]?.querySelector('input')?.value?.trim();
@@ -1951,8 +1934,8 @@ function submitContactForm(btn) {
   var tel   = rows[2]?.querySelector('input')?.value?.trim();
   var type  = rows[3]?.querySelector('select')?.value;
   var body  = rows[4]?.querySelector('textarea')?.value?.trim();
-  if (!name || !email) { alert('ãååã¨ã¡ã¼ã«ã¢ãã¬ã¹ã¯å¿é ã§ãã'); return; }
-  btn.disabled = true; btn.textContent = 'éä¿¡ä¸­...';
+  if (!name || !email) { alert('お名前とメールアドレスは必須です。'); return; }
+  btn.disabled = true; btn.textContent = '送信中...';
   fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-contact', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -1960,17 +1943,17 @@ function submitContactForm(btn) {
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    btn.disabled = false; btn.textContent = 'éä¿¡ãã';
-    if (data.success) { alert('ãåãåãããåãä»ãã¾ããã\næå½èããã®ãé£çµ¡ããå¾ã¡ãã ããã'); }
-    else { alert('éä¿¡ã«å¤±æãã¾ãããæéãããã¦ååº¦ãè©¦ããã ããã'); }
+    btn.disabled = false; btn.textContent = '送信する';
+    if (data.success) { alert('お問い合わせを受け付けました。\n担当者からのご連絡をお待ちください。'); }
+    else { alert('送信に失敗しました。時間をおいて再度お試しください。'); }
   })
   .catch(function() {
-    btn.disabled = false; btn.textContent = 'éä¿¡ãã';
-    alert('éä¿¡ã«å¤±æãã¾ãããæéãããã¦ååº¦ãè©¦ããã ããã');
+    btn.disabled = false; btn.textContent = '送信する';
+    alert('送信に失敗しました。時間をおいて再度お試しください。');
   });
 }
 
-// ââ Tab switching ââ
+// ── Tab switching ──
 function switchTab(btn, panelId) {
   document.querySelectorAll('.search-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.search-panel').forEach(p => p.classList.remove('active'));
@@ -1978,7 +1961,7 @@ function switchTab(btn, panelId) {
   document.getElementById(panelId).classList.add('active');
 }
 
-// ââ Temple data (dynamic from Supabase) ââ
+// ── Temple data (dynamic from Supabase) ──
 var estTemples = [];
 var temples = [];
 
@@ -1992,25 +1975,25 @@ async function fetchTemplesFromDB() {
     const data = await res.json();
     if (!data || !Array.isArray(data)) return;
 
-    // estTemplesã»templesä¸¡éåãæ´æ°
+    // estTemples・temples両配列を更新
     estTemples = data.map(t => ({
       name: t.name, area: t.area||'', sect: t.sect||'',
       price: t.contract_amount||0, kinugi: t.donation_amount||0
     }));
     temples = data.map(t => {
       var tags = [];
-      if (t.feature_eitaikuyo) tags.push('æ°¸ä»£ä¾é¤');
-      if (t.feature_qr) tags.push('QRç®¡ç');
-      if (t.feature_individual) tags.push('åå¥å®ç½®');
+      if (t.feature_eitaikuyo) tags.push('永代供養');
+      if (t.feature_qr) tags.push('QR管理');
+      if (t.feature_individual) tags.push('個別安置');
       return { name: t.name, area: t.area||'', city: '', sect: t.sect||'',
                price: t.contract_amount||0, kinugi: t.donation_amount||0, tags: tags };
     });
 
-    // è¦å­¦ãã©ã¼ã ã®loc-cardãæ´æ°
+    // 見学フォームのloc-cardを更新
     var locGrid = document.getElementById('locGrid');
     if (locGrid) {
       if (data.length === 0) {
-        locGrid.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px;">ç¾å¨æºåä¸­ã§ãã</div>';
+        locGrid.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px;">現在準備中です。</div>';
       } else {
         locGrid.innerHTML = data.map(t =>
           `<div class="loc-card" onclick="selectLoc(this)">
@@ -2021,11 +2004,11 @@ async function fetchTemplesFromDB() {
       }
     }
 
-    // æéã·ãã¥ã¬ã¼ã¿ã¼ã»æ¤ç´¢çµæãåæç»
+    // 料金シミュレーター・検索結果を再描画
     updateResults();
     calcEstimate();
   } catch(e) {
-    console.error('å¯ºé¢ãã¼ã¿åå¾ã¨ã©ã¼', e);
+    console.error('寺院データ取得エラー', e);
   }
 }
 
@@ -2036,9 +2019,9 @@ function onAreaChange() {
   var templeInfo = document.getElementById('estTempleInfo');
   if (!area) { templeRow.style.display = 'none'; return; }
   var filtered = estTemples.filter(function(t) { return t.area === area; });
-  templeSelect.innerHTML = '<option value="">é¸æãã¦ãã ãã</option>' +
+  templeSelect.innerHTML = '<option value="">選択してください</option>' +
     filtered.map(function(t) {
-      return '<option value="' + t.name + '">' + t.name + 'ï¼' + t.sect + 'ï¼ãå¥ç´é Â¥' + t.price.toLocaleString() + 'ãå¿ç´é Â¥' + t.kinugi.toLocaleString() + '</option>';
+      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　契約金 ¥' + t.price.toLocaleString() + '　志納金 ¥' + t.kinugi.toLocaleString() + '</option>';
     }).join('');
   templeRow.style.display = 'block';
   templeInfo.style.display = 'none';
@@ -2053,37 +2036,37 @@ function onTempleChange() {
   if (t) {
     document.getElementById('estTempleName').textContent = t.name;
     document.getElementById('estTempleSect').textContent = t.sect;
-    document.getElementById('estTemplePrice').textContent = 'Â¥' + t.price.toLocaleString();
-    document.getElementById('estTempleKinugi').textContent = 'Â¥' + t.kinugi.toLocaleString();
+    document.getElementById('estTemplePrice').textContent = '¥' + t.price.toLocaleString();
+    document.getElementById('estTempleKinugi').textContent = '¥' + t.kinugi.toLocaleString();
     info.style.display = 'block';
   }
   calcEstimate();
 }
 
-// ââ Search temple data (dynamic from Supabase, see fetchTemplesFromDB) ââ
+// ── Search temple data (dynamic from Supabase, see fetchTemplesFromDB) ──
 
 function updateResults() {
   var activeTab = (document.querySelector('.search-tab.active') || {}).textContent || '';
   var list = document.getElementById('resultsList');
   if (!list) return;
   var filtered = temples.slice();
-  if (activeTab.includes('ã¨ãªã¢')) {
+  if (activeTab.includes('エリア')) {
     var selects = document.querySelectorAll('#tab-area .search-input');
     var areaVal = selects[0] ? selects[0].value : '';
     var cityVal = selects[1] ? selects[1].value : '';
     var keyword = selects[2] ? selects[2].value.trim() : '';
-    if (areaVal && areaVal !== 'é¸æãã¦ãã ãã') filtered = filtered.filter(function(t) { return t.area === areaVal; });
-    if (cityVal && cityVal !== 'é¸æãã¦ãã ãã') filtered = filtered.filter(function(t) { return t.city === cityVal; });
+    if (areaVal && areaVal !== '選択してください') filtered = filtered.filter(function(t) { return t.area === areaVal; });
+    if (cityVal && cityVal !== '選択してください') filtered = filtered.filter(function(t) { return t.city === cityVal; });
     if (keyword) filtered = filtered.filter(function(t) { return t.name.includes(keyword)||t.area.includes(keyword)||t.city.includes(keyword); });
-  } else if (activeTab.includes('å®æ´¾')) {
+  } else if (activeTab.includes('宗派')) {
     var sectVal = (document.querySelector('#tab-sect .search-input') || {}).value || '';
-    if (sectVal && sectVal !== 'å®æ´¾ãé¸æ' && sectVal !== 'å®æ´¾ä¸å') filtered = filtered.filter(function(t) { return t.sect === sectVal || t.sect === 'å®æ´¾ä¸å'; });
-  } else if (activeTab.includes('éé¡')) {
+    if (sectVal && sectVal !== '宗派を選択' && sectVal !== '宗派不問') filtered = filtered.filter(function(t) { return t.sect === sectVal || t.sect === '宗派不問'; });
+  } else if (activeTab.includes('金額')) {
     var priceMax = parseInt((document.getElementById('priceRange') || {}).value || 999999);
     filtered = filtered.filter(function(t) { return t.price <= priceMax; });
   }
   if (filtered.length === 0) {
-    list.innerHTML = '<p style="color:var(--muted);padding:24px 0;text-align:center;">æ¡ä»¶ã«ä¸è´ããå¯ºé¢ãè¦ã¤ããã¾ããã§ããã</p>';
+    list.innerHTML = '<p style="color:var(--muted);padding:24px 0;text-align:center;">条件に一致する寺院が見つかりませんでした。</p>';
     return;
   }
   list.innerHTML = filtered.map(function(t) {
@@ -2091,24 +2074,24 @@ function updateResults() {
     return '<div class="search-result-card">' +
       '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>' +
       '<div><div class="result-name">' + t.name + '</div>' +
-      '<div class="result-area">ð ' + t.area + t.city + ' Â· ' + t.sect + '</div>' +
+      '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
       '<div class="result-tags">' + tagsHtml + '</div></div>' +
       '<div class="result-price">' +
-      '<div class="price-from">å¥ç´é</div>' +
-      '<div><span class="price-num">' + t.price.toLocaleString() + '</span><span class="price-unit">å</span></div>' +
-      '<div style="font-size:11px;color:var(--muted);margin-top:2px;">ç®¡çè²» 36,000å/å¹´</div>' +
-      '<div style="font-size:10px;color:var(--muted);margin-top:6px;">å¿ç´é</div>' +
-      '<div><span class="price-num" style="font-size:16px;">' + t.kinugi.toLocaleString() + '</span><span class="price-unit">å</span></div>' +
+      '<div class="price-from">契約金</div>' +
+      '<div><span class="price-num">' + t.price.toLocaleString() + '</span><span class="price-unit">円</span></div>' +
+      '<div style="font-size:11px;color:var(--muted);margin-top:2px;">管理費 36,000円/年</div>' +
+      '<div style="font-size:10px;color:var(--muted);margin-top:6px;">志納金</div>' +
+      '<div><span class="price-num" style="font-size:16px;">' + t.kinugi.toLocaleString() + '</span><span class="price-unit">円</span></div>' +
       '</div>' +
       '</div>';
   }).join('');
 }
 
-// ââ FAQ ââ
+// ── FAQ ──
 function toggleFaq(el) { el.parentElement.classList.toggle('open'); }
 function toggleIhai(show) { var el = document.getElementById('ihaiFields'); if (el) el.style.display = show ? 'block' : 'none'; }
 
-// ââ Visit steps ââ
+// ── Visit steps ──
 function switchVisit(idx) {
   document.querySelectorAll('.visit-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
   document.querySelectorAll('.vstep').forEach((s,i) => s.classList.toggle('active', i===idx));
@@ -2122,7 +2105,7 @@ function selectTime(el) {
   el.classList.add('selected');
 }
 
-// ââ Calendar ââ
+// ── Calendar ──
 var calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
 function changeMonth(dir) {
   calState.month += dir;
@@ -2135,11 +2118,11 @@ function renderCal() {
   var gridEl  = document.getElementById('calGrid');
   if (!monthEl || !gridEl) return;
   var y = calState.year, m = calState.month;
-  monthEl.textContent = y + 'å¹´' + (m+1) + 'æ';
+  monthEl.textContent = y + '年' + (m+1) + '月';
   var first = new Date(y, m, 1).getDay();
   var days  = new Date(y, m+1, 0).getDate();
   var today = new Date();
-  var html  = '<div class="cal-day-label">æ¥</div><div class="cal-day-label">æ</div><div class="cal-day-label">ç«</div><div class="cal-day-label">æ°´</div><div class="cal-day-label">æ¨</div><div class="cal-day-label">é</div><div class="cal-day-label">å</div>';
+  var html  = '<div class="cal-day-label">日</div><div class="cal-day-label">月</div><div class="cal-day-label">火</div><div class="cal-day-label">水</div><div class="cal-day-label">木</div><div class="cal-day-label">金</div><div class="cal-day-label">土</div>';
   for (var i = 0; i < first; i++) html += '<div></div>';
   for (var d = 1; d <= days; d++) {
     var date = new Date(y, m, d);
@@ -2158,7 +2141,7 @@ function selectDate(el, dateStr) {
   window._selectedVisitDate = dateStr;
   var label = document.getElementById('selectedDateLabel');
   var slots  = document.getElementById('timeSlots');
-  if (label) label.textContent = dateStr + ' ã®ç©ºãæé';
+  if (label) label.textContent = dateStr + ' の空き時間';
   if (slots)  slots.style.display = 'block';
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -2167,7 +2150,7 @@ document.addEventListener('DOMContentLoaded', function() {
   fetchTemplesFromDB();
 });
 
-// ââ Estimate ââ
+// ── Estimate ──
 function calcEstimate() {
   var period  = parseInt(document.getElementById('estPeriod').value) || 3;
   var extra   = parseInt(document.getElementById('estExtra').value)  || 0;
@@ -2177,33 +2160,33 @@ function calcEstimate() {
   var kinugi   = tData ? tData.kinugi : 10000;
   var manage   = 36000 * period;
   var boxFee   = 20000;
-  var extraFee = extra * 30000 * period; // è¿½å ééª¨ï¼åæ°ÃÂ¥30,000Ãå¹´æ°
+  var extraFee = extra * 30000 * period; // 追加送骨：回数×¥30,000×年数
   var total    = contract + kinugi + manage + boxFee + extraFee;
 
   var mEl = document.getElementById('estManageAmt');
-  if (mEl) mEl.textContent = 'Â¥' + manage.toLocaleString();
+  if (mEl) mEl.textContent = '¥' + manage.toLocaleString();
 
   var mLabelEl = document.getElementById('estManage');
-  if (mLabelEl) mLabelEl.querySelector('span').textContent = 'ç®¡çè²»ï¼' + period + 'å¹´åï¼';
+  if (mLabelEl) mLabelEl.querySelector('span').textContent = '管理費（' + period + '年分）';
 
   var kEl = document.getElementById('estKinugiAmt');
-  if (kEl) kEl.textContent = 'Â¥' + kinugi.toLocaleString();
+  if (kEl) kEl.textContent = '¥' + kinugi.toLocaleString();
 
   var exEl = document.getElementById('estExtraLine');
   var exAmtEl = document.getElementById('estExtraAmt');
   if (exEl) {
     exEl.style.display = extra > 0 ? '' : 'none';
-    if (exAmtEl && extra > 0) exAmtEl.textContent = 'Â¥' + (extra * 30000).toLocaleString() + '/å';
+    if (exAmtEl && extra > 0) exAmtEl.textContent = '¥' + (extra * 30000).toLocaleString() + '/回';
   }
 
   var tEl = document.getElementById('estTotalAmt');
-  if (tEl) tEl.textContent = 'Â¥' + total.toLocaleString() + 'ã';
+  if (tEl) tEl.textContent = '¥' + total.toLocaleString() + '〜';
 
   var cEl = document.getElementById('estContractAmt');
-  if (cEl) cEl.textContent = 'Â¥' + contract.toLocaleString();
+  if (cEl) cEl.textContent = '¥' + contract.toLocaleString();
 }
 
-// ââ éµä¾¿çªå·âä½æèªåå¥å ââ
+// ── 郵便番号→住所自動入力 ──
 function autoFillAddress(zip) {
   var clean = zip.replace(/[^0-9]/g, '');
   if (clean.length !== 7) return;
@@ -2223,10 +2206,10 @@ function autoFillAddress(zip) {
     .catch(function() {});
 }
 
-// ââ Apply ââ
+// ── Apply ──
 var applyState = { temple:'', contract:90000, kinugi:10000, period:3 };
 
-// Supabaseããå¯ºé¢ä¸è¦§ãåçåå¾
+// Supabaseから寺院一覧を動的取得
 async function loadTemples() {
   const SUPABASE_URL = 'https://jbnhvwncddvvtpaigzeq.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impibmh2d25jZGR2dnRwYWlnemVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNDYyNjUsImV4cCI6MjA4ODYyMjI2NX0.T2fI1wBydv-cnPMgXQwVpDlUzXcuf4P9yXobjGb4j7E';
@@ -2238,19 +2221,19 @@ async function loadTemples() {
     });
     const temples = await res.json();
     if (!temples || temples.length === 0) {
-      grid.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">ç¾å¨æºåä¸­ã§ãããåãåãããã ããã</div>';
+      grid.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">現在準備中です。お問い合わせください。</div>';
       return;
     }
     grid.innerHTML = temples.map(t => {
-      const features = [t.feature_eitaikuyo?'æ°¸ä»£ä¾é¤':'', t.feature_qr?'QRç®¡ç':'', t.feature_individual?'åå¥å®ç½®':''].filter(Boolean);
+      const features = [t.feature_eitaikuyo?'永代供養':'', t.feature_qr?'QR管理':'', t.feature_individual?'個別安置':''].filter(Boolean);
       return `<div class="temple-card" onclick="selectTemple(this,'${t.name.replace(/'/g,"\\'")}','${(t.area||'').replace(/'/g,"\\'")}',${t.contract_amount||0},${t.donation_amount||0})">
         <div class="temple-card-name">${t.name}</div>
-        <div class="temple-card-area">${t.area||''}${t.sect?' Â· '+t.sect:''}</div>
+        <div class="temple-card-area">${t.area||''}${t.sect?' · '+t.sect:''}</div>
         ${features.length ? `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">${features.map(f=>`<span style="font-size:10px;background:rgba(255,255,255,0.1);border-radius:2px;padding:2px 6px;">${f}</span>`).join('')}</div>` : ''}
       </div>`;
     }).join('');
   } catch(e) {
-    grid.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">èª­ã¿è¾¼ã¿ã«å¤±æãã¾ããã</div>';
+    grid.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:13px;padding:12px;">読み込みに失敗しました。</div>';
   }
 }
 
@@ -2262,28 +2245,28 @@ function selectTemple(el, name, area, price, kinugi) {
   applyState.kinugi = kinugi;
 }
 function nextFromTemple() {
-  if (!applyState.temple) { alert('ãå¯ºã»ç´éª¨å ããé¸ã³ãã ãã'); return; }
+  if (!applyState.temple) { alert('お寺・納骨堂をお選びください'); return; }
   markStepCompleted(1);
   goApply(1);
 }
 function nextFromInfo() {
   var required = [
-    {id:'infoName',   label:'æ°å'},
-    {id:'infoKana',   label:'ãµãããª'},
-    {id:'infoAge',    label:'ãå¹´é½¢'},
-    {id:'infoZip',    label:'éµä¾¿çªå·'},
-    {id:'infoPref',   label:'é½éåºç'},
-    {id:'infoCity',   label:'å¸åºçºæ'},
-    {id:'infoStreet', label:'çªå°ä»¥é'},
-    {id:'infoTel',    label:'é»è©±çªå·'},
-    {id:'infoEmail',  label:'ã¡ã¼ã«ã¢ãã¬ã¹'},
-    {id:'infoEmail2', label:'ã¡ã¼ã«ã¢ãã¬ã¹ï¼ç¢ºèªï¼'},
+    {id:'infoName',   label:'氏名'},
+    {id:'infoKana',   label:'ふりがな'},
+    {id:'infoAge',    label:'ご年齢'},
+    {id:'infoZip',    label:'郵便番号'},
+    {id:'infoPref',   label:'都道府県'},
+    {id:'infoCity',   label:'市区町村'},
+    {id:'infoStreet', label:'番地以降'},
+    {id:'infoTel',    label:'電話番号'},
+    {id:'infoEmail',  label:'メールアドレス'},
+    {id:'infoEmail2', label:'メールアドレス（確認）'},
   ];
   var errEl = document.getElementById('infoError');
   for (var i = 0; i < required.length; i++) {
     var el = document.getElementById(required[i].id);
     if (!el || !el.value.trim()) {
-      errEl.textContent = required[i].label + 'ãå¥åãã¦ãã ãã';
+      errEl.textContent = required[i].label + 'を入力してください';
       errEl.style.display = 'block';
       if (el) el.focus();
       return;
@@ -2292,7 +2275,7 @@ function nextFromInfo() {
   var e1 = document.getElementById('infoEmail').value.trim();
   var e2 = document.getElementById('infoEmail2').value.trim();
   if (e1 !== e2) {
-    errEl.textContent = 'ã¡ã¼ã«ã¢ãã¬ã¹ãä¸è´ãã¾ãã';
+    errEl.textContent = 'メールアドレスが一致しません';
     errEl.style.display = 'block';
     document.getElementById('infoEmail2').focus();
     return;
@@ -2342,7 +2325,7 @@ function switchApply(idx, btn) { switchApplyGuarded(idx); }
 function updatePeriod(val) {
   document.getElementById('periodDisplay').textContent = val;
   document.getElementById('periodYearLabel').textContent = val;
-  document.getElementById('periodFeeDisplay').textContent = 'Â¥' + (36000 * parseInt(val)).toLocaleString();
+  document.getElementById('periodFeeDisplay').textContent = '¥' + (36000 * parseInt(val)).toLocaleString();
   applyState.period = parseInt(val);
   updateApplySummary();
 }
@@ -2351,13 +2334,13 @@ function updateApplySummary() {
   var box    = 20000;
   var total  = applyState.contract + applyState.kinugi + manage + box;
   function s(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; }
-  s('apTemple',   applyState.temple || 'ï¼æªé¸æï¼');
-  s('apPeriod',   applyState.period + 'å¹´');
-  s('apContract', 'Â¥' + applyState.contract.toLocaleString());
-  s('apKinugi',   'Â¥' + applyState.kinugi.toLocaleString());
-  s('apManage',   'Â¥' + manage.toLocaleString() + 'ï¼36,000Ã' + applyState.period + 'å¹´ã»ä¸æ¬ï¼');
-  s('apBox',      'Â¥20,000');
-  s('apTotal',    'Â¥' + total.toLocaleString());
+  s('apTemple',   applyState.temple || '（未選択）');
+  s('apPeriod',   applyState.period + '年');
+  s('apContract', '¥' + applyState.contract.toLocaleString());
+  s('apKinugi',   '¥' + applyState.kinugi.toLocaleString());
+  s('apManage',   '¥' + manage.toLocaleString() + '（36,000×' + applyState.period + '年・一括）');
+  s('apBox',      '¥20,000');
+  s('apTotal',    '¥' + total.toLocaleString());
 }
 function submitApplyData() {
   fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-apply', {
@@ -2391,7 +2374,7 @@ function submitVisitForm(btn) {
   var tel       = (document.getElementById('visitTel')       ||{}).value.trim();
   var email     = (document.getElementById('visitEmail')     ||{}).value.trim();
   var headcount = (document.getElementById('visitHeadcount') ||{}).value || '';
-  var hasBones  = document.querySelector('input[name="ihai"]:checked')?.value === 'yes' ? 'ãã' : 'ãªã';
+  var hasBones  = document.querySelector('input[name="ihai"]:checked')?.value === 'yes' ? 'あり' : 'なし';
   var boneCount = (document.getElementById('visitBoneCount') ||{}).value || '';
   var boneLoc   = (document.getElementById('visitBoneLoc')   ||{}).value || '';
   var boneAddr  = (document.getElementById('visitBoneAddr')  ||{}).value || '';
@@ -2400,8 +2383,8 @@ function submitVisitForm(btn) {
     locEl.textContent.trim().split('\n')[0].trim()) : '';
   var date = window._selectedVisitDate || (dateEl ? (dateEl.dataset.date || '') : '');
   var time = timeEl ? timeEl.textContent.trim() : '';
-  if (!name || !tel || !email) { alert('ãååã»é»è©±çªå·ã»ã¡ã¼ã«ã¢ãã¬ã¹ã¯å¿é ã§ãã'); return; }
-  if (btn) { btn.disabled = true; btn.textContent = 'éä¿¡ä¸­...'; }
+  if (!name || !tel || !email) { alert('お名前・電話番号・メールアドレスは必須です。'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '送信中...'; }
   fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-visit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -2414,13 +2397,13 @@ function submitVisitForm(btn) {
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    if (btn) { btn.disabled = false; btn.textContent = 'è¦å­¦ãäºç´ãã'; }
+    if (btn) { btn.disabled = false; btn.textContent = '見学を予約する'; }
     if (data.success) { switchVisit(3); }
-    else { alert('éä¿¡ã«å¤±æãã¾ãããæéãããã¦ååº¦ãè©¦ããã ããã'); }
+    else { alert('送信に失敗しました。時間をおいて再度お試しください。'); }
   })
   .catch(function() {
-    if (btn) { btn.disabled = false; btn.textContent = 'è¦å­¦ãäºç´ãã'; }
-    alert('éä¿¡ã«å¤±æãã¾ãããæéãããã¦ååº¦ãè©¦ããã ããã');
+    if (btn) { btn.disabled = false; btn.textContent = '見学を予約する'; }
+    alert('送信に失敗しました。時間をおいて再度お試しください。');
   });
 }
 
