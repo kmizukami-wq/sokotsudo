@@ -1,0 +1,13 @@
+name: Sync Temple Data
+on:
+  push:
+    branches:
+      - main
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call sync-web
+        run: |
+          curl -X POST https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/sync-web \
+            -H "Content-Type: application/json"
