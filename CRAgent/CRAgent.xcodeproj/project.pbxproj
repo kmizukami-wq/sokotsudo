@@ -1,0 +1,336 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1000001 /* CRAgentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001; };
+		A1000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002; };
+		A1000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000003; };
+		A1000010 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
+		A1000011 /* AgentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011; };
+		A1000012 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012; };
+		A1000020 /* ClaudeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000020; };
+		A1000021 /* ScreenAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000021; };
+		A1000030 /* ScreenCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000030; };
+		A1000031 /* AgentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000031; };
+		A1000032 /* ActionExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000032; };
+		A1000033 /* CRGameAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000033; };
+		A1000040 /* AgentDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000040; };
+		A1000041 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000041; };
+		A1000042 /* AgentLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000042; };
+		A1000043 /* OverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000043; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A2000000 /* CRAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CRAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000001 /* CRAgentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRAgentApp.swift; sourceTree = "<group>"; };
+		A2000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A2000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A2000010 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		A2000011 /* AgentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAction.swift; sourceTree = "<group>"; };
+		A2000012 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		A2000020 /* ClaudeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeAPIClient.swift; sourceTree = "<group>"; };
+		A2000021 /* ScreenAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAnalyzer.swift; sourceTree = "<group>"; };
+		A2000030 /* ScreenCaptureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCaptureService.swift; sourceTree = "<group>"; };
+		A2000031 /* AgentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentCoordinator.swift; sourceTree = "<group>"; };
+		A2000032 /* ActionExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionExecutor.swift; sourceTree = "<group>"; };
+		A2000033 /* CRGameAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRGameAnalyzer.swift; sourceTree = "<group>"; };
+		A2000040 /* AgentDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentDashboardView.swift; sourceTree = "<group>"; };
+		A2000041 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A2000042 /* AgentLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentLogView.swift; sourceTree = "<group>"; };
+		A2000043 /* OverlayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindow.swift; sourceTree = "<group>"; };
+		A2000050 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		A3000000 = {
+			isa = PBXGroup;
+			children = (
+				A3000001 /* CRAgent */,
+				A3000099 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A3000001 /* CRAgent */ = {
+			isa = PBXGroup;
+			children = (
+				A2000001 /* CRAgentApp.swift */,
+				A2000002 /* ContentView.swift */,
+				A2000003 /* Assets.xcassets */,
+				A2000050 /* Info.plist */,
+				A3000010 /* Models */,
+				A3000020 /* AI */,
+				A3000030 /* Agent */,
+				A3000040 /* Views */,
+			);
+			path = CRAgent;
+			sourceTree = "<group>";
+		};
+		A3000010 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A2000010 /* GameState.swift */,
+				A2000011 /* AgentAction.swift */,
+				A2000012 /* Card.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A3000020 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				A2000020 /* ClaudeAPIClient.swift */,
+				A2000021 /* ScreenAnalyzer.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+		A3000030 /* Agent */ = {
+			isa = PBXGroup;
+			children = (
+				A2000030 /* ScreenCaptureService.swift */,
+				A2000031 /* AgentCoordinator.swift */,
+				A2000032 /* ActionExecutor.swift */,
+				A2000033 /* CRGameAnalyzer.swift */,
+			);
+			path = Agent;
+			sourceTree = "<group>";
+		};
+		A3000040 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A2000040 /* AgentDashboardView.swift */,
+				A2000041 /* SettingsView.swift */,
+				A2000042 /* AgentLogView.swift */,
+				A2000043 /* OverlayWindow.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A3000099 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000 /* CRAgent.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A4000000 /* CRAgent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6000000;
+			buildPhases = (
+				A5000001 /* Sources */,
+				A5000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CRAgent;
+			productName = CRAgent;
+			productReference = A2000000;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A4100000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+			};
+			buildConfigurationList = A6100000;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ja;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				ja,
+				Base,
+			);
+			mainGroup = A3000000;
+			productRefGroup = A3000099;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A4000000 /* CRAgent */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000001,
+				A1000002,
+				A1000010,
+				A1000011,
+				A1000012,
+				A1000020,
+				A1000021,
+				A1000030,
+				A1000031,
+				A1000032,
+				A1000033,
+				A1000040,
+				A1000041,
+				A1000042,
+				A1000043,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A5000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000003,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A7000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CRAgent/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sokotsudo.CRAgent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Debug;
+		};
+		A7000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CRAgent/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sokotsudo.CRAgent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Release;
+		};
+		A7100001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A7100002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A6000000 /* Build configuration list for PBXNativeTarget "CRAgent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7000001,
+				A7000002,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6100000 /* Build configuration list for PBXProject "CRAgent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7100001,
+				A7100002,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = A4100000;
+}
