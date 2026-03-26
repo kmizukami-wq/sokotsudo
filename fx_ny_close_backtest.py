@@ -405,16 +405,39 @@ def generate_report(trades, equity_df, metrics, sim_trades, sim_equity, df):
     lines.append("-" * 60)
     lines.append("")
 
-    # Monthly returns (last 12 months)
-    lines.append("■ 月次リターン (直近12ヶ月):")
-    lines.append("-" * 40)
-    monthly = equity_df['equity'].resample('ME').last()
-    prev = None
-    for date, eq in monthly.tail(13).items():
-        if prev is not None:
-            ret = (eq / prev - 1) * 100
-            lines.append(f"  {date.strftime('%Y/%m')}: {ret:>+7.2f}%  (¥{eq:,.0f})")
-        prev = eq
+    # Full monthly results table
+    lines.append("■ 月次成績一覧 (全期間):")
+    lines.append("-" * 80)
+    lines.append(f"  {'年/月':<8} {'取引数':>5} {'勝数':>4} {'勝率':>6} {'月次損益':>12} {'月次リターン':>9} {'累計資産':>14}")
+    lines.append("-" * 80)
+
+    monthly_equity = equity_df['equity'].resample('ME').last()
+    trade_df_monthly = pd.DataFrame([{
+        'date': t.date, 'pnl': t.pnl_total, 'win': 1 if t.pnl_total > 0 else 0
+    } for t in trades])
+    trade_df_monthly['date'] = pd.to_datetime(trade_df_monthly['date'])
+    trade_df_monthly.set_index('date', inplace=True)
+    monthly_trades = trade_df_monthly.resample('ME').agg({'pnl': ['sum', 'count'], 'win': 'sum'})
+    monthly_trades.columns = ['pnl_sum', 'trade_count', 'win_count']
+
+    prev_eq = None
+    for date, eq in monthly_equity.items():
+        ym = date.strftime('%Y/%m')
+        if date in monthly_trades.index:
+            row = monthly_trades.loc[date]
+            tc = int(row['trade_count'])
+            wc = int(row['win_count'])
+            pnl = row['pnl_sum']
+            wr = wc / tc * 100 if tc > 0 else 0
+        else:
+            tc, wc, pnl, wr = 0, 0, 0, 0
+        if prev_eq is not None and prev_eq > 0:
+            ret = (eq / prev_eq - 1) * 100
+        else:
+            ret = 0
+        lines.append(f"  {ym:<8} {tc:>5} {wc:>4} {wr:>5.1f}% ¥{pnl:>+11,.0f} {ret:>+8.2f}% ¥{eq:>13,.0f}")
+        prev_eq = eq
+    lines.append("-" * 80)
     lines.append("")
 
     # 10万円 1ヶ月シミュレーション
