@@ -268,13 +268,11 @@ def backtest_v1(data, initial_capital=1_000_000):
 # V2 Strategy (Optimized)
 # ---------------------------------------------------------------------------
 
-def backtest_v2(data, initial_capital=1_000_000):
+def backtest_v2(data, initial_capital=1_000_000, capital_ratio=0.20, label=None):
     """Optimized strategy with all Phase 1-3 improvements."""
 
-    result = BacktestResult(
-        name="V2 Optimized (Adaptive TH, ATR-SL, Kelly20%, ADX+RSI filter)",
-        initial_capital=initial_capital,
-    )
+    name = label or f"V2 Optimized (Cap{int(capital_ratio*100)}%)"
+    result = BacktestResult(name=name, initial_capital=initial_capital)
     closes = data["close"]
     highs = data["high"]
     lows = data["low"]
@@ -286,7 +284,7 @@ def backtest_v2(data, initial_capital=1_000_000):
 
     # Risk modules
     vol_regime = VolatilityRegime()
-    pos_sizer = PositionSizer(capital_ratio=0.20)
+    pos_sizer = PositionSizer(capital_ratio=capital_ratio)
     dyn_sl = DynamicStopLoss()
     scale_mgr = ScaleOutManager()
     entry_flt = EntryFilter()
@@ -449,6 +447,8 @@ def main():
     parser.add_argument("--capital", type=float, default=1_000_000, help="Initial capital JPY")
     parser.add_argument("--v1-only", action="store_true")
     parser.add_argument("--v2-only", action="store_true")
+    parser.add_argument("--sweep", action="store_true",
+                        help="Sweep capital ratios: 20%,30%,40%,50%,60%,70%,80%,90%")
     args = parser.parse_args()
 
     data = fetch_hourly_data(args.days)
@@ -457,6 +457,41 @@ def main():
         print("ERROR: Not enough data fetched.")
         sys.exit(1)
 
+    # === Sweep mode: compare multiple capital ratios ===
+    if args.sweep:
+        ratios = [0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90]
+
+        print("\nRunning V1 (Original 90%) backtest...")
+        r1 = backtest_v1(data, args.capital)
+        print(r1.summary())
+
+        sweep_results = []
+        for ratio in ratios:
+            print(f"\nRunning V2 Cap{int(ratio*100)}%...")
+            r = backtest_v2(data, args.capital, capital_ratio=ratio)
+            sweep_results.append((ratio, r))
+
+        # Summary table
+        print(f"\n{'='*90}")
+        print(f"  SWEEP COMPARISON: V1 (90% fixed SL) vs V2 variants (ATR-SL + filters)")
+        print(f"{'='*90}")
+        print(f"{'Strategy':<22} {'Return%':>9} {'Annual%':>9} {'Trades':>7} {'WinR%':>7} {'MaxDD%':>8} {'Sharpe':>7}")
+        print("-" * 90)
+
+        years = len(r1.equity_curve) / (24 * 365) if r1.equity_curve else 1
+        annual1 = ((r1.equity_curve[-1] / r1.initial_capital) ** (1 / years) - 1) * 100 if years > 0 else 0
+        print(f"{'V1 Original 90%':<22} {r1.total_return:>8.1f}% {annual1:>8.1f}% {r1.num_trades:>7d} {r1.win_rate:>6.1f}% {r1.max_drawdown:>7.1f}% {r1.sharpe_ratio:>7.2f}")
+        print("-" * 90)
+
+        for ratio, r in sweep_results:
+            years_r = len(r.equity_curve) / (24 * 365) if r.equity_curve else 1
+            annual_r = ((r.equity_curve[-1] / r.initial_capital) ** (1 / years_r) - 1) * 100 if years_r > 0 else 0
+            print(f"{'V2 Cap'+str(int(ratio*100))+'%':<22} {r.total_return:>8.1f}% {annual_r:>8.1f}% {r.num_trades:>7d} {r.win_rate:>6.1f}% {r.max_drawdown:>7.1f}% {r.sharpe_ratio:>7.2f}")
+
+        print(f"{'='*90}")
+        return
+
+    # === Normal mode ===
     results = []
 
     if not args.v2_only:
@@ -469,11 +504,9 @@ def main():
         r2 = backtest_v2(data, args.capital)
         results.append(r2)
 
-    # Print results
     for r in results:
         print(r.summary())
 
-    # Comparison table
     if len(results) == 2:
         r1, r2 = results
         print(f"\n{'Metric':<20} {'V1':>12} {'V2':>12} {'Delta':>12}")
