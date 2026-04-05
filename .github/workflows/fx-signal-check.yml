@@ -1,0 +1,55 @@
+name: FX Z-Score Signal Check
+
+on:
+  schedule:
+    # 月〜金、1時間ごと（UTC）
+    # ECBレート更新は欧州時間16:00頃 = UTC 14:00-15:00
+    # 1時間ごとにチェックして、レート変化を検知したら通知
+    - cron: '0 * * * 1-5'
+    # 日曜22:00 UTC（市場オープン）
+    - cron: '0 22 * * 0'
+  workflow_dispatch:  # 手動実行も可能
+
+jobs:
+  check-signals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/forex-trading-research-h2ypj
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install numpy pandas requests
+
+      # ポジション状態を復元（前回の実行結果を引き継ぐ）
+      - name: Restore state cache
+        uses: actions/cache@v4
+        with:
+          path: research/zscore_state.json
+          key: zscore-state-${{ github.run_id }}
+          restore-keys: |
+            zscore-state-
+
+      # 設定ファイルをGitHub Secretsから生成
+      - name: Create config from secrets
+        run: |
+          cat > research/zscore_notify_config.json << 'TEMPLATE'
+          ${{ secrets.ZSCORE_CONFIG }}
+          TEMPLATE
+
+      # シグナルチェック実行
+      # レートに変化がなければスキップ（重複通知防止）
+      - name: Run signal check
+        run: python research/zscore_notify.py check
+
+      # ポジション状態を保存（次回実行に引き継ぐ）
+      - name: Save state cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: research/zscore_state.json
+          key: zscore-state-${{ github.run_id }}
