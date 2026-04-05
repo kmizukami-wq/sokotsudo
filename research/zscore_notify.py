@@ -101,8 +101,46 @@ def send_line(config: dict, message: str) -> bool:
 # ============================================================
 # 為替データ取得
 # ============================================================
+def fetch_realtime_prices(api_key: str) -> dict:
+    """Twelve Data APIからリアルタイム価格取得（7 APIクレジット→26ペア計算）"""
+    if not api_key or api_key == 'YOUR_TWELVE_DATA_API_KEY':
+        return {}
+
+    symbols = 'EUR/USD,EUR/GBP,EUR/JPY,EUR/AUD,EUR/NZD,EUR/CAD,EUR/CHF'
+    try:
+        r = requests.get('https://api.twelvedata.com/price',
+            params={'symbol': symbols, 'apikey': api_key}, timeout=10)
+        data = r.json()
+        if 'code' in data:
+            print(f"  [WARN] Twelve Data: {data.get('message', 'error')}")
+            return {}
+
+        eu = float(data['EUR/USD']['price'])
+        eg = float(data['EUR/GBP']['price'])
+        ej = float(data['EUR/JPY']['price'])
+        ea = float(data['EUR/AUD']['price'])
+        en = float(data['EUR/NZD']['price'])
+        ec = float(data['EUR/CAD']['price'])
+        ef = float(data['EUR/CHF']['price'])
+
+        return {
+            'EUR/USD': eu, 'EUR/GBP': eg, 'EUR/JPY': ej,
+            'EUR/AUD': ea, 'EUR/NZD': en, 'EUR/CAD': ec, 'EUR/CHF': ef,
+            'GBP/USD': eu/eg, 'USD/JPY': ej/eu, 'AUD/NZD': en/ea,
+            'AUD/JPY': ej/ea, 'NZD/JPY': ej/en, 'AUD/USD': eu/ea,
+            'NZD/USD': eu/en, 'GBP/JPY': ej/eg, 'USD/CAD': ec/eu,
+            'GBP/CAD': ec/eg, 'CAD/JPY': ej/ec, 'AUD/CAD': ec/ea,
+            'NZD/CAD': ec/en, 'CAD/CHF': ef/ec, 'USD/CHF': ef/eu,
+            'GBP/CHF': ef/eg, 'CHF/JPY': ej/ef, 'AUD/CHF': ef/ea,
+            'NZD/CHF': ef/en,
+        }
+    except Exception as e:
+        print(f"  [ERROR] Twelve Data: {e}")
+        return {}
+
+
 def fetch_prices(pairs_config: dict, days: int = 90) -> pd.DataFrame:
-    """Frankfurter API (ECB) からデータ取得"""
+    """Frankfurter API (ECB) から過去データ取得"""
     end = datetime.now().strftime('%Y-%m-%d')
     start = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
 
@@ -339,21 +377,38 @@ def cmd_check():
     state = load_state()
 
     pairs_config = config['pairs']
+
+    # 過去30日のデータ取得（MA/σ計算用）
     data = fetch_prices(pairs_config, days=90)
-
     if data.empty:
-        print("[ERROR] データ取得失敗")
+        print("[ERROR] 過去データ取得失敗")
         return
 
-    latest_date = data.index[-1].strftime('%Y-%m-%d')
-    last_checked_date = state.get('last_checked_date', '')
+    # リアルタイム価格取得（Twelve Data）
+    api_key = config.get('twelve_data', {}).get('api_key', '')
+    live_prices = fetch_realtime_prices(api_key)
 
-    # レートが前回と同じならスキップ（重複通知防止）
-    if latest_date == last_checked_date:
-        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M')}] レート変化なし（{latest_date}）→ スキップ")
+    if live_prices:
+        # リアルタイム価格を最終行として追加
+        today = datetime.now().strftime('%Y-%m-%d')
+        live_row = {pair: live_prices.get(pair) for pair in data.columns if pair in live_prices}
+        if live_row:
+            live_df = pd.DataFrame([live_row], index=pd.DatetimeIndex([today]))
+            data = pd.concat([data, live_df])
+            data = data[~data.index.duplicated(keep='last')]
+            data = data.sort_index()
+        source = "リアルタイム (Twelve Data)"
+    else:
+        source = "日次 (ECB)"
+
+    # 前回と同じ価格ならスキップ（重複通知防止）
+    latest_prices_hash = str({p: round(data[p].iloc[-1], 5) for p in list(pairs_config.keys())[:3] if p in data.columns})
+    last_hash = state.get('last_prices_hash', '')
+    if latest_prices_hash == last_hash:
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M')}] 価格変化なし → スキップ")
         return
 
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M')}] 新レート検出: {latest_date}")
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M')}] シグナルチェック ({source})")
     print(f"  データ: {data.index[0].date()} ~ {data.index[-1].date()}")
 
     results = []
@@ -419,8 +474,8 @@ def cmd_check():
         summary = format_daily_summary(results)
         send_line(config, summary)
 
-    # 最終チェック日を記録（重複防止）
-    state['last_checked_date'] = latest_date
+    # 最終チェック価格を記録（重複防止）
+    state['last_prices_hash'] = latest_prices_hash
 
     # 状態保存
     save_state(state)
