@@ -1,0 +1,31 @@
+name: FX Z-Score Signal Check
+
+on:
+  schedule:
+    # 毎日 22:00 UTC = 翌朝 07:00 JST（月〜金）
+    - cron: '0 22 * * 0-4'
+  workflow_dispatch:  # 手動実行も可能
+
+jobs:
+  check-signals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/forex-trading-research-h2ypj
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install numpy pandas requests
+
+      - name: Create config from secrets
+        run: |
+          cat > research/zscore_notify_config.json << 'TEMPLATE'
+          ${{ secrets.ZSCORE_CONFIG }}
+          TEMPLATE
+
+      - name: Run signal check
+        run: python research/zscore_notify.py check
