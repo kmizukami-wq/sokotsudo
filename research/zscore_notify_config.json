@@ -14,13 +14,13 @@
   },
   "pairs": {
     "EUR/GBP": {
-      "enabled": false,
+      "enabled": true,
       "window": 30,
       "entry_z": 1.5,
       "exit_z": 0.5,
       "stop_z": 4.0,
       "risk_pct": 15,
-      "note": "除外: 最大逆行リスクが大きい"
+      "note": "例外的に有効。最大逆行-1160pips（GBP系で最小）、CAGR558%（全ペア2位）"
     },
     "EUR/JPY": {
       "enabled": true,
