@@ -1,0 +1,254 @@
+{
+  "_setup_guide": [
+    "1. https://developers.line.biz/ にログイン",
+    "2. プロバイダー作成 → Messaging APIチャネル作成",
+    "3. チャネルアクセストークン（長期）を発行 → channel_access_token に設定",
+    "4. Basic settings → Your user ID → user_id に設定",
+    "5. 作成したBotをLINEで友だち追加",
+    "6. python zscore_notify.py test で通知テスト"
+  ],
+  "line": {
+    "channel_access_token": "gi4vatvgbVoLT+wSUsPXOeok++w0+yiEWvVCM8Eley3GOKahdy0g1ft6tBbLscUqlD0U2vGBFk4AdyBmTiyqOKBHopaN3EhQ0m1y3KL3Mxw4sNUY8Ew5ulp3Eo5K1a8HPyfzvmUMZXB0KVIaBsumqAdB04t89/1O/w1cDnyilFU=",
+    "user_id": "Ub87e947826f1087236305d518c92ad3d",
+    "send_daily_summary": true
+  },
+  "pairs": {
+    "EUR/GBP": {
+      "enabled": false,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "除外: 最大逆行リスクが大きい"
+    },
+    "EUR/JPY": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "ボラ高。利益幅大"
+    },
+    "GBP/USD": {
+      "enabled": false,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "除外: 最大逆行リスクが大きい"
+    },
+    "USD/JPY": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "27年で損切1回あり"
+    },
+    "EUR/USD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "最も流動性高い"
+    },
+    "NZD/JPY": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "S級。27年勝率100%,MaxDD 0%,CAGR510%"
+    },
+    "AUD/NZD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "オセアニア。損切1回,MaxDD24.8%"
+    },
+    "AUD/JPY": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "損切3回,MaxDD25.3%。全ペア中最多損切"
+    },
+    "NZD/USD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "勝率100%,MaxDD 0%,CAGR495%"
+    },
+    "AUD/USD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "勝率100%,MaxDD 0%,CAGR474%"
+    },
+    "GBP/JPY": {
+      "enabled": false,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "除外: 最大逆行リスクが大きい"
+    },
+    "EUR/AUD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "損切1回,MaxDD17.1%,CAGR465%"
+    },
+    "EUR/NZD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "損切1回,MaxDD19.1%,CAGR508%"
+    },
+    "NZD/CHF": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "全26ペア1位! CAGR566%,MaxDD0%,勝率100%"
+    },
+    "EUR/CAD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR538%,MaxDD0%,勝率100%"
+    },
+    "CHF/JPY": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR520%,MaxDD0%,勝率100%"
+    },
+    "CAD/JPY": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR524%,損切2回,MaxDD19.7%"
+    },
+    "AUD/CAD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR542%,損切1回,MaxDD26.6%"
+    },
+    "AUD/CHF": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR536%,損切1回,MaxDD23.2%"
+    },
+    "GBP/CHF": {
+      "enabled": false,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "除外: 最大逆行リスクが大きい"
+    },
+    "NZD/CAD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR500%,MaxDD0%,勝率100%"
+    },
+    "CAD/CHF": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR500%,損切3回,MaxDD24%"
+    },
+    "EUR/CHF": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR484%,損切5回(最多),MaxDD18.7%"
+    },
+    "USD/CAD": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR479%,損切2回,MaxDD27.2%"
+    },
+    "GBP/CAD": {
+      "enabled": false,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "除外: 最大逆行リスクが大きい"
+    },
+    "USD/CHF": {
+      "enabled": true,
+      "window": 30,
+      "entry_z": 1.5,
+      "exit_z": 0.5,
+      "stop_z": 4.0,
+      "risk_pct": 15,
+      "note": "CAGR460%,MaxDD0%,勝率100%"
+    }
+  },
+  "twelve_data": {
+    "api_key": "afc3f7569027406cb0320e59fa6c8f0e"
+  }
+}
