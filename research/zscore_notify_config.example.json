@@ -7,13 +7,11 @@
     "5. 作成したBotをLINEで友だち追加",
     "6. python zscore_notify.py test で通知テスト"
   ],
-
   "line": {
     "channel_access_token": "YOUR_CHANNEL_ACCESS_TOKEN",
     "user_id": "YOUR_USER_ID",
     "send_daily_summary": true
   },
-
   "pairs": {
     "EUR/GBP": {
       "enabled": true,

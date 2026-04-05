@@ -1,4 +1,5 @@
 zscore_state.json
 research/zscore_state.json
 research/zscore_notify.log
+research/zscore_notify_config.json
 *.log
