@@ -10,26 +10,26 @@
 //+------------------------------------------------------------------+
 //| 外部パラメータ                                                    |
 //+------------------------------------------------------------------+
-input int    MagicNumber       = 10001;   // マジックナンバー（ペア別に変更）
-input double RiskPercent       = 0.8;     // 1トレードリスク(%)
-input double RR_Ratio          = 2.0;     // リスクリワード比
-input double SL_ATR_Mult_BB    = 2.0;     // BB逆張り SL倍率
-input double SL_ATR_Mult_FBB   = 1.8;     // 高速BB SL倍率
-input double SL_ATR_Mult_PB    = 1.5;     // 押し目 SL倍率
-input double ATR_Filter_Mult   = 2.2;     // ATRフィルター倍率
-input double BE_Trigger_RR     = 1.0;     // ブレイクイーブン発動RR
-input double Partial_Close_RR  = 1.5;     // 部分利確発動RR
-input double Partial_Close_Pct = 0.5;     // 部分利確割合(0.5=50%)
-input double Trail_ATR_Mult    = 0.5;     // トレーリングSL ATR倍率
-input int    MaxHoldingBars    = 20;      // 最大保有バー数
-input double Martin1           = 1.0;     // マーチン Stage1 倍率
-input double Martin2           = 1.5;     // マーチン Stage2 倍率
-input double Martin3           = 2.0;     // マーチン Stage3 倍率
-input int    TradingHourStart  = 7;       // 取引開始時刻(UTC)
-input int    TradingHourEnd    = 22;      // 取引終了時刻(UTC)
-input double MonthlyDDLimit    = 15.0;    // 月次DD停止ライン(%)
-input double AnnualDDLimit     = 20.0;    // 年次DD停止ライン(%)
-input int    Slippage          = 10;      // スリッページ(points)
+input int    MagicNumber       = 10001;   // MagicNumber (change per pair)
+input double RiskPercent       = 0.8;     // Risk per trade (%)
+input double RR_Ratio          = 2.0;     // Risk:Reward ratio
+input double SL_ATR_Mult_BB    = 2.0;     // BB reversal SL multiplier
+input double SL_ATR_Mult_FBB   = 1.8;     // Fast BB SL multiplier
+input double SL_ATR_Mult_PB    = 1.5;     // Pullback SL multiplier
+input double ATR_Filter_Mult   = 2.2;     // ATR filter multiplier
+input double BE_Trigger_RR     = 1.0;     // Breakeven trigger RR
+input double Partial_Close_RR  = 1.5;     // Partial close trigger RR
+input double Partial_Close_Pct = 0.5;     // Partial close ratio (0.5=50%)
+input double Trail_ATR_Mult    = 0.5;     // Trailing SL ATR multiplier
+input int    MaxHoldingBars    = 20;      // Max holding bars
+input double Martin1           = 1.0;     // Martingale Stage1
+input double Martin2           = 1.5;     // Martingale Stage2
+input double Martin3           = 2.0;     // Martingale Stage3
+input int    TradingHourStart  = 7;       // Trading start hour (UTC)
+input int    TradingHourEnd    = 22;      // Trading end hour (UTC)
+input double MonthlyDDLimit    = 15.0;    // Monthly DD stop (%)
+input double AnnualDDLimit     = 20.0;    // Annual DD stop (%)
+input int    Slippage          = 10;      // Slippage (points)
 
 //+------------------------------------------------------------------+
 //| シグナルタイプ定数                                                |
