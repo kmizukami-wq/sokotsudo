@@ -600,6 +600,118 @@ def print_report(trades, final_capital, monthly_pnl, stopped, stop_reason, label
 
 
 # ============================================================
+# ポートフォリオシミュレーション（複数ペア同時稼働）
+# ============================================================
+def run_portfolio_simulation(all_pair_trades, excluded_pairs=None):
+    """
+    全ペアのトレードログを時系列マージし、共有資金でのポートフォリオ成績を算出。
+    各トレードのPnLは個別BT時の初期資金ベースなので、共有資金上での比率で再スケールする。
+    """
+    if excluded_pairs is None:
+        excluded_pairs = set()
+
+    # 全トレードをマージ（ペア名付き）
+    merged = []
+    for pair_name, trades in all_pair_trades.items():
+        if pair_name in excluded_pairs:
+            continue
+        for t in trades:
+            merged.append({**t, 'pair': pair_name})
+
+    if not merged:
+        return
+
+    # exit_timeでソート
+    merged.sort(key=lambda t: t['exit_time'])
+
+    n_pairs = len(all_pair_trades) - len(excluded_pairs)
+    capital = float(INITIAL_CAPITAL)
+    peak = capital
+    max_dd = 0.0
+    monthly_pnl = defaultdict(float)
+
+    for t in merged:
+        # PnLを現在の資金ベースにスケール
+        # 個別BTでは初期資金¥1Mの0.8%リスク。ポートフォリオでは同じ¥1Mを共有。
+        # → 各トレードのPnLは初期資金に対する比率で適用
+        pnl_ratio = t['pnl'] / INITIAL_CAPITAL
+        scaled_pnl = pnl_ratio * capital
+
+        capital += scaled_pnl
+        month_key = f"{t['exit_time'].year}-{t['exit_time'].month:02d}"
+        monthly_pnl[month_key] += scaled_pnl
+
+        if capital > peak:
+            peak = capital
+        dd = (peak - capital) / peak
+        if dd > max_dd:
+            max_dd = dd
+
+    # レポート出力
+    total = len(merged)
+    wins = sum(1 for t in merged if t['pnl'] > 0)
+    losses = sum(1 for t in merged if t['pnl'] < 0)
+    net = capital - INITIAL_CAPITAL
+
+    print(f"\n{'='*85}")
+    print(f"  ポートフォリオシミュレーション（{n_pairs}ペア同時稼働・共有資金）")
+    print(f"{'='*85}")
+    print(f"  初期資金: ¥{INITIAL_CAPITAL:,.0f}")
+    print(f"  最終資金: ¥{capital:,.0f}")
+    print(f"  純損益:   ¥{net:,.0f} ({net/INITIAL_CAPITAL:.1%})")
+    print(f"  総取引数: {total}  勝ち: {wins}  負け: {losses}  勝率: {wins/total*100:.1f}%")
+    print(f"  最大DD:   {max_dd:.1%}")
+
+    # 月次ブレークダウン
+    months_sorted = sorted(monthly_pnl.keys())
+    monthly_returns = []
+    run_cap = INITIAL_CAPITAL
+    print(f"\n  --- 月次損益 ---")
+    for m in months_sorted:
+        pnl = monthly_pnl[m]
+        ret = pnl / run_cap if run_cap > 0 else 0
+        monthly_returns.append(ret)
+        month_trades = sum(1 for t in merged if f"{t['exit_time'].year}-{t['exit_time'].month:02d}" == m)
+        print(f"  {m}: ¥{pnl:>+12,.0f}  ({ret:>+6.1%})  [{month_trades}件]")
+        run_cap += pnl
+
+    if monthly_returns:
+        med = np.median(monthly_returns)
+        avg = np.mean(monthly_returns)
+        pos = sum(1 for r in monthly_returns if r > 0)
+        target = sum(1 for r in monthly_returns if r >= 0.08)
+        print(f"\n  月利中央値:     {med:+.1%}")
+        print(f"  月利平均:       {avg:+.1%}")
+        print(f"  プラス月:       {pos}/{len(monthly_returns)}")
+        print(f"  月利8%達成月:   {target}/{len(monthly_returns)}")
+
+        # 年利換算
+        if avg > 0:
+            annual_compound = (1 + avg) ** 12 - 1
+            print(f"  年利換算(複利): {annual_compound:+.0%}")
+
+    # ペア別貢献度
+    print(f"\n  --- ペア別貢献度 ---")
+    pair_contrib = defaultdict(lambda: {'pnl': 0, 'count': 0})
+    for t in merged:
+        pair_contrib[t['pair']]['pnl'] += t['pnl'] / INITIAL_CAPITAL * INITIAL_CAPITAL
+        pair_contrib[t['pair']]['count'] += 1
+
+    sorted_contrib = sorted(pair_contrib.items(), key=lambda x: x[1]['pnl'], reverse=True)
+    for pair, data in sorted_contrib:
+        print(f"  {pair:<10s}: {data['count']:4d}件  損益 ¥{data['pnl']:>+12,.0f}")
+
+    print()
+    return {
+        'capital': capital,
+        'net': net,
+        'max_dd': max_dd,
+        'monthly_returns': monthly_returns,
+        'total_trades': total,
+    }
+
+
+# ============================================================
 # 為替レート動的取得
 # ============================================================
 def get_quote_to_jpy_rates():
@@ -654,6 +766,7 @@ def main():
     get_quote_to_jpy_rates()
 
     results = []  # 横断比較用
+    all_pair_trades = {}  # ポートフォリオシミュレーション用
 
     for ticker, cfg in PAIRS.items():
         pair_name = cfg['name']
@@ -682,6 +795,10 @@ def main():
 
             print_report(trades, final_cap, monthly_pnl, stopped, stop_reason,
                         "15分足", len(df), pair_name=pair_name, pip_value=cfg['pip'])
+
+            # トレードログ蓄積（ポートフォリオ用）
+            if trades:
+                all_pair_trades[pair_name] = trades
 
             # 結果蓄積
             if trades:
@@ -768,6 +885,19 @@ def main():
         profitable = sum(1 for r in results if r['net_pnl'] > 0)
         print(f"\n  合計純損益: ¥{total_net:>+,.0f}  総取引数: {total_trades}  プラスペア: {profitable}/{len(results)}")
         print()
+
+    # ============================================================
+    # ポートフォリオシミュレーション
+    # ============================================================
+    if all_pair_trades:
+        # 全ペア同時稼働
+        run_portfolio_simulation(all_pair_trades)
+
+        # GBP/JPY除外版（唯一のマイナスペア）
+        losers = {r['pair'] for r in results if r['net_pnl'] < 0}
+        if losers:
+            print(f"  --- {', '.join(losers)}除外版 ---")
+            run_portfolio_simulation(all_pair_trades, excluded_pairs=losers)
 
 
 if __name__ == '__main__':
