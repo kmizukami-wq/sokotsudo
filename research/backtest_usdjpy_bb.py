@@ -18,19 +18,57 @@ RISK_PER_TRADE = 0.008       # 1トレードリスク 0.8%
 RR_RATIO = 2.0               # リスクリワード比
 ATR_FILTER_MULT = 2.2        # ATRフィルター倍率
 
-# ペア別設定
-PAIRS = {
-    'USDJPY=X': {'name': 'USD/JPY', 'pip': 0.01,  'spread_pips': 0.3, 'quote_to_jpy': 1.0},
-    'EURUSD=X': {'name': 'EUR/USD', 'pip': 0.0001, 'spread_pips': 0.2, 'quote_to_jpy': 150.0},
-    'GBPUSD=X': {'name': 'GBP/USD', 'pip': 0.0001, 'spread_pips': 0.3, 'quote_to_jpy': 150.0},
-    'EURJPY=X': {'name': 'EUR/JPY', 'pip': 0.01,  'spread_pips': 0.5, 'quote_to_jpy': 1.0},
-    'GBPJPY=X': {'name': 'GBP/JPY', 'pip': 0.01,  'spread_pips': 0.8, 'quote_to_jpy': 1.0},
-    'AUDUSD=X': {'name': 'AUD/USD', 'pip': 0.0001, 'spread_pips': 0.4, 'quote_to_jpy': 150.0},
-    'AUDJPY=X': {'name': 'AUD/JPY', 'pip': 0.01,  'spread_pips': 0.7, 'quote_to_jpy': 1.0},
-    'NZDUSD=X': {'name': 'NZD/USD', 'pip': 0.0001, 'spread_pips': 0.5, 'quote_to_jpy': 150.0},
-    'USDCHF=X': {'name': 'USD/CHF', 'pip': 0.0001, 'spread_pips': 0.4, 'quote_to_jpy': 170.0},
-    'USDCAD=X': {'name': 'USD/CAD', 'pip': 0.0001, 'spread_pips': 0.5, 'quote_to_jpy': 110.0},
+# ペア基本設定（pip値・quote_to_jpy）
+PAIR_BASE = {
+    'USDJPY=X': {'name': 'USD/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
+    'EURUSD=X': {'name': 'EUR/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
+    'GBPUSD=X': {'name': 'GBP/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
+    'EURJPY=X': {'name': 'EUR/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
+    'GBPJPY=X': {'name': 'GBP/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
+    'AUDUSD=X': {'name': 'AUD/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
+    'AUDJPY=X': {'name': 'AUD/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
+    'NZDUSD=X': {'name': 'NZD/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
+    'USDCHF=X': {'name': 'USD/CHF', 'pip': 0.0001, 'quote_to_jpy': 170.0},
+    'USDCAD=X': {'name': 'USD/CAD', 'pip': 0.0001, 'quote_to_jpy': 110.0},
 }
+
+# 国内FX業者別スプレッド設定（pips）
+# API自動売買対応の主要3業者
+BROKERS = {
+    'OANDA証券': {
+        'desc': 'REST API (v20) / MT4対応, 90+ペア, サンドボックス環境あり',
+        'api': 'REST API (v20)',
+        'spreads': {  # 実測ベース（変動制、通常時）
+            'USDJPY=X': 0.4, 'EURUSD=X': 0.5, 'GBPUSD=X': 1.0,
+            'EURJPY=X': 0.7, 'GBPJPY=X': 1.4, 'AUDUSD=X': 0.9,
+            'AUDJPY=X': 0.7, 'NZDUSD=X': 1.5, 'USDCHF=X': 1.4,
+            'USDCAD=X': 1.8,
+        },
+    },
+    '外為ファイネスト': {
+        'desc': 'MT4/MT5対応, NDD方式, スキャルピング公認',
+        'api': 'MT4/MT5 EA',
+        'spreads': {
+            'USDJPY=X': 0.6, 'EURUSD=X': 0.6, 'GBPUSD=X': 1.1,
+            'EURJPY=X': 0.9, 'GBPJPY=X': 1.5, 'AUDUSD=X': 1.0,
+            'AUDJPY=X': 1.0, 'NZDUSD=X': 1.8, 'USDCHF=X': 1.6,
+            'USDCAD=X': 2.0,
+        },
+    },
+    'FXTF(MT4)': {
+        'desc': 'MT4対応, 低コスト(スプレッド+手数料), EA利用可',
+        'api': 'MT4 EA',
+        'spreads': {  # スプレッド0.0銭+建玉連動手数料を実効スプレッドに換算
+            'USDJPY=X': 0.3, 'EURUSD=X': 0.3, 'GBPUSD=X': 0.7,
+            'EURJPY=X': 0.5, 'GBPJPY=X': 1.0, 'AUDUSD=X': 0.6,
+            'AUDJPY=X': 0.5, 'NZDUSD=X': 1.0, 'USDCHF=X': 1.0,
+            'USDCAD=X': 1.5,
+        },
+    },
+}
+
+# デフォルトPAIRS（後で業者別に差し替え）
+PAIRS = {k: {**v, 'spread_pips': 0.3} for k, v in PAIR_BASE.items()}
 
 # シグナル別SL倍率（動的SL）
 SL_ATR_MULT = {
@@ -755,149 +793,173 @@ def get_quote_to_jpy_rates():
 
 
 # ============================================================
+# ペア別バックテスト＆集計
+# ============================================================
+def run_all_pairs(broker_name, broker_spreads, data_cache):
+    """指定業者のスプレッドで全ペアをバックテスト"""
+    results = []
+    all_pair_trades = {}
+
+    for ticker, base in PAIR_BASE.items():
+        pair_name = base['name']
+        spread_pips = broker_spreads.get(ticker)
+        if spread_pips is None:
+            continue
+        spread = spread_pips * base['pip']
+        q2j = base['quote_to_jpy']
+
+        if ticker not in data_cache:
+            continue
+        df = data_cache[ticker].copy()
+
+        df = calc_indicators(df)
+        trades, final_cap, monthly_pnl, stopped, stop_reason = run_backtest(
+            df, spread=spread, quote_to_jpy=q2j
+        )
+
+        if trades:
+            all_pair_trades[pair_name] = trades
+            total = len(trades)
+            wins = sum(1 for t in trades if t['pnl'] > 0)
+            gp = sum(t['pnl'] for t in trades if t['pnl'] > 0)
+            gl = abs(sum(t['pnl'] for t in trades if t['pnl'] < 0))
+            pf = gp / gl if gl > 0 else float('inf')
+
+            peak = INITIAL_CAPITAL
+            max_dd = 0
+            running = INITIAL_CAPITAL
+            for t in trades:
+                running += t['pnl']
+                if running > peak:
+                    peak = running
+                dd = (peak - running) / peak
+                if dd > max_dd:
+                    max_dd = dd
+
+            net = final_cap - INITIAL_CAPITAL
+            if monthly_pnl:
+                run_cap = INITIAL_CAPITAL
+                m_rets = []
+                for m in sorted(monthly_pnl.keys()):
+                    r = monthly_pnl[m] / run_cap if run_cap > 0 else 0
+                    m_rets.append(r)
+                    run_cap += monthly_pnl[m]
+                med_monthly = np.median(m_rets)
+            else:
+                med_monthly = 0
+
+            results.append({
+                'pair': pair_name, 'trades': total,
+                'win_rate': wins / total * 100, 'pf': pf,
+                'max_dd': max_dd, 'net_pnl': net,
+                'med_monthly': med_monthly, 'stopped': stopped,
+                'spread': spread_pips,
+            })
+        else:
+            results.append({
+                'pair': pair_name, 'trades': 0, 'win_rate': 0, 'pf': 0,
+                'max_dd': 0, 'net_pnl': 0, 'med_monthly': 0, 'stopped': False,
+                'spread': spread_pips,
+            })
+
+    return results, all_pair_trades
+
+
+# ============================================================
 # メイン
 # ============================================================
 def main():
-    print("FX BB逆張り＋マーチン バックテスト（複数通貨ペア）")
+    print("FX BB逆張り＋マーチン バックテスト（国内業者別・複数通貨ペア）")
     print("実チャートデータ（yfinance）15分足使用")
-    print("=" * 60)
+    print("=" * 70)
 
     # 為替レート動的取得
     get_quote_to_jpy_rates()
 
-    results = []  # 横断比較用
-    all_pair_trades = {}  # ポートフォリオシミュレーション用
-
-    for ticker, cfg in PAIRS.items():
-        pair_name = cfg['name']
-        spread = cfg['spread_pips'] * cfg['pip']
-        q2j = cfg['quote_to_jpy']
-
-        print(f"\n>>> {pair_name} データ取得中 ...")
+    # データ一括取得（業者間で共有）
+    print("\n>>> 全ペアのデータ一括取得中 ...")
+    data_cache = {}
+    for ticker, base in PAIR_BASE.items():
         try:
             df = yf.download(ticker, period='60d', interval='15m', progress=False)
             if df.empty:
-                print(f"  データ取得失敗: {pair_name}")
                 continue
-
             if isinstance(df.columns, pd.MultiIndex):
                 df.columns = df.columns.get_level_values(0)
-
-            print(f"  取得: {len(df)}本 ({df.index[0]} 〜 {df.index[-1]})")
-
-            df = calc_indicators(df)
-            valid = df.dropna(subset=['SMA200', 'ATR_MA100'])
-            print(f"  有効データ: {len(valid)}本（SMA200算出後）")
-
-            trades, final_cap, monthly_pnl, stopped, stop_reason = run_backtest(
-                df, spread=spread, quote_to_jpy=q2j
-            )
-
-            print_report(trades, final_cap, monthly_pnl, stopped, stop_reason,
-                        "15分足", len(df), pair_name=pair_name, pip_value=cfg['pip'])
-
-            # トレードログ蓄積（ポートフォリオ用）
-            if trades:
-                all_pair_trades[pair_name] = trades
-
-            # 結果蓄積
-            if trades:
-                total = len(trades)
-                wins = sum(1 for t in trades if t['pnl'] > 0)
-                gp = sum(t['pnl'] for t in trades if t['pnl'] > 0)
-                gl = abs(sum(t['pnl'] for t in trades if t['pnl'] < 0))
-                pf = gp / gl if gl > 0 else float('inf')
-
-                peak = INITIAL_CAPITAL
-                max_dd = 0
-                running = INITIAL_CAPITAL
-                for t in trades:
-                    running += t['pnl']
-                    if running > peak:
-                        peak = running
-                    dd = (peak - running) / peak
-                    if dd > max_dd:
-                        max_dd = dd
-
-                net = final_cap - INITIAL_CAPITAL
-
-                # 月利中央値
-                if monthly_pnl:
-                    months_sorted = sorted(monthly_pnl.keys())
-                    run_cap = INITIAL_CAPITAL
-                    m_rets = []
-                    for m in months_sorted:
-                        r = monthly_pnl[m] / run_cap if run_cap > 0 else 0
-                        m_rets.append(r)
-                        run_cap += monthly_pnl[m]
-                    med_monthly = np.median(m_rets)
-                else:
-                    med_monthly = 0
-
-                results.append({
-                    'pair': pair_name,
-                    'trades': total,
-                    'win_rate': wins / total * 100,
-                    'pf': pf,
-                    'max_dd': max_dd,
-                    'net_pnl': net,
-                    'net_pct': net / INITIAL_CAPITAL * 100,
-                    'med_monthly': med_monthly,
-                    'stopped': stopped,
-                })
-            else:
-                results.append({
-                    'pair': pair_name, 'trades': 0, 'win_rate': 0, 'pf': 0,
-                    'max_dd': 0, 'net_pnl': 0, 'net_pct': 0, 'med_monthly': 0, 'stopped': False,
-                })
-
+            data_cache[ticker] = df
+            print(f"  {base['name']}: {len(df)}本")
         except Exception as e:
-            print(f"  エラー: {pair_name} - {e}")
-            import traceback
-            traceback.print_exc()
+            print(f"  {base['name']}: エラー - {e}")
+    print(f"  取得完了: {len(data_cache)}/{len(PAIR_BASE)}ペア")
 
     # ============================================================
-    # 横断比較サマリー
+    # 業者別バックテスト
     # ============================================================
-    if results:
+    broker_results = {}
+    broker_portfolios = {}
+
+    for broker_name, broker_cfg in BROKERS.items():
+        print(f"\n{'#'*85}")
+        print(f"  {broker_name}")
+        print(f"  {broker_cfg['desc']}")
+        print(f"  API: {broker_cfg['api']}")
+        print(f"{'#'*85}")
+
+        results, all_pair_trades = run_all_pairs(
+            broker_name, broker_cfg['spreads'], data_cache
+        )
+        broker_results[broker_name] = results
+
+        # ペア別サマリー
+        if results:
+            print(f"\n  {'ペア':<10s} {'SP':>4s} {'取引':>4s} {'勝率':>6s} {'PF':>6s} {'DD':>6s} {'純損益':>12s} {'月利中央':>7s}")
+            print(f"  {'-'*10} {'-'*4} {'-'*4} {'-'*6} {'-'*6} {'-'*6} {'-'*12} {'-'*7}")
+            for r in sorted(results, key=lambda x: x['pf'], reverse=True):
+                print(f"  {r['pair']:<10s} {r['spread']:4.1f} {r['trades']:4d} {r['win_rate']:5.1f}% "
+                      f"{r['pf']:6.2f} {r['max_dd']:5.1%} ¥{r['net_pnl']:>+11,.0f} {r['med_monthly']:>+6.1%}")
+
+            # ポートフォリオ
+            if all_pair_trades:
+                port = run_portfolio_simulation(all_pair_trades)
+                broker_portfolios[broker_name] = port
+
+    # ============================================================
+    # 業者間比較サマリー
+    # ============================================================
+    if broker_portfolios:
         print(f"\n{'='*85}")
-        print(f"  横断比較サマリー（15分足・直近60日）")
+        print(f"  国内FX業者 比較サマリー（全ペア同時稼働・ポートフォリオ）")
         print(f"{'='*85}")
-        print(f"  {'ペア':<10s} {'取引数':>5s} {'勝率':>6s} {'PF':>6s} {'最大DD':>7s} {'純損益':>13s} {'月利中央':>8s} {'停止':>4s}")
-        print(f"  {'-'*10} {'-'*5} {'-'*6} {'-'*6} {'-'*7} {'-'*13} {'-'*8} {'-'*4}")
+        print(f"  {'業者':<16s} {'API':>12s} {'取引数':>5s} {'月利平均':>8s} {'月利中央':>8s} {'最大DD':>7s} {'純損益':>14s}")
+        print(f"  {'-'*16} {'-'*12} {'-'*5} {'-'*8} {'-'*8} {'-'*7} {'-'*14}")
 
-        # PFでソート（降順）
-        results_sorted = sorted(results, key=lambda x: x['pf'], reverse=True)
-        for r in results_sorted:
-            stop_mark = 'Yes' if r['stopped'] else ''
-            print(f"  {r['pair']:<10s} {r['trades']:5d} {r['win_rate']:5.1f}% {r['pf']:6.2f} {r['max_dd']:6.1%} "
-                  f"¥{r['net_pnl']:>+11,.0f} {r['med_monthly']:>+7.1%} {stop_mark:>4s}")
+        for broker_name in BROKERS:
+            if broker_name not in broker_portfolios:
+                continue
+            port = broker_portfolios[broker_name]
+            api = BROKERS[broker_name]['api']
+            avg_m = np.mean(port['monthly_returns']) if port['monthly_returns'] else 0
+            med_m = np.median(port['monthly_returns']) if port['monthly_returns'] else 0
+            print(f"  {broker_name:<16s} {api:>12s} {port['total_trades']:5d} "
+                  f"{avg_m:>+7.1%} {med_m:>+7.1%} {port['max_dd']:6.1%} "
+                  f"¥{port['net']:>+13,.0f}")
 
-        # ベスト・ワースト
-        best = max(results, key=lambda x: x['pf'] if x['trades'] > 0 else -1)
-        worst = min(results, key=lambda x: x['pf'] if x['trades'] > 0 else 999)
-        print(f"\n  ベスト: {best['pair']} (PF {best['pf']:.2f}, DD {best['max_dd']:.1%})")
-        print(f"  ワースト: {worst['pair']} (PF {worst['pf']:.2f}, DD {worst['max_dd']:.1%})")
+        # 推奨業者
+        best_broker = max(broker_portfolios.items(), key=lambda x: x[1]['net'])
+        lowest_dd = min(broker_portfolios.items(), key=lambda x: x[1]['max_dd'])
+        print(f"\n  推奨（利益最大）: {best_broker[0]} — 純損益 ¥{best_broker[1]['net']:+,.0f}")
+        print(f"  推奨（DD最小）:   {lowest_dd[0]} — 最大DD {lowest_dd[1]['max_dd']:.1%}")
 
-        # 合計
-        total_net = sum(r['net_pnl'] for r in results)
-        total_trades = sum(r['trades'] for r in results)
-        profitable = sum(1 for r in results if r['net_pnl'] > 0)
-        print(f"\n  合計純損益: ¥{total_net:>+,.0f}  総取引数: {total_trades}  プラスペア: {profitable}/{len(results)}")
+        # プラスペア数比較
+        print(f"\n  --- プラスペア数 ---")
+        for broker_name, results in broker_results.items():
+            profitable = sum(1 for r in results if r['net_pnl'] > 0 and r['trades'] > 0)
+            total_p = sum(1 for r in results if r['trades'] > 0)
+            losers = [r['pair'] for r in results if r['net_pnl'] < 0 and r['trades'] > 0]
+            loser_str = f"  (マイナス: {', '.join(losers)})" if losers else ""
+            print(f"  {broker_name:<16s}: {profitable}/{total_p}ペア{loser_str}")
+
         print()
-
-    # ============================================================
-    # ポートフォリオシミュレーション
-    # ============================================================
-    if all_pair_trades:
-        # 全ペア同時稼働
-        run_portfolio_simulation(all_pair_trades)
-
-        # GBP/JPY除外版（唯一のマイナスペア）
-        losers = {r['pair'] for r in results if r['net_pnl'] < 0}
-        if losers:
-            print(f"  --- {', '.join(losers)}除外版 ---")
-            run_portfolio_simulation(all_pair_trades, excluded_pairs=losers)
 
 
 if __name__ == '__main__':
