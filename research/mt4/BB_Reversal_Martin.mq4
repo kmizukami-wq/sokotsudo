@@ -55,7 +55,7 @@ bool   g_systemStopped  = false;
 string g_stopReason     = "";
 
 // ポジション管理用
-int    g_entryBar       = 0;
+datetime g_entryTime     = 0;
 bool   g_beActivated    = false;
 bool   g_partialClosed  = false;
 double g_slDistance      = 0;
@@ -70,13 +70,15 @@ datetime g_lastBarTime  = 0;
 //+------------------------------------------------------------------+
 int GetUTCHour()
 {
-   // FXTFサーバー時刻はGMT+2（夏時間GMT+3）の場合が多い
-   // 実際のサーバーオフセットに合わせて調整が必要
-   // TimeCurrent()からGMTオフセットを引く
-   int gmtOffset = TimeGMTOffset();
-   datetime utcTime = TimeCurrent() - gmtOffset;
+   // TimeGMT() returns UTC time directly (MT4 build 600+)
+   datetime gmtTime = TimeGMT();
+   if(gmtTime <= 0)
+   {
+      // Fallback: if TimeGMT() not available, assume server = UTC+9 (JST)
+      gmtTime = TimeCurrent() - 9 * 3600;
+   }
    MqlDateTime dt;
-   TimeToStruct(utcTime, dt);
+   TimeToStruct(gmtTime, dt);
    return dt.hour;
 }
 
@@ -111,7 +113,7 @@ void SaveState()
       FileWriteString(handle, IntegerToString(g_currentYear) + "\n");
       FileWriteString(handle, IntegerToString(g_systemStopped) + "\n");
       // ポジション管理状態
-      FileWriteString(handle, IntegerToString(g_entryBar) + "\n");
+      FileWriteString(handle, IntegerToString((int)g_entryTime) + "\n");
       FileWriteString(handle, IntegerToString(g_beActivated) + "\n");
       FileWriteString(handle, IntegerToString(g_partialClosed) + "\n");
       FileWriteString(handle, DoubleToString(g_slDistance, 6) + "\n");
@@ -139,7 +141,7 @@ void LoadState()
       if(!FileIsEnding(handle)) g_currentMonth  = (int)StringToInteger(FileReadString(handle));
       if(!FileIsEnding(handle)) g_currentYear   = (int)StringToInteger(FileReadString(handle));
       if(!FileIsEnding(handle)) g_systemStopped = (bool)StringToInteger(FileReadString(handle));
-      if(!FileIsEnding(handle)) g_entryBar      = (int)StringToInteger(FileReadString(handle));
+      if(!FileIsEnding(handle)) g_entryTime     = (datetime)StringToInteger(FileReadString(handle));
       if(!FileIsEnding(handle)) g_beActivated   = (bool)StringToInteger(FileReadString(handle));
       if(!FileIsEnding(handle)) g_partialClosed = (bool)StringToInteger(FileReadString(handle));
       if(!FileIsEnding(handle)) g_slDistance     = StringToDouble(FileReadString(handle));
@@ -233,10 +235,22 @@ int CheckSignals()
    double atrMA100 = atrSum / 100.0;
 
    // --- フィルター ---
-   if(atr >= atrMA100 * ATR_Filter_Mult) return SIG_NONE;
+   if(atr >= atrMA100 * ATR_Filter_Mult)
+   {
+      Print("[DEBUG] Filtered: ATR=", DoubleToString(atr,5), " >= ATR_MA100*", ATR_Filter_Mult,
+            " (", DoubleToString(atrMA100 * ATR_Filter_Mult, 5), ")");
+      return SIG_NONE;
+   }
 
    int utcHour = GetUTCHour();
-   if(utcHour < TradingHourStart || utcHour >= TradingHourEnd) return SIG_NONE;
+   if(utcHour < TradingHourStart || utcHour >= TradingHourEnd)
+   {
+      Print("[DEBUG] Filtered: UTC hour=", utcHour, " outside ", TradingHourStart, "-", TradingHourEnd);
+      return SIG_NONE;
+   }
+
+   Print("[DEBUG] Filters passed: UTC=", utcHour, " ATR=", DoubleToString(atr,5),
+         " Close=", DoubleToString(close1,5), " RSI=", DoubleToString(rsi,1));
 
    // SMA
    double sma200 = iMA(NULL, PERIOD_M15, 200, 0, MODE_SMA, PRICE_CLOSE, 1);
@@ -256,20 +270,16 @@ int CheckSignals()
    double fbbLo  = iBands(NULL, PERIOD_M15, 10, 2.0, 0, PRICE_CLOSE, MODE_LOWER, 1);
 
    // --- シグナル1: BB2.5σ逆張り ---
-   // 買い: トレンド上向き + 前々足がBB下限タッチ + 前足がBB下限を回復 + RSI < 38
    if(sma200Up && close2 <= bbLo2 && close1 > bbLo1 && rsi < 38)
-      return SIG_BUY_BB;
-   // 売り: トレンド下向き + 前々足がBB上限タッチ + 前足がBB上限を下抜け + RSI > 62
+   { Print("[SIGNAL] BUY BB_reversal: close2=", close2, "<=bbLo2=", bbLo2, " close1=", close1, ">bbLo1=", bbLo1, " RSI=", rsi); return SIG_BUY_BB; }
    if(!sma200Up && close2 >= bbUp2 && close1 < bbUp1 && rsi > 62)
-      return SIG_SELL_BB;
+   { Print("[SIGNAL] SELL BB_reversal: close2=", close2, ">=bbUp2=", bbUp2, " close1=", close1, "<bbUp1=", bbUp1, " RSI=", rsi); return SIG_SELL_BB; }
 
    // --- シグナル2: 高速BB逆張り ---
-   // 買い: SMA200・SMA50上向き + BB下限タッチ + RSI < 42
    if(sma200Up && sma50Up && close1 <= fbbLo && rsi < 42)
-      return SIG_BUY_FBB;
-   // 売り: SMA200・SMA50下向き + BB上限タッチ + RSI > 58
+   { Print("[SIGNAL] BUY Fast_BB: close1=", close1, "<=fbbLo=", fbbLo, " RSI=", rsi); return SIG_BUY_FBB; }
    if(!sma200Up && !sma50Up && close1 >= fbbUp && rsi > 58)
-      return SIG_SELL_FBB;
+   { Print("[SIGNAL] SELL Fast_BB: close1=", close1, ">=fbbUp=", fbbUp, " RSI=", rsi); return SIG_SELL_FBB; }
 
    // --- シグナル3: 押し目・戻り売り ---
    double smaGap = MathAbs(sma20 - sma50);
@@ -278,14 +288,16 @@ int CheckSignals()
       double lowerBand = MathMin(sma20, sma50);
       double upperBand = MathMax(sma20, sma50);
 
-      // 買い: SMA200上向き + 価格がSMA20-50間 + RSI 35-45
       if(sma200Up && close1 >= lowerBand && close1 <= upperBand && rsi >= 35 && rsi <= 45)
-         return SIG_BUY_PB;
-      // 売り: SMA200下向き + 価格がSMA20-50間 + RSI 55-65
+      { Print("[SIGNAL] BUY Pullback: close1=", close1, " in [", lowerBand, ",", upperBand, "] RSI=", rsi); return SIG_BUY_PB; }
       if(!sma200Up && close1 >= lowerBand && close1 <= upperBand && rsi >= 55 && rsi <= 65)
-         return SIG_SELL_PB;
+      { Print("[SIGNAL] SELL Pullback: close1=", close1, " in [", lowerBand, ",", upperBand, "] RSI=", rsi); return SIG_SELL_PB; }
    }
 
+   Print("[DEBUG] No signal: SMA200up=", sma200Up, " SMA50up=", sma50Up,
+         " BBlo=", DoubleToString(bbLo1,5), " BBhi=", DoubleToString(bbUp1,5),
+         " FBBlo=", DoubleToString(fbbLo,5), " FBBhi=", DoubleToString(fbbUp,5),
+         " SMAGap=", DoubleToString(smaGap,5), " ATR*2=", DoubleToString(atr*2,5));
    return SIG_NONE;
 }
 
@@ -318,7 +330,7 @@ void ManagePosition()
    int    type   = OrderType();
    double lots   = OrderLots();
    double atr    = iATR(NULL, PERIOD_M15, 14, 1);
-   int    barsHeld = Bars - g_entryBar;
+   int    barsHeld = (g_entryTime > 0) ? iBarShift(NULL, PERIOD_M15, g_entryTime, false) : 0;
 
    if(type == OP_BUY)
    {
@@ -607,7 +619,7 @@ void TryEntry()
    if(ticket > 0)
    {
       g_currentTicket = ticket;
-      g_entryBar = Bars;
+      g_entryTime = TimeCurrent();
       g_beActivated = false;
       g_partialClosed = false;
       g_slDistance = slDist;
@@ -689,6 +701,9 @@ void OnTick()
          ManagePosition();
       return;
    }
+
+   Print("[DEBUG] === NewBar on ", Symbol(), " === ServerTime=", TimeToString(TimeCurrent()),
+         " GMT=", TimeToString(TimeGMT()), " UTCHour=", GetUTCHour());
 
    // DD停止チェック
    CheckDDStop();
