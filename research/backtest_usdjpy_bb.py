@@ -18,51 +18,30 @@ RISK_PER_TRADE = 0.008       # 1トレードリスク 0.8%
 RR_RATIO = 2.0               # リスクリワード比
 ATR_FILTER_MULT = 2.2        # ATRフィルター倍率
 
-# ペア基本設定（pip値・quote_to_jpy）
+# ペア基本設定（FXTF実取扱ペアに対応）
 PAIR_BASE = {
     'USDJPY=X': {'name': 'USD/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
     'EURUSD=X': {'name': 'EUR/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
-    'GBPUSD=X': {'name': 'GBP/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
     'EURJPY=X': {'name': 'EUR/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
+    'GBPUSD=X': {'name': 'GBP/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
     'GBPJPY=X': {'name': 'GBP/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
-    'AUDUSD=X': {'name': 'AUD/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
     'AUDJPY=X': {'name': 'AUD/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
-    'NZDUSD=X': {'name': 'NZD/USD', 'pip': 0.0001, 'quote_to_jpy': 150.0},
+    'NZDJPY=X': {'name': 'NZD/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
+    'ZARJPY=X': {'name': 'ZAR/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
+    'CHFJPY=X': {'name': 'CHF/JPY', 'pip': 0.01,  'quote_to_jpy': 1.0},
     'USDCHF=X': {'name': 'USD/CHF', 'pip': 0.0001, 'quote_to_jpy': 170.0},
-    'USDCAD=X': {'name': 'USD/CAD', 'pip': 0.0001, 'quote_to_jpy': 110.0},
 }
 
-# 国内FX業者別スプレッド設定（pips）
-# API自動売買対応の主要3業者
+# FXTF スプレッド設定（pips）
 BROKERS = {
-    'OANDA証券': {
-        'desc': 'REST API (v20) / MT4対応, 90+ペア, サンドボックス環境あり',
-        'api': 'REST API (v20)',
-        'spreads': {  # 実測ベース（変動制、通常時）
-            'USDJPY=X': 0.4, 'EURUSD=X': 0.5, 'GBPUSD=X': 1.0,
-            'EURJPY=X': 0.7, 'GBPJPY=X': 1.4, 'AUDUSD=X': 0.9,
-            'AUDJPY=X': 0.7, 'NZDUSD=X': 1.5, 'USDCHF=X': 1.4,
-            'USDCAD=X': 1.8,
-        },
-    },
-    '外為ファイネスト': {
-        'desc': 'MT4/MT5対応, NDD方式, スキャルピング公認',
-        'api': 'MT4/MT5 EA',
-        'spreads': {
-            'USDJPY=X': 0.6, 'EURUSD=X': 0.6, 'GBPUSD=X': 1.1,
-            'EURJPY=X': 0.9, 'GBPJPY=X': 1.5, 'AUDUSD=X': 1.0,
-            'AUDJPY=X': 1.0, 'NZDUSD=X': 1.8, 'USDCHF=X': 1.6,
-            'USDCAD=X': 2.0,
-        },
-    },
     'FXTF(MT4)': {
         'desc': 'MT4対応, 低コスト(スプレッド+手数料), EA利用可',
         'api': 'MT4 EA',
-        'spreads': {  # スプレッド0.0銭+建玉連動手数料を実効スプレッドに換算
+        'spreads': {
             'USDJPY=X': 0.3, 'EURUSD=X': 0.3, 'GBPUSD=X': 0.7,
-            'EURJPY=X': 0.5, 'GBPJPY=X': 1.0, 'AUDUSD=X': 0.6,
-            'AUDJPY=X': 0.5, 'NZDUSD=X': 1.0, 'USDCHF=X': 1.0,
-            'USDCAD=X': 1.5,
+            'EURJPY=X': 0.5, 'GBPJPY=X': 1.0, 'AUDJPY=X': 0.5,
+            'NZDJPY=X': 1.0, 'ZARJPY=X': 1.5, 'CHFJPY=X': 0.8,
+            'USDCHF=X': 1.0,
         },
     },
 }
