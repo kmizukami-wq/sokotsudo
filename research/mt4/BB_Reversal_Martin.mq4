@@ -16,7 +16,7 @@ input double RR_Ratio          = 2.0;     // Risk:Reward ratio
 input double SL_ATR_Mult_BB    = 2.0;     // BB reversal SL multiplier
 input double SL_ATR_Mult_FBB   = 1.8;     // Fast BB SL multiplier
 input double SL_ATR_Mult_PB    = 1.5;     // Pullback SL multiplier
-input double ATR_Filter_Mult   = 2.2;     // ATR filter multiplier
+input double ATR_Filter_Mult   = 2.5;     // ATR filter multiplier
 input double BE_Trigger_RR     = 1.0;     // Breakeven trigger RR
 input double Partial_Close_RR  = 1.5;     // Partial close trigger RR
 input double Partial_Close_Pct = 0.5;     // Partial close ratio (0.5=50%)
@@ -68,17 +68,14 @@ datetime g_lastBarTime  = 0;
 //+------------------------------------------------------------------+
 //| サーバー時刻 → UTC変換                                           |
 //+------------------------------------------------------------------+
+input int    ServerGMTOffset   = 9;       // Server timezone offset (FXTF=9 for JST)
+
 int GetUTCHour()
 {
-   // TimeGMT() returns UTC time directly (MT4 build 600+)
-   datetime gmtTime = TimeGMT();
-   if(gmtTime <= 0)
-   {
-      // Fallback: if TimeGMT() not available, assume server = UTC+9 (JST)
-      gmtTime = TimeCurrent() - 9 * 3600;
-   }
+   // FXTFサーバーはJST(UTC+9)。TimeGMT()がWine環境で動かないため直接計算。
+   datetime utcTime = TimeCurrent() - ServerGMTOffset * 3600;
    MqlDateTime dt;
-   TimeToStruct(gmtTime, dt);
+   TimeToStruct(utcTime, dt);
    return dt.hour;
 }
 
@@ -707,7 +704,7 @@ void OnTick()
    }
 
    Print("[DEBUG] === NewBar on ", Symbol(), " === ServerTime=", TimeToString(TimeCurrent()),
-         " GMT=", TimeToString(TimeGMT()), " UTCHour=", GetUTCHour());
+         " ServerGMTOffset=", ServerGMTOffset, " UTCHour=", GetUTCHour());
 
    // DD停止チェック
    CheckDDStop();
