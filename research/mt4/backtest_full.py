@@ -311,7 +311,8 @@ def summarize(trades, max_dd_pct, monthly_pnl):
     results = df_t["result"].value_counts().to_dict()
     return {"n": n, "wr": wr, "pnl": total_pnl, "pf": pf, "dd": max_dd_pct,
             "median_monthly": median_monthly, "results": results,
-            "be_count": int(df_t["be"].sum()), "partial_count": int(df_t["partial"].sum())}
+            "be_count": int(df_t["be"].sum()), "partial_count": int(df_t["partial"].sum()),
+            "monthly": monthly_pnl}
 
 def main():
     print("=" * 90)
@@ -403,6 +404,66 @@ def main():
             else:
                 v = "要改善"
             print(f"  {pn:>8s}  {cfg['spread']:>4.1f}  {pf_s:>5s}  {s['wr']:>5.1f}%  {s['dd']:>6.1f}%  {pnl_s:>12s}  {s['median_monthly']:>+6.1f}%  {v}")
+
+    # ============================================================
+    # 月利テーブル（通貨ペア × 月）- 全統合
+    # ============================================================
+    month_names = {1:"1月",2:"2月",3:"3月",4:"4月",5:"5月",6:"6月",
+                   7:"7月",8:"8月",9:"9月",10:"10月",11:"11月",12:"12月"}
+    pair_names = list(PAIRS.keys())
+
+    for sn in strategies:
+        print(f"\n{'='*90}")
+        print(f"  【月利(%) - {sn}】")
+        print(f"{'='*90}")
+        # ヘッダー
+        hdr = f"  {'月':>4s}"
+        for pn in pair_names:
+            hdr += f"  {pn:>10s}"
+        print(hdr)
+        print(f"  {'-'*(4 + 12 * len(pair_names))}")
+
+        # 月ごとの行
+        pair_monthly = {}
+        for pn in pair_names:
+            s = all_results[(pn, sn)]
+            if s and s.get("monthly"):
+                pair_monthly[pn] = {m["month"]: m["pnl_pct"] for m in s["monthly"]}
+            else:
+                pair_monthly[pn] = {}
+
+        # 全月を収集
+        all_months = sorted(set(m for pm in pair_monthly.values() for m in pm))
+        pair_totals = {pn: 0 for pn in pair_names}
+        pair_counts = {pn: 0 for pn in pair_names}
+
+        for mo in all_months:
+            row = f"  {month_names.get(mo, str(mo)):>4s}"
+            for pn in pair_names:
+                val = pair_monthly[pn].get(mo)
+                if val is not None:
+                    row += f"  {val:>+9.1f}%"
+                    pair_totals[pn] += val
+                    pair_counts[pn] += 1
+                else:
+                    row += f"  {'---':>10s}"
+            print(row)
+
+        # 合計・平均・中央値
+        print(f"  {'-'*(4 + 12 * len(pair_names))}")
+        row_sum = f"  {'合計':>4s}"
+        row_avg = f"  {'平均':>4s}"
+        row_med = f"  {'中央':>4s}"
+        for pn in pair_names:
+            s = all_results[(pn, sn)]
+            row_sum += f"  {pair_totals[pn]:>+9.1f}%"
+            avg = pair_totals[pn] / pair_counts[pn] if pair_counts[pn] > 0 else 0
+            row_avg += f"  {avg:>+9.1f}%"
+            med = s["median_monthly"] if s else 0
+            row_med += f"  {med:>+9.1f}%"
+        print(row_sum)
+        print(row_avg)
+        print(row_med)
 
     print(f"\n※合成M15データ12ヶ月。BE/部分利確/トレーリング/マーチン全実装。")
     print(f"  スプレッド: 実ブローカー値ベース。初期資金¥{INITIAL_EQUITY:,}。")
