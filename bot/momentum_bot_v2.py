@@ -91,13 +91,13 @@ LB_SHORT = 288         # 24h lookback in 5-min bars (24*12) — confirmation
 WARMUP_DAYS = 4        # Days of history to fetch on startup
 
 # Risk parameters
-CAPITAL_RATIO = 0.35   # Half-Kelly safe: ruin-proof with 2x leverage + B2.2
+CAPITAL_RATIO = 0.55   # Aggressive: high return with DD<-31%
 MAX_LOSS_RATIO = 0.15  # Emergency stop at -15%
 
-# XGBoost hybrid thresholds (V4+ optimized via 34k param sweep)
-ML_PROB_BOOST = 0.50   # Above this → 2.2x size (ML confident)
-ML_PROB_SKIP = 0.45    # Below this → skip trade (ML disagrees)
-ML_BOOST_MULT = 2.2    # Size multiplier for high-confidence trades
+# XGBoost hybrid thresholds (aggressive mode: avg +20%/mo, DD -31%)
+ML_PROB_BOOST = 0.50   # Above this → 5.0x size (ML confident)
+ML_PROB_SKIP = 0.40    # Below this → skip trade (ML disagrees)
+ML_BOOST_MULT = 5.0    # Size multiplier for high-confidence trades
 
 # Timing
 INTV = 300             # Check interval: 5 minutes
