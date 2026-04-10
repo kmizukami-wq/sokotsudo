@@ -138,34 +138,45 @@ GBP/USDではロンドンBKは**全パラメータでマイナス**。
 
 ## 4. 推奨戦略
 
-### 4.1 第一推奨: GBP/USDトレンドフォロー
+### 4.1 最終推奨: GBP/USD ピラミッド付きトレンドフォロー
 
 **設定**:
-- 通貨ペア: GBP/USD
+- 通貨ペア: **GBP/USD のみ**（GBP/JPY, EUR/GBPは不向き）
 - 時間足: 15分足
 - EMA: 50/200
 - ATRトレイリング: ×3.5
 - リスク: 2%/トレード
 - 取引時間: 07:00-21:00 UTC
+- **ピラミッド: 2段、起動3ATR、追加ロット50%**
 
-**期待値**:
-- 月利: 10-18%（相場環境依存）
-- MaxDD: 15-25%
-- PF: 1.2-1.4
+**バックテスト結果（直近60日）**:
 
-**注意点**:
-- レンジ相場では連敗する（勝率35-40%は正常）
-- 利益は少数の大きなトレンドから生まれる
-- 勝率の低さに耐えるメンタルが必要
+| 設定 | 月利 | MaxDD | PF |
+|------|------|-------|-----|
+| ベースライン（ピラミなし）| +12.3% | 23.0% | 1.21 |
+| **ピラミッド2段 起動3ATR** | **+21.3%** | **27.3%** | **1.27** |
 
-### 4.2 第二推奨: 複合運用
+**ピラミッドの仕組み**:
+- トレンドが3ATR分伸びたら、メインの50%ロットで追加エントリー
+- さらに3ATR伸びたら2段目追加
+- 大トレンドの利益を2倍以上に引き上げる
+- 逆行時はメインと同時に決済 → 損失増は限定的
 
-GBP/USD トレンドフォロー + GBP/JPY ロンドンBK の2本柱で運用:
+**3ペア比較（同一設定）**:
 
-| 戦略 | ペア | 配分 | 役割 |
-|------|------|------|------|
-| トレンドフォロー | GBP/USD | 60% | メイン収益源 |
-| ロンドンBK | GBP/JPY | 40% | DD軽減・補助収益 |
+| ペア | 月利 | MaxDD | PF | 評価 |
+|------|------|-------|-----|------|
+| **GBP/USD** | **+21.3%** | 27.3% | **1.27** | ◆最適 |
+| GBP/JPY | -7.7% | 33.0% | 0.84 | ×レンジ期 |
+| EUR/GBP | -26.9% | 56.4% | 0.45 | ×不向き |
+
+**GBP/USD一本に集中が最も合理的。**
+
+### 4.2 なぜGBP/USDのみか
+
+- **GBP/JPY**: 直近はレンジ的動き。トレンドフォローが全月マイナス
+- **EUR/GBP**: 低ボラ+平均回帰型。トレンドフォローと根本的に相性が悪い
+- **3ペア分散**: GBP/USDの利益がGBP/JPY・EUR/GBPの損失で相殺され逆効果
 
 ---
 
@@ -201,7 +212,7 @@ GBP/USD トレンドフォロー + GBP/JPY ロンドンBK の2本柱で運用:
 
 ---
 
-## 6. MT4 EA 実装（FXTF対応 v2.0）
+## 6. MT4 EA 実装（FXTF対応 v3.0 ピラミッド版）
 
 ### 6.1 ファイル
 
@@ -210,11 +221,11 @@ GBP/USD トレンドフォロー + GBP/JPY ロンドンBK の2本柱で運用:
 ### 6.2 機能
 
 - **トレンドフォロー**: EMA50/200クロス + ATR×3.5トレイリングストップ
-- **ロンドンBK**: アジアレンジブレイクアウト（TP=1.5倍）
+- **ピラミッディング**: トレンド進行時に最大2段の追加ポジション（50%ロット）
+- **ロンドンBK**: アジアレンジブレイクアウト（デフォルトOFF）
 - **リスク管理**: 月間DD制限（15%）、自動ロット計算
-- **GBP/JPY・GBP/USD両対応**: pip値・スプレッド自動判定
 - **FXTF対応**: JST(UTC+9)タイムゾーン、最小ストップレベル自動取得
-- **状態永続化**: EA再起動時にトレイリングストップ・アジアレンジ等を復元
+- **状態永続化**: EA再起動時に全状態を復元（ピラミッド含む）
 - **スプレッドフィルター**: ロールオーバー時等の異常スプレッドでエントリー回避
 
 ### 6.3 FXTF MT4 セットアップ手順
@@ -231,47 +242,30 @@ GBP/USD トレンドフォロー + GBP/JPY ロンドンBK の2本柱で運用:
 
 ```
 ========================================
-GBP/USD チャートに設定
+GBP/USD チャートに設定（推奨）
 ========================================
-MagicNumber     = 20001
-MaxRiskPercent  = 2.0
-MaxPositions    = 2
-MonthlyDDLimit  = 15.0
-ServerGMTOffset = 9          ← FXTF固定
-MaxSpreadPips   = 3.0        ← GBP/USD通常0.7pip
-Slippage        = 10
+MagicNumber      = 20001
+MaxRiskPercent   = 2.0
+MaxPositions     = 2
+MonthlyDDLimit   = 15.0
+ServerGMTOffset  = 9          ← FXTF固定
+MaxSpreadPips    = 3.0        ← GBP/USD通常0.7pip
+Slippage         = 10
 
-EnableTrend     = true       ← メイン戦略
-FastEMA         = 50
-SlowEMA         = 200
-ATR_Trail_Mult  = 3.5
-ATR_Period      = 14
-TrendStartHour  = 7
-TrendEndHour    = 21
+EnableTrend      = true       ← メイン戦略
+FastEMA          = 50
+SlowEMA          = 200
+ATR_Trail_Mult   = 3.5
+ATR_Period       = 14
+TrendStartHour   = 7
+TrendEndHour     = 21
 
-EnableLondonBK  = false      ← GBP/USDではBK不振
+EnablePyramid    = true       ← ★ピラミッド有効
+PyramidMax       = 2          ← 最大2段追加
+PyramidTriggerATR= 3.0        ← 3ATR利益ごとに追加
+PyramidLotRatio  = 0.5        ← メインの50%ロット
 
-========================================
-GBP/JPY チャートに設定
-========================================
-MagicNumber     = 20002      ← 必ず別番号！
-MaxRiskPercent  = 2.0
-MaxPositions    = 2
-MonthlyDDLimit  = 15.0
-ServerGMTOffset = 9          ← FXTF固定
-MaxSpreadPips   = 5.0        ← GBP/JPY通常1.0pip
-Slippage        = 10
-
-EnableTrend     = false      ← GBP/JPYではトレンド不振
-
-EnableLondonBK  = true       ← メイン戦略
-AsianStartHour  = 0
-AsianEndHour    = 7
-LondonEndHour   = 16
-BK_TP_Mult      = 1.5
-BK_RiskPercent  = 2.0
-MinRangePips    = 30.0
-MaxRangePips    = 120.0
+EnableLondonBK   = false      ← GBP/USDではOFF
 ```
 
 ### 6.5 運用上の注意
