@@ -12,7 +12,7 @@ input double EntryZ      = 0.51;   // エントリーZ閾値
 input double ExitZ       = 0.5;    // 決済Z閾値
 input double StopZ       = 6.0;    // 損切りZ閾値
 input double TimeoutH    = 2.0;    // タイムアウト（時間）
-input int    SLpips      = 10;     // 損切り（pips）0=無効
+input int    SLpips      = 15;     // 損切り（pips）0=無効
 input double LotSize     = 0.1;    // ロットサイズ（1万通貨=0.1）
 input int    MagicNumber = 20260411; // マジックナンバー
 input int    Slippage    = 3;      // スリッページ（ポイント）
