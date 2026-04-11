@@ -14,7 +14,7 @@ input double StopZ       = 6.0;    // Stop Z threshold
 input double TimeoutH    = 2.0;    // Timeout (hours)
 input int    TPpips      = 15;     // Take Profit (pips) 0=off
 input int    SLpips      = 15;     // Stop Loss (pips) 0=off
-input double LotSize     = 0.1;    // Lot Size (0.1=10000, 0.01=1000)
+input double LotSize     = 0.01;   // Lot Size (0.1=10000, 0.01=1000)
 input int    MagicNumber = 20260411; // Magic Number
 input int    Slippage    = 3;      // Slippage (points)
 input int    TradeStartH = 0;      // Trade Start Hour (UTC)
