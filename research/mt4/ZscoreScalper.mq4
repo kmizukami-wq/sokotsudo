@@ -11,7 +11,8 @@ input int    Window      = 30;     // Z-score計算窓（15分足30本=7.5時間
 input double EntryZ      = 0.51;   // エントリーZ閾値
 input double ExitZ       = 0.5;    // 決済Z閾値
 input double StopZ       = 6.0;    // 損切りZ閾値
-input double TimeoutH    = 6.0;    // タイムアウト（時間）
+input double TimeoutH    = 2.0;    // タイムアウト（時間）
+input int    SLpips      = 10;     // 損切り（pips）0=無効
 input double LotSize     = 0.1;    // ロットサイズ（1万通貨=0.1）
 input int    MagicNumber = 20260411; // マジックナンバー
 input int    Slippage    = 3;      // スリッページ（ポイント）
@@ -121,41 +122,6 @@ double CalcZscore()
 }
 
 //+------------------------------------------------------------------+
-//| Zスコア計算（リアルタイム: 決済用）                                  |
-//| 確定済み29本 + 現在のBid価格でZを算出                              |
-//+------------------------------------------------------------------+
-double CalcZscoreRealtime()
-{
-   if(Bars < Window + 1) return(0);
-
-   double sum = 0;
-   double sum2 = 0;
-
-   // 確定済みの足（1本目=直近確定足、Window-1本分）
-   for(int i = 1; i < Window; i++)
-   {
-      double c = iClose(Symbol(), PERIOD_M15, i);
-      sum += c;
-      sum2 += c * c;
-   }
-
-   // 最新はリアルタイムのBid価格
-   double current_price = MarketInfo(Symbol(), MODE_BID);
-   sum += current_price;
-   sum2 += current_price * current_price;
-
-   double mean = sum / Window;
-   double variance = (sum2 / Window) - (mean * mean);
-
-   if(variance <= 0) return(0);
-
-   double std = MathSqrt(variance);
-   double zscore = (current_price - mean) / std;
-
-   return(zscore);
-}
-
-//+------------------------------------------------------------------+
 //| 現在のポジションを取得                                              |
 //+------------------------------------------------------------------+
 int GetCurrentPosition()
@@ -186,6 +152,24 @@ datetime GetEntryTime()
          if(OrderSymbol() == Symbol() && OrderMagicNumber() == MagicNumber)
          {
             return(OrderOpenTime());
+         }
+      }
+   }
+   return(0);
+}
+
+//+------------------------------------------------------------------+
+//| ポジションのエントリー価格を取得                                     |
+//+------------------------------------------------------------------+
+double GetEntryPrice()
+{
+   for(int i = OrdersTotal() - 1; i >= 0; i--)
+   {
+      if(OrderSelect(i, SELECT_BY_POS, MODE_TRADES))
+      {
+         if(OrderSymbol() == Symbol() && OrderMagicNumber() == MagicNumber)
+         {
+            return(OrderOpenPrice());
          }
       }
    }
@@ -270,43 +254,66 @@ void OnTick()
 
    int pos = GetCurrentPosition();
 
-   //=== 決済判定: 毎ティック（リアルタイム） ===
+   //=== SL判定: 毎ティック（即時損切り） ===
+   if(pos != 0 && SLpips > 0)
+   {
+      double entryPrice = GetEntryPrice();
+      double currentPrice = MarketInfo(Symbol(), MODE_BID);
+      double pipSize = MarketInfo(Symbol(), MODE_POINT) * 10; // 1pip
+
+      double unrealizedPips = (currentPrice - entryPrice) * pos / pipSize;
+
+      if(unrealizedPips <= -SLpips)
+      {
+         Print("SL損切り: ", Symbol(), " ", DoubleToStr(unrealizedPips, 1),
+               "pips @", DoubleToStr(currentPrice, (int)MarketInfo(Symbol(), MODE_DIGITS)));
+         ClosePosition();
+         return;
+      }
+   }
+
+   //=== タイムアウト判定: 毎ティック ===
    if(pos != 0)
    {
-      // タイムアウトチェック
       datetime entryTime = GetEntryTime();
       double holdHours = (double)(TimeCurrent() - entryTime) / 3600.0;
 
       if(holdHours >= TimeoutH)
       {
-         double zrt = CalcZscoreRealtime();
          Print("タイムアウト決済: ", Symbol(), " 保有",
-               DoubleToStr(holdHours, 1), "時間 Z=", DoubleToStr(zrt, 3));
+               DoubleToStr(holdHours, 1), "時間");
          ClosePosition();
-         pos = 0;
+         return;
       }
-      else
-      {
-         // リアルタイムZスコアで決済判定
-         double zrt = CalcZscoreRealtime();
-         if(zrt == 0) return;
+   }
 
-         if(pos == 1) // ロング保有中
+   //=== Z決済判定: 5分足確定時 ===
+   static datetime lastBar5m = 0;
+   datetime currentBar5m = iTime(Symbol(), PERIOD_M5, 0);
+   bool newBar5m = (currentBar5m != lastBar5m);
+   if(newBar5m) lastBar5m = currentBar5m;
+
+   if(pos != 0 && newBar5m)
+   {
+      double zscore = CalcZscore();  // 15分足ベースのZ
+      if(zscore != 0)
+      {
+         if(pos == 1)
          {
-            if(zrt > -ExitZ || zrt < -StopZ)
+            if(zscore > -ExitZ || zscore < -StopZ)
             {
-               Print("決済(LONG): Z=", DoubleToStr(zrt, 3),
-                     (zrt > -ExitZ ? " 利確" : " 損切り"));
+               Print("決済(LONG): Z=", DoubleToStr(zscore, 3),
+                     (zscore > -ExitZ ? " 利確" : " 損切りZ"));
                ClosePosition();
                pos = 0;
             }
          }
-         else if(pos == -1) // ショート保有中
+         else if(pos == -1)
          {
-            if(zrt < ExitZ || zrt > StopZ)
+            if(zscore < ExitZ || zscore > StopZ)
             {
-               Print("決済(SHORT): Z=", DoubleToStr(zrt, 3),
-                     (zrt < ExitZ ? " 利確" : " 損切り"));
+               Print("決済(SHORT): Z=", DoubleToStr(zscore, 3),
+                     (zscore < ExitZ ? " 利確" : " 損切りZ"));
                ClosePosition();
                pos = 0;
             }
@@ -315,11 +322,11 @@ void OnTick()
    }
 
    //=== エントリー判定: 15分足確定時のみ ===
-   static datetime lastBarTime = 0;
-   datetime currentBarTime = iTime(Symbol(), PERIOD_M15, 0);
+   static datetime lastBar15m = 0;
+   datetime currentBar15m = iTime(Symbol(), PERIOD_M15, 0);
 
-   if(currentBarTime == lastBarTime) return;
-   lastBarTime = currentBarTime;
+   if(currentBar15m == lastBar15m) return;
+   lastBar15m = currentBar15m;
 
    if(!IsTradeTime()) return;
 
