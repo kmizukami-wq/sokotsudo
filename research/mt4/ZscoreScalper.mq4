@@ -8,7 +8,7 @@
 
 //--- 入力パラメータ
 input int    Window      = 30;     // Z-score計算窓（15分足30本=7.5時間）
-input double EntryZ      = 0.5;    // エントリーZ閾値
+input double EntryZ      = 0.51;   // エントリーZ閾値
 input double ExitZ       = 0.5;    // 決済Z閾値
 input double StopZ       = 6.0;    // 損切りZ閾値
 input double TimeoutH    = 6.0;    // タイムアウト（時間）
