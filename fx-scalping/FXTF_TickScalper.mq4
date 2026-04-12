@@ -22,7 +22,7 @@
 //--- Input parameters (ASCII-only to avoid MT4 encoding issues)
 input double InpLots           = 0.01;   // Lot size (FXTF: 0.01=100units / 0.1=1,000units / 1.0=10,000units)
 input int    InpMagicNumber    = 0;      // Magic number (0 = auto-generate from Symbol)
-input int    InpSlippage       = 3;      // Max slippage (points)
+input int    InpSlippage       = 0;      // Max slippage (points); 0 = strict price; raise to 3-5 if rejected often
 
 input string _sep1_            = "===== Exit Params =====";
 input double InpStopPip        = 2.5;    // Stop loss (pip)
@@ -41,7 +41,7 @@ input double InpMaxUnits       = 10000;  // Rank-1 unit cap (0-fee tier)
 input double InpMaxSpreadPoints= 2;      // Max allowed spread (points); skip entry if wider
 input bool   InpSkipTokyoMorn  = false;  // Skip JST 06-09 (Tokyo wide-spread hours)
 input bool   InpSkipNYNewsHrs  = false;  // Skip JST 21-24 (NY open + US news hours)
-input int    InpJSTFromBroker  = 7;      // Hours to add to broker time for JST (winter=7 / summer=6)
+input int    InpJSTFromBroker  = 6;      // Hours to add to broker time for JST (summer=6 / winter=7)
 input bool   InpTradeOnlyEAHrs = true;   // Enable custom trading hours (overrides other flags)
 input int    InpStartHour      = 9;      // Custom start hour JST (inclusive)
 input int    InpEndHour        = 3;      // Custom end hour JST (exclusive); wraps past midnight
@@ -100,10 +100,24 @@ int OnInit()
    PrintFormat("Symbol=%s Digits=%d Point=%.5f pipSize=%.5f Magic=%d%s",
                Symbol(), Digits, g_point, g_pipSize,
                g_effectiveMagic, (InpMagicNumber<=0 ? " (auto)" : ""));
+   // JST time diagnostics - verify InpJSTFromBroker (summer=6 / winter=7)
+   datetime brokerT = TimeCurrent();
+   int jstHour = (TimeHour(brokerT) + InpJSTFromBroker) % 24;
+   int jstMin = TimeMinute(brokerT);
+   PrintFormat("Time: broker=%s JST=%02d:%02d (offset=%d)",
+               TimeToStr(brokerT, TIME_DATE|TIME_MINUTES),
+               jstHour, jstMin, InpJSTFromBroker);
+   PrintFormat("Trade hours (JST): %02d:00 to %02d:00 (TradeOnly=%s / SkipTokyo=%s / SkipNY=%s)",
+               InpStartHour, InpEndHour,
+               (InpTradeOnlyEAHrs ? "true" : "false"),
+               (InpSkipTokyoMorn ? "true" : "false"),
+               (InpSkipNYNewsHrs ? "true" : "false"));
    PrintFormat("Exit: stop=-%.1fp peak>=%.1fp trailGap=%.1fp timeout=%ds",
                InpStopPip, InpPeakActivate, InpTrailGap, InpTimeoutSec);
    PrintFormat("Entry: %d/%d ticks same-direction + EMA(%d)vs EMA(%d) on M1",
                InpTriggerHits, InpTriggerWindow, InpEMAFast, InpEMASlow);
+   PrintFormat("Execution: lots=%.2f slippage=%d maxSpread=%.1fp",
+               InpLots, InpSlippage, InpMaxSpreadPoints);
    return(INIT_SUCCEEDED);
 }
 
@@ -276,7 +290,28 @@ void OpenPosition(int side)
    if(ticket < 0)
    {
       int err = GetLastError();
-      PrintFormat("OrderSend failed err=%d", err);
+      string hint = "";
+      switch(err)
+      {
+         case 129: hint = "invalid price - stale quote"; break;
+         case 130: hint = "invalid stops (not expected, SL/TP=0)"; break;
+         case 131: hint = "invalid lot step - check MODE_LOTSTEP"; break;
+         case 132: hint = "market closed"; break;
+         case 133: hint = "trade disabled on this symbol"; break;
+         case 134: hint = "not enough money - reduce InpLots or add funds"; break;
+         case 135: hint = "price changed - will retry next tick"; break;
+         case 136: hint = "off quotes - market moved; retry next tick"; break;
+         case 137: hint = "broker busy - retry next tick"; break;
+         case 138: hint = "requote - consider raising InpSlippage (0->3)"; break;
+         case 139: hint = "order locked for processing"; break;
+         case 141: hint = "too many requests - slow down"; break;
+         case 145: hint = "too close to market - modification blocked"; break;
+         case 146: hint = "trade context busy"; break;
+         case 148: hint = "too many orders - check open positions"; break;
+         case 149: hint = "hedging prohibited - do not open opposite side"; break;
+         default:  hint = "see MT4 error code reference"; break;
+      }
+      PrintFormat("OrderSend failed err=%d (%s)", err, hint);
       return;
    }
    g_peakPip  = 0;
