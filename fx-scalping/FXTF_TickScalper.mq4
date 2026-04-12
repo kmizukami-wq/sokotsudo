@@ -21,7 +21,7 @@
 
 //--- Input parameters (ASCII-only to avoid MT4 encoding issues)
 input double InpLots           = 0.1;    // Lot size (FXTF: 0.1=1,000units / 1.0=10,000units)
-input int    InpMagicNumber    = 77001;  // Magic number
+input int    InpMagicNumber    = 0;      // Magic number (0 = auto-generate from Symbol)
 input int    InpSlippage       = 3;      // Max slippage (points)
 
 input string _sep1_            = "===== Exit Params =====";
@@ -56,6 +56,23 @@ int      g_direction = 0;      // +1=BUY / -1=SELL / 0=FLAT
 datetime g_lastM1Time = 0;
 double   g_peakPip = 0;        // 現ポジションのピーク利益(pip)
 datetime g_entryTime = 0;
+int      g_effectiveMagic = 0; // Magic number (auto-generated if InpMagicNumber=0)
+
+//+------------------------------------------------------------------+
+//| Symbol からマジックナンバーを自動生成 (77000-85999 の範囲)         |
+//+------------------------------------------------------------------+
+int AutoMagicFromSymbol()
+{
+   string s = Symbol();
+   int hash = 0;
+   int len = StringLen(s);
+   for(int i = 0; i < len; i++)
+   {
+      int c = StringGetChar(s, i);
+      hash = (hash * 31 + c) & 0x7FFFFFFF;  // 正の整数に丸め
+   }
+   return 77000 + (hash % 9000);  // 77000〜85999
+}
 
 //+------------------------------------------------------------------+
 //| Init                                                             |
@@ -73,9 +90,16 @@ int OnInit()
    else
       g_pipSize = g_point;
 
+   // マジックナンバー: 0なら自動生成
+   if(InpMagicNumber <= 0)
+      g_effectiveMagic = AutoMagicFromSymbol();
+   else
+      g_effectiveMagic = InpMagicNumber;
+
    Print("=== FXTF TickScalper initialized ===");
-   PrintFormat("Symbol=%s Digits=%d Point=%.5f pipSize=%.5f",
-               Symbol(), Digits, g_point, g_pipSize);
+   PrintFormat("Symbol=%s Digits=%d Point=%.5f pipSize=%.5f Magic=%d%s",
+               Symbol(), Digits, g_point, g_pipSize,
+               g_effectiveMagic, (InpMagicNumber<=0 ? " (auto)" : ""));
    PrintFormat("Exit: stop=-%.1fp peak>=%.1fp trailGap=%.1fp timeout=%ds",
                InpStopPip, InpPeakActivate, InpTrailGap, InpTimeoutSec);
    PrintFormat("Entry: %d/%d ticks same-direction + EMA(%d)vs EMA(%d) on M1",
@@ -201,7 +225,7 @@ int FindMyPosition()
    {
       if(!OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) continue;
       if(OrderSymbol() != Symbol()) continue;
-      if(OrderMagicNumber() != InpMagicNumber) continue;
+      if(OrderMagicNumber() != g_effectiveMagic) continue;
       if(OrderType() != OP_BUY && OrderType() != OP_SELL) continue;
       return OrderTicket();
    }
@@ -248,7 +272,7 @@ void OpenPosition(int side)
    double price = (side > 0) ? Ask : Bid;
    string comment = "TickScalp";
    int ticket = OrderSend(Symbol(), type, InpLots, price, InpSlippage,
-                          0, 0, comment, InpMagicNumber, 0, clrNONE);
+                          0, 0, comment, g_effectiveMagic, 0, clrNONE);
    if(ticket < 0)
    {
       int err = GetLastError();
