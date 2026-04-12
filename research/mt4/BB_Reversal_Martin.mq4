@@ -4,7 +4,7 @@
 //| 15分足専用 / 7通貨ペア同時稼働対応                                |
 //+------------------------------------------------------------------+
 #property copyright "sokotsudo research"
-#property version   "1.04"
+#property version   "1.05"
 #property strict
 
 //+------------------------------------------------------------------+
@@ -32,6 +32,7 @@ input int    TradingHourEnd    = 21;      // Trading end hour (UTC) [UTC 21 = JS
 input double MonthlyDDLimit    = 15.0;    // Monthly DD stop (%)
 input double AnnualDDLimit     = 20.0;    // Annual DD stop (%)
 input int    Slippage          = 10;      // Slippage (points)
+input double MaxLot            = 0.10;    // Max lot per entry (set to FXTF Rank1 cap)
 
 //+------------------------------------------------------------------+
 //| シグナルタイプ定数                                                |
@@ -228,6 +229,10 @@ double CalcLotSize(double slDist)
    // ロットステップに合わせて切り捨て
    lots = MathFloor(lots / lotStep) * lotStep;
    lots = MathMax(minLot, MathMin(maxLot, lots));
+
+   // Apply user MaxLot cap (FXTF Rank1 free zone)
+   if(MaxLot > 0)
+      lots = MathMin(lots, MaxLot);
 
    return NormalizeDouble(lots, 2);
 }
