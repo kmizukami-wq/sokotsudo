@@ -91,12 +91,18 @@ def check_sig(row,prev):
     return 0
 
 def calc_fee(pair,lots):
-    """FXTF建玉連動手数料: lots → 円"""
+    """FXTF建玉連動手数料: lots → 円
+    ランクに入った瞬間に全体にレート適用（階段式ではなく定額レート）
+    例 EURGBP Rank2=180円/1万通貨:
+      1,000通貨  → 0円 (rank1)
+      2,000通貨  → 36円 (rank2: 2000/10000*180)
+      10,000通貨 → 180円 (rank2: 10000/10000*180)
+    """
     if pair not in FXTF_FEE:return 0
     rank1,r2=FXTF_FEE[pair]
     units=lots*100000  # 1.0lot=100,000通貨
-    paid_units=max(0,units-rank1)
-    return paid_units/10000*r2
+    if units<=rank1:return 0  # rank1 無料
+    return units/10000*r2     # rank2: 全体にレート適用
 
 def run_bt(df,cfg,pair,mode):
     """
