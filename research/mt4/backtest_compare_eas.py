@@ -17,7 +17,8 @@ BB_SL_MULTS={1:2.0,2:1.8,3:1.5}; ATR_FILTER_MULT=2.5
 # ============= ZscoreScalper パラメータ =============
 Z_WINDOW=30; Z_ENTRY=0.51; Z_EXIT=0.5; Z_STOP=6.0
 Z_TIMEOUT_BARS=8  # 2h / 15min = 8 bars
-Z_TP_PIPS=15; Z_SL_PIPS=15; Z_LOT=0.01
+Z_TP_PIPS=15; Z_SL_PIPS=15; Z_LOT=0.1
+Z_SPREAD_PIPS=0.0  # FXTFは1万通貨(0.1lot)まで スプレッド 0
 
 FXTF_PAIRS = {
     "EURUSD":{"t":"EURUSD=X","sp":0.3},"USDJPY":{"t":"USDJPY=X","sp":0.3},
@@ -36,9 +37,19 @@ FXTF_PAIRS = {
 }
 
 def pcfg(name,sp):
+    # tick_value: 1.0lot (100,000通貨)あたりの1pip=JPY
+    # JPYペア: 100,000×0.01=1000円/pip
+    # USD系: 100,000×0.0001×USDJPY(~150)=1500円/pip
+    # その他: 100,000×0.0001×quote_rate≈1000-1500円/pip → 1200で近似
     j=name.endswith("JPY")
+    if j:
+        tv=1000
+    elif name in("EURUSD","GBPUSD","AUDUSD","NZDUSD"):
+        tv=1500  # USD quote
+    else:
+        tv=1200  # 他のクロス（概算）
     return{"pip":0.01 if j else 0.0001,"pip_mult":100 if j else 10000,
-            "spread":sp,"tick_value":100 if j else 150}
+            "spread":sp,"tick_value":tv}
 
 def fetch(ticker):
     df=yf.download(ticker,period="60d",interval="15m",progress=False)
@@ -192,7 +203,7 @@ def run_zscore(df,cfg):
         else:
             ex=df.iloc[min(i+Z_TIMEOUT_BARS,len(df)-1)]["close"]
             pnl=d*(ex-ep_)*pm*lots*tv
-        pnl-=cfg["spread"]*tv*lots
+        pnl-=Z_SPREAD_PIPS*tv*lots  # FXTF 1万通貨まで spread=0
         eq+=pnl;ep=max(ep,eq);dd=(ep-eq)/ep*100 if ep>0 else 0;mdd=max(mdd,dd)
         trades.append({"result":res,"pnl":pnl})
         i=eb+1
