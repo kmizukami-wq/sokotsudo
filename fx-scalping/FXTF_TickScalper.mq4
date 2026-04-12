@@ -39,12 +39,12 @@ input int    InpEMASlow        = 60;     // EMA slow period (M1)
 input string _sep3_            = "===== Risk Guard =====";
 input double InpMaxUnits       = 10000;  // Rank-1 unit cap (0-fee tier)
 input double InpMaxSpreadPoints= 2;      // Max allowed spread (points); skip entry if wider
-input bool   InpSkipTokyoMorn  = true;   // Skip JST 06-09 (Tokyo wide-spread hours)
-input bool   InpSkipNYNewsHrs  = true;   // Skip JST 21-24 (NY open + US news hours)
+input bool   InpSkipTokyoMorn  = false;  // Skip JST 06-09 (Tokyo wide-spread hours)
+input bool   InpSkipNYNewsHrs  = false;  // Skip JST 21-24 (NY open + US news hours)
 input int    InpJSTFromBroker  = 7;      // Hours to add to broker time for JST (winter=7 / summer=6)
-input bool   InpTradeOnlyEAHrs = false;  // Enable additional custom trading hours
-input int    InpStartHour      = 9;      // Custom start hour (0-23 JST)
-input int    InpEndHour        = 24;     // Custom end hour (0-24 JST)
+input bool   InpTradeOnlyEAHrs = true;   // Enable custom trading hours (overrides other flags)
+input int    InpStartHour      = 9;      // Custom start hour JST (inclusive)
+input int    InpEndHour        = 3;      // Custom end hour JST (exclusive); wraps past midnight
 input bool   InpVerbose        = false;  // Verbose log output
 
 //--- グローバル状態
