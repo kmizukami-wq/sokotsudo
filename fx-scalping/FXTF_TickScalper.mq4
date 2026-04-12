@@ -20,7 +20,7 @@
 #property description "FXTF Rank1 no-commission tick scalper (optimized)"
 
 //--- Input parameters (ASCII-only to avoid MT4 encoding issues)
-input double InpLots           = 0.1;    // Lot size (FXTF: 0.1=1,000units / 1.0=10,000units)
+input double InpLots           = 0.01;   // Lot size (FXTF: 0.01=100units / 0.1=1,000units / 1.0=10,000units)
 input int    InpMagicNumber    = 0;      // Magic number (0 = auto-generate from Symbol)
 input int    InpSlippage       = 3;      // Max slippage (points)
 
