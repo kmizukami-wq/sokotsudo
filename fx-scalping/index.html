@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FX TF ティック・スキャルピング シミュレータ（手法A）</title>
+<style>
+  :root{
+    --bg:#0b0f17; --panel:#111826; --panel2:#0e1421; --line:#1f2a3d;
+    --text:#e6edf7; --muted:#8a97ad;
+    --green:#16c784; --red:#ea3943; --amber:#f0b429; --blue:#5ea6ff;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13px;min-height:100vh}
+  header{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  header h1{font-size:14px;letter-spacing:.08em;font-weight:600}
+  header .sub{color:var(--muted);font-size:11px;margin-top:2px}
+  .tag{display:inline-block;padding:2px 8px;border:1px solid var(--line);border-radius:2px;color:var(--amber);font-size:10px;letter-spacing:.1em}
+  main{display:grid;grid-template-columns:1fr 360px;gap:12px;padding:12px}
+  @media(max-width:900px){main{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .panel h2{font-size:11px;letter-spacing:.1em;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--line);background:var(--panel2);font-weight:500}
+  .controls{display:flex;gap:8px;padding:10px 14px;flex-wrap:wrap;align-items:center}
+  button{background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:6px 14px;border-radius:2px;font-family:var(--mono);font-size:12px;cursor:pointer;transition:.15s}
+  button:hover{border-color:var(--amber);color:var(--amber)}
+  button.primary{background:var(--amber);color:#000;border-color:var(--amber)}
+  button.primary:hover{background:#ffd05a;color:#000}
+  button.danger{color:var(--red);border-color:var(--red)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  label.slider{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+  label.slider input{width:80px}
+  canvas{display:block;width:100%;background:var(--panel2)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+  .stat{background:var(--panel);padding:10px 14px}
+  .stat .k{font-size:10px;color:var(--muted);letter-spacing:.08em}
+  .stat .v{font-size:18px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+  .v.green{color:var(--green)} .v.red{color:var(--red)} .v.amber{color:var(--amber)} .v.blue{color:var(--blue)}
+  .log{max-height:420px;overflow-y:auto;font-size:11px}
+  .log .row{display:grid;grid-template-columns:44px 52px 1fr 58px;gap:6px;padding:6px 12px;border-bottom:1px solid var(--line);align-items:center}
+  .log .row:hover{background:var(--panel2)}
+  .log .ix{color:var(--muted)}
+  .log .side{font-weight:600}
+  .log .side.B{color:var(--green)} .log .side.S{color:var(--red)}
+  .log .path{color:var(--muted);font-size:10px;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .log .pnl{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .pnl.green{color:var(--green)} .pnl.red{color:var(--red)}
+  .legend{display:flex;gap:14px;padding:6px 14px;font-size:10px;color:var(--muted);border-top:1px solid var(--line);background:var(--panel2)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .dot.g{background:var(--green)} .dot.r{background:var(--red)} .dot.b{background:var(--blue)} .dot.a{background:var(--amber)}
+  .rulebox{padding:12px 14px;font-size:11px;line-height:1.7;color:var(--muted);border-top:1px solid var(--line)}
+  .rulebox b{color:var(--text)}
+  .rulebox .ex{margin-top:6px;padding-left:10px;border-left:2px solid var(--line)}
+  .footer{text-align:center;color:var(--muted);font-size:10px;padding:14px;opacity:.7}
+  .badge{display:inline-block;padding:1px 6px;border-radius:2px;font-size:9px;letter-spacing:.05em}
+  .badge.trail{background:rgba(240,180,41,.15);color:var(--amber)}
+  .badge.stop{background:rgba(234,57,67,.15);color:var(--red)}
+  .badge.tout{background:rgba(138,151,173,.15);color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>FX TF ティック・スキャルピング <span class="tag">手法A</span></h1>
+    <div class="sub">USD/JPY ・ 1万通貨（ランク1無料枠） ・ ピーク・トレーリング退出</div>
+  </div>
+  <div class="controls">
+    <label class="slider">速度 <input id="speed" type="range" min="1" max="200" value="60"></label>
+    <button id="btnStart" class="primary">▶ 開始</button>
+    <button id="btnPause" disabled>❚❚ 停止</button>
+    <button id="btnReset" class="danger">↺ リセット</button>
+  </div>
+</header>
+
+<main>
+  <div>
+    <div class="panel">
+      <h2>PRICE CHART — USD/JPY tick / 1min EMA(20, 60)</h2>
+      <canvas id="chart" width="1200" height="360"></canvas>
+      <div class="legend">
+        <span><span class="dot b"></span>Tick Bid</span>
+        <span><span class="dot a"></span>EMA(20)</span>
+        <span><span class="dot g"></span>EMA(60) / 買方向</span>
+        <span><span class="dot r"></span>逆方向</span>
+        <span id="livePos" style="margin-left:auto;color:var(--amber)"></span>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:12px">
+      <h2>STATISTICS</h2>
+      <div class="stats">
+        <div class="stat"><div class="k">取引回数</div><div class="v" id="stTrades">0</div></div>
+        <div class="stat"><div class="k">勝率</div><div class="v amber" id="stWinRate">—</div></div>
+        <div class="stat"><div class="k">累積pips</div><div class="v" id="stPips">0.0</div></div>
+        <div class="stat"><div class="k">損益 (円)</div><div class="v" id="stYen">0</div></div>
+        <div class="stat"><div class="k">平均利益</div><div class="v green" id="stAvgW">0.0</div></div>
+        <div class="stat"><div class="k">平均損失</div><div class="v red" id="stAvgL">0.0</div></div>
+        <div class="stat"><div class="k">最大連勝</div><div class="v" id="stMaxW">0</div></div>
+        <div class="stat"><div class="k">最大DD (pips)</div><div class="v red" id="stDD">0.0</div></div>
+      </div>
+      <div class="rulebox">
+        <b>退出ルール（ユーザー仕様）</b><br>
+        peak = max(過去のpip損益) とする。
+        <div class="ex">例1: +2 → <b>+1</b> → 利確（ピーク2から下落、利益確保）</div>
+        <div class="ex">例2: +2 → +4 → <b>+3</b> → 利確（ピーク4から下落、伸ばした分を確保）</div>
+        <div class="ex">例3: +2 → <b>-1</b> → 即損切（マイナス転落）</div>
+        ロジック: <b>peak &gt; 0 かつ 現pip &lt; peak → 利確</b> ／ <b>現pip &lt; 0 → 即損切</b> ／ 60秒タイムアウト
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>TRADE LOG</h2>
+    <div id="log" class="log"></div>
+  </div>
+</main>
+
+<div class="footer">
+  FX TF 建玉連動手数料 ランク1 (0〜10,000通貨 USD/JPY) = 0円 ／ 本シミュレータはティック生成を乱数ウォーク+EMAドリフトで擬似化
+</div>
+
+<script>
+// ==================== CONFIG ====================
+const CFG = {
+  initPrice: 150.00,
+  pipSize: 0.01,         // USD/JPY: 1pip = 0.01円
+  spread: 0.002,         // 0.2銭 = 0.2pip
+  volPerTick: 0.004,     // ティック標準偏差 (~0.4pip)
+  driftStrength: 0.0006, // EMAクロス時のドリフト
+  tickMs: 100,           // 100ms毎に1tick
+  ema1min: 60,           // 1分=60sec, 1tick=0.1sec → 600tick=1min
+  emaFast: 20,           // EMA(20) on 1min
+  emaSlow: 60,           // EMA(60) on 1min
+  timeoutSec: 60,        // エントリ後のタイムアウト
+  triggerWindow: 5,      // 直近5tick以内
+  triggerHits: 3,        // 3連続同値ヒット
+  lotSize: 10000,        // 1万通貨（ランク1無料枠上限）
+  commission: 0,         // ランク1 = 0円
+};
+
+// ==================== STATE ====================
+const state = {
+  ticks: [],            // {t, bid, ask}
+  m1Closes: [],         // 1分足終値（60tick=6秒に短縮）
+  emaFast: null,
+  emaSlow: null,
+  direction: 0,         // +1 buy only, -1 sell only, 0 flat
+  position: null,       // {side, entryPrice, entryTick, peakPip, path:[]}
+  trades: [],
+  running: false,
+  tickIdx: 0,
+  lastTriggerTicks: [],
+  cumPips: 0,
+  peakCumPips: 0,
+  maxDD: 0,
+  streak: 0, maxStreak: 0,
+};
+
+// ==================== TICK GENERATOR ====================
+function nextTick() {
+  const prev = state.ticks.length ? state.ticks[state.ticks.length-1].mid : CFG.initPrice;
+  // drift from EMA direction
+  let drift = 0;
+  if (state.emaFast !== null && state.emaSlow !== null) {
+    drift = Math.sign(state.emaFast - state.emaSlow) * CFG.driftStrength;
+  }
+  const shock = (Math.random()*2 - 1) * CFG.volPerTick;
+  const mid = prev + drift + shock;
+  const bid = mid - CFG.spread/2;
+  const ask = mid + CFG.spread/2;
+  const tick = {t: state.tickIdx++, mid, bid, ask};
+  state.ticks.push(tick);
+  if (state.ticks.length > 3000) state.ticks.shift();
+
+  // 1分足：60tick毎（シミュレータ短縮時間）
+  if (state.tickIdx % 60 === 0) {
+    state.m1Closes.push(mid);
+    if (state.m1Closes.length > 200) state.m1Closes.shift();
+    state.emaFast = computeEMA(state.m1Closes, CFG.emaFast);
+    state.emaSlow = computeEMA(state.m1Closes, CFG.emaSlow);
+    if (state.emaFast !== null && state.emaSlow !== null) {
+      state.direction = state.emaFast > state.emaSlow ? 1 : -1;
+    }
+  }
+  return tick;
+}
+
+function computeEMA(arr, period) {
+  if (arr.length < period) return null;
+  const k = 2/(period+1);
+  let ema = arr.slice(0, period).reduce((a,b)=>a+b,0)/period;
+  for (let i=period; i<arr.length; i++) ema = arr[i]*k + ema*(1-k);
+  return ema;
+}
+
+// ==================== STRATEGY ====================
+function maybeEnter(tick) {
+  if (state.position) return;
+  if (state.direction === 0) return;
+  // トリガ: 直近5tickの変動方向が3回以上一致
+  const window = state.ticks.slice(-CFG.triggerWindow);
+  if (window.length < CFG.triggerWindow) return;
+  let hits = 0;
+  for (let i=1;i<window.length;i++){
+    const d = Math.sign(window[i].mid - window[i-1].mid);
+    if (d === state.direction) hits++;
+  }
+  if (hits < CFG.triggerHits) return;
+
+  const side = state.direction;
+  const entryPrice = side > 0 ? tick.ask : tick.bid;
+  state.position = {
+    side, entryPrice, entryTick: tick.t,
+    peakPip: 0,
+    path: [],
+  };
+  updateLivePos();
+}
+
+function maybeExit(tick) {
+  if (!state.position) return;
+  const p = state.position;
+  // 現在のpips (exit: sell at bid / buy at ask)
+  const exitPrice = p.side > 0 ? tick.bid : tick.ask;
+  const pipPnL = (exitPrice - p.entryPrice) * p.side / CFG.pipSize;
+  p.path.push(+pipPnL.toFixed(2));
+  if (p.path.length > 40) p.path.shift();
+
+  // タイムアウト
+  if (tick.t - p.entryTick >= CFG.timeoutSec*10) {  // 60sec*10tick/sec
+    return closePosition(pipPnL, 'tout');
+  }
+  // ピーク更新
+  if (pipPnL > p.peakPip) p.peakPip = pipPnL;
+
+  // 損切：マイナス転落
+  if (pipPnL < 0) {
+    return closePosition(pipPnL, 'stop');
+  }
+  // 利確：ピークから下落（peak>0前提・ピーク直後は保持）
+  if (p.peakPip >= 1.0 && pipPnL < p.peakPip - 0.01) {
+    return closePosition(pipPnL, 'trail');
+  }
+}
+
+function closePosition(pipPnL, reason) {
+  const p = state.position;
+  const trade = {
+    side: p.side, entry: p.entryPrice,
+    pips: +pipPnL.toFixed(2),
+    peak: +p.peakPip.toFixed(2),
+    reason,
+    path: [...p.path],
+    yen: Math.round(pipPnL * CFG.lotSize * CFG.pipSize) - CFG.commission,
+    ix: state.trades.length + 1,
+  };
+  state.trades.push(trade);
+  state.cumPips += trade.pips;
+  if (state.cumPips > state.peakCumPips) state.peakCumPips = state.cumPips;
+  const dd = state.peakCumPips - state.cumPips;
+  if (dd > state.maxDD) state.maxDD = dd;
+  if (trade.pips > 0) { state.streak++; if (state.streak>state.maxStreak) state.maxStreak=state.streak; }
+  else state.streak = 0;
+
+  state.position = null;
+  renderTrade(trade);
+  renderStats();
+  updateLivePos();
+}
+
+// ==================== RENDERING ====================
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){
+  const ratio = window.devicePixelRatio||1;
+  const w = canvas.clientWidth, h = 360;
+  canvas.width = w*ratio; canvas.height = h*ratio;
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+}
+window.addEventListener('resize', resizeCanvas);
+
+function drawChart() {
+  const w = canvas.clientWidth, h = 360;
+  ctx.clearRect(0,0,w,h);
+  if (state.ticks.length < 2) return;
+  const view = state.ticks.slice(-600);
+  let min=Infinity,max=-Infinity;
+  for (const t of view){ if(t.mid<min)min=t.mid; if(t.mid>max)max=t.mid; }
+  const pad = (max-min)*0.15 + 0.003;
+  min -= pad; max += pad;
+  const xs = w / (view.length-1);
+  const ys = y => h - ((y-min)/(max-min))*(h-30) - 15;
+
+  // grid
+  ctx.strokeStyle = '#1a2336'; ctx.lineWidth = 1;
+  for (let i=1;i<6;i++){ const y = h*i/6; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+  // tick line
+  ctx.strokeStyle = '#5ea6ff'; ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  view.forEach((t,i)=>{ const x=i*xs, y=ys(t.mid); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.stroke();
+
+  // ema lines (approx on tick timeline - use 1min closes extrapolated)
+  if (state.emaFast !== null && state.emaSlow !== null) {
+    ctx.strokeStyle = '#f0b429'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(0,ys(state.emaFast)); ctx.lineTo(w,ys(state.emaFast)); ctx.stroke();
+    ctx.strokeStyle = state.direction>0?'#16c784':'#ea3943';
+    ctx.beginPath(); ctx.moveTo(0,ys(state.emaSlow)); ctx.lineTo(w,ys(state.emaSlow)); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // position markers
+  for (const tr of state.trades.slice(-30)){
+    // (簡略化: markerは割愛)
+  }
+
+  // live position
+  if (state.position) {
+    const p = state.position;
+    ctx.strokeStyle = p.side>0?'#16c784':'#ea3943';
+    ctx.setLineDash([4,4]); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,ys(p.entryPrice)); ctx.lineTo(w,ys(p.entryPrice)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = p.side>0?'#16c784':'#ea3943';
+    ctx.font = '11px ui-monospace';
+    ctx.fillText((p.side>0?'BUY @ ':'SELL @ ')+p.entryPrice.toFixed(3), 8, ys(p.entryPrice)-4);
+  }
+
+  // price label
+  const last = view[view.length-1];
+  ctx.fillStyle = '#e6edf7'; ctx.font = 'bold 14px ui-monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText(last.mid.toFixed(3), w-10, 20);
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#8a97ad'; ctx.font = '10px ui-monospace';
+  ctx.fillText('direction: ' + (state.direction>0?'BUY ONLY':state.direction<0?'SELL ONLY':'FLAT'), 10, 20);
+}
+
+function renderTrade(tr) {
+  const logEl = document.getElementById('log');
+  const row = document.createElement('div');
+  row.className = 'row';
+  const pnlCls = tr.pips>=0?'green':'red';
+  const sideCh = tr.side>0?'B':'S';
+  const badge = tr.reason==='trail'
+    ? '<span class="badge trail">TRAIL</span>'
+    : tr.reason==='stop' ? '<span class="badge stop">STOP</span>'
+    : '<span class="badge tout">T/O</span>';
+  const pathStr = tr.path.length
+    ? tr.path.slice(0,6).map(p=>(p>=0?'+':'')+p.toFixed(1)).join(' → ') + (tr.path.length>6?' …':'')
+    : '';
+  row.innerHTML =
+    `<div class="ix">#${tr.ix}</div>`+
+    `<div class="side ${sideCh}">${sideCh} ${badge}</div>`+
+    `<div class="path">peak +${tr.peak.toFixed(1)} │ ${pathStr}</div>`+
+    `<div class="pnl ${pnlCls}">${tr.pips>=0?'+':''}${tr.pips.toFixed(1)}p</div>`;
+  logEl.insertBefore(row, logEl.firstChild);
+  // keep last 200
+  while (logEl.children.length > 200) logEl.removeChild(logEl.lastChild);
+}
+
+function renderStats() {
+  const t = state.trades;
+  document.getElementById('stTrades').textContent = t.length;
+  const wins = t.filter(x=>x.pips>0), losses = t.filter(x=>x.pips<=0);
+  const wr = t.length? (wins.length/t.length*100) : 0;
+  const wrEl = document.getElementById('stWinRate');
+  wrEl.textContent = t.length? wr.toFixed(1)+'%' : '—';
+  wrEl.className = 'v ' + (wr>=55?'green':wr>=45?'amber':'red');
+  const pipsEl = document.getElementById('stPips');
+  pipsEl.textContent = (state.cumPips>=0?'+':'')+state.cumPips.toFixed(1);
+  pipsEl.className = 'v ' + (state.cumPips>=0?'green':'red');
+  const yen = Math.round(state.cumPips * CFG.lotSize * CFG.pipSize);
+  const yenEl = document.getElementById('stYen');
+  yenEl.textContent = (yen>=0?'+':'')+yen.toLocaleString()+'円';
+  yenEl.className = 'v ' + (yen>=0?'green':'red');
+  document.getElementById('stAvgW').textContent = wins.length? '+'+(wins.reduce((a,b)=>a+b.pips,0)/wins.length).toFixed(2) : '0.0';
+  document.getElementById('stAvgL').textContent = losses.length? (losses.reduce((a,b)=>a+b.pips,0)/losses.length).toFixed(2) : '0.0';
+  document.getElementById('stMaxW').textContent = state.maxStreak;
+  document.getElementById('stDD').textContent = '-'+state.maxDD.toFixed(1);
+}
+
+function updateLivePos() {
+  const el = document.getElementById('livePos');
+  if (state.position) {
+    const p = state.position;
+    const last = state.ticks[state.ticks.length-1];
+    const exitPrice = p.side>0? last.bid : last.ask;
+    const pip = (exitPrice - p.entryPrice) * p.side / CFG.pipSize;
+    el.textContent = `保有中: ${p.side>0?'BUY':'SELL'} ${pip>=0?'+':''}${pip.toFixed(1)}p (peak +${p.peakPip.toFixed(1)}p)`;
+    el.style.color = pip>=0?'var(--green)':'var(--red)';
+  } else el.textContent = '';
+}
+
+// ==================== MAIN LOOP ====================
+let loopTimer = null;
+function start() {
+  if (state.running) return;
+  state.running = true;
+  document.getElementById('btnStart').disabled = true;
+  document.getElementById('btnPause').disabled = false;
+  tickLoop();
+}
+function pause() {
+  state.running = false;
+  clearTimeout(loopTimer);
+  document.getElementById('btnStart').disabled = false;
+  document.getElementById('btnPause').disabled = true;
+}
+function reset() {
+  pause();
+  state.ticks=[]; state.m1Closes=[]; state.emaFast=null; state.emaSlow=null;
+  state.direction=0; state.position=null; state.trades=[];
+  state.tickIdx=0; state.cumPips=0; state.peakCumPips=0; state.maxDD=0;
+  state.streak=0; state.maxStreak=0;
+  document.getElementById('log').innerHTML = '';
+  renderStats(); updateLivePos(); drawChart();
+}
+function tickLoop(){
+  if (!state.running) return;
+  const speed = +document.getElementById('speed').value;
+  const batch = Math.max(1, Math.floor(speed/10));
+  for (let i=0;i<batch;i++){
+    const t = nextTick();
+    if (state.position) maybeExit(t);
+    else maybeEnter(t);
+  }
+  drawChart();
+  updateLivePos();
+  loopTimer = setTimeout(tickLoop, Math.max(8, 200 - speed));
+}
+
+document.getElementById('btnStart').onclick = start;
+document.getElementById('btnPause').onclick = pause;
+document.getElementById('btnReset').onclick = reset;
+
+resizeCanvas();
+// warmup to get EMA quickly
+for (let i=0;i<400;i++) nextTick();
+drawChart();
+renderStats();
+</script>
+</body>
+</html>
