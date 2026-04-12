@@ -17,35 +17,35 @@
 #property link        ""
 #property version     "1.00"
 #property strict
-#property description "FX TF ランク1無料枠 ティック・スキャルピング (最適化版)"
+#property description "FXTF Rank1 no-commission tick scalper (optimized)"
 
-//--- 入力パラメータ
-input double InpLots           = 0.1;    // ロット数 (FXTF-MT4: 0.1=1,000通貨 / 1.0=10,000通貨)
-input int    InpMagicNumber    = 77001;  // マジックナンバー
-input int    InpSlippage       = 3;      // スリッページ(point)
+//--- Input parameters (ASCII-only to avoid MT4 encoding issues)
+input double InpLots           = 0.1;    // Lot size (FXTF: 0.1=1,000units / 1.0=10,000units)
+input int    InpMagicNumber    = 77001;  // Magic number
+input int    InpSlippage       = 3;      // Max slippage (points)
 
-input string _sep1_            = "───── Exit Params ─────";
-input double InpStopPip        = 2.5;    // 損切幅 (pip)
-input double InpPeakActivate   = 1.8;    // トレール発動ピーク (pip)
-input double InpTrailGap       = 1.2;    // トレール幅 (pip)
-input int    InpTimeoutSec     = 60;     // タイムアウト秒数
+input string _sep1_            = "===== Exit Params =====";
+input double InpStopPip        = 2.5;    // Stop loss (pip)
+input double InpPeakActivate   = 1.8;    // Trail activation peak (pip)
+input double InpTrailGap       = 1.2;    // Trail retrace gap (pip)
+input int    InpTimeoutSec     = 60;     // Max hold time (sec)
 
-input string _sep2_            = "───── Entry Params ─────";
-input int    InpTriggerWindow  = 5;      // トリガ評価tick数
-input int    InpTriggerHits    = 3;      // 順方向tick必要数
-input int    InpEMAFast        = 20;     // EMA Fast (M1)
-input int    InpEMASlow        = 60;     // EMA Slow (M1)
+input string _sep2_            = "===== Entry Params =====";
+input int    InpTriggerWindow  = 5;      // Tick window size
+input int    InpTriggerHits    = 3;      // Required same-direction ticks
+input int    InpEMAFast        = 20;     // EMA fast period (M1)
+input int    InpEMASlow        = 60;     // EMA slow period (M1)
 
-input string _sep3_            = "───── Risk Guard ─────";
-input double InpMaxUnits       = 10000;  // ランク1上限 (手数料0円枠)
-input double InpMaxSpreadPoints= 2;      // 許容最大スプレッド(point)。超過時エントリ停止
-input bool   InpSkipTokyoMorn  = true;   // 日本時間6-9時 (広スプレッド帯) を除外
-input bool   InpSkipNYNewsHrs  = true;   // 日本時間21-24時 (NY開場/指標帯) を除外
-input int    InpJSTFromBroker  = 7;      // JST = broker時刻 + N時間 (冬7 / 夏6)
-input bool   InpTradeOnlyEAHrs = false;  // 追加の取引許可時間帯
-input int    InpStartHour      = 9;      // 開始(0-23 JST)
-input int    InpEndHour        = 24;     // 終了(0-24 JST)
-input bool   InpVerbose        = false;  // ログ詳細出力
+input string _sep3_            = "===== Risk Guard =====";
+input double InpMaxUnits       = 10000;  // Rank-1 unit cap (0-fee tier)
+input double InpMaxSpreadPoints= 2;      // Max allowed spread (points); skip entry if wider
+input bool   InpSkipTokyoMorn  = true;   // Skip JST 06-09 (Tokyo wide-spread hours)
+input bool   InpSkipNYNewsHrs  = true;   // Skip JST 21-24 (NY open + US news hours)
+input int    InpJSTFromBroker  = 7;      // Hours to add to broker time for JST (winter=7 / summer=6)
+input bool   InpTradeOnlyEAHrs = false;  // Enable additional custom trading hours
+input int    InpStartHour      = 9;      // Custom start hour (0-23 JST)
+input int    InpEndHour        = 24;     // Custom end hour (0-24 JST)
+input bool   InpVerbose        = false;  // Verbose log output
 
 //--- グローバル状態
 double   g_recentMids[];       // 直近tickのmid

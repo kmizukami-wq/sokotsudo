@@ -134,3 +134,102 @@ MT4内蔵のGenetic Algorithmで数時間〜1日で収束。
 | 「err=134」| 証拠金不足。初期証拠金を増やす |
 | 取引が多すぎる | `InpTriggerHits=4` に上げて厳格化 |
 | TRAIL利確が少ない | `InpPeakActivate=1.2` に下げて早期発動 |
+| パラメータが文字化け | ASCII版に修正済み。`パラメータ日本語解説.md` を参照 |
+| モデリング品質が低い(24%等) | 次節「9. 高品質tickデータ」を参照 |
+
+---
+
+## 9. 高品質tickデータの取得（モデリング品質99%化）
+
+MT4の「ヒストリーセンター」(F2)が提供するのは **M1足の始値/高値/安値/終値のみ** で、
+実際のtick単位の価格推移は含まれません。そのため全ティックモードを選んでも
+**M1 OHLCから疑似tickが生成される** だけで、モデリング品質は25%前後に留まります。
+
+99%を目指すには、**外部の真tickデータ**が必要です。
+
+### 9-1. 無料経路: Dukascopy + TickStory Lite (推奨)
+
+Dukascopy銀行は過去tickデータを無償公開しており、それをMT4に投入します。
+
+**手順**:
+
+1. **TickStory Lite をDL**:
+   ```bash
+   open https://www.tickstory.com/
+   ```
+   Windows版のみ。Mac では Wine / PlayOnMac / Parallels 経由で起動
+
+2. **TickStoryでDukascopyデータをDL**:
+   - 起動 → 左ペインで `Dukascopy → USDJPY` 選択
+   - 期間指定: 過去6ヶ月〜1年
+   - 右クリック →「Download」→完了まで待機（数十分〜数時間）
+
+3. **MT4へエクスポート**:
+   - TickStoryで USDJPY 右クリック →「Export to MT4」
+   - MT4インストールパスを指定
+   - FXTFの銘柄名は `USDJPY-cd` なので、エクスポート時に銘柄名を上書き設定
+
+4. **MT4で確認**:
+   - F2（ヒストリーセンター）で USDJPY-cd を開く → データ量が膨大になっている
+   - ストラテジーテスターで再実行 → モデリング品質99%表示を確認
+
+### 9-2. 有料経路: TickDataSuite (TDS2)
+
+TickStoryより高機能で、**可変スプレッド・スワップも再現**できる有料ツール。
+- 料金: 約$97買い切り
+- MT4と統合され、F2ではなくTDS2側でテスト実行
+- FXTF実環境に最も近いバックテストが可能
+
+```bash
+open https://eareview.net/tick-data-suite
+```
+
+### 9-3. Mac環境での課題
+
+TickStory/TDS2 はいずれも Windows 専用。Mac でのオプション:
+
+| 方法 | コスト | 推奨度 |
+|---|---|---|
+| **Parallels Desktop + Windows 11** | 有料 | ★★★ (最安定) |
+| **UTM + Windows (Apple Silicon)** | 無料 | ★★ |
+| **PlayOnMac + Wine** で TickStory | 無料 | ★ (動作不安定) |
+| **Macを諦めてWindows PCで準備**→.histだけMacに持ち込み | – | ★★★ |
+
+最も簡単なのは **別のWindows PCでtickデータを準備**し、生成された `.hst` ファイルを
+Macの MT4 データフォルダにコピーする方法です:
+
+```bash
+# Windows側で作成される.hstの場所
+# C:\Users\<user>\AppData\Roaming\MetaQuotes\Terminal\<hash>\history\<server>\USDJPY-cd1.hst (M1)
+# USDJPY-cd5.hst (M5), USDJPY-cd15.hst (M15), ...
+
+# Mac側のコピー先
+~/Library/Application\ Support/net.metaquotes.wine.metatrader4/drive_c/Program\ Files\ \(x86\)/MetaTrader\ 4/history/<server>/
+```
+
+### 9-4. 品質を上げずに信頼性を上げる代替策
+
+tick dataの用意がすぐできない場合、以下の代替:
+
+1. **デモ口座で2週間フォワードテスト**:
+   - 実ブローカーの実tickで動く = モデリング品質100%相当
+   - 2週間で100〜500取引の統計が取れる
+   - 結果がバックテストと大きく乖離しなければ実運用可
+
+2. **複数期間でのバックテスト**:
+   - 同じ24.95%品質でも、3ヶ月/6ヶ月/1年 と期間を変えて再実行
+   - 全期間でPF>1.0なら戦略の頑健性は確認できる
+   - 特定期間だけ勝ってる=カーブフィット
+
+3. **複数通貨でのバックテスト**:
+   - USDJPY-cd / EURJPY-cd / EURUSD-cd (いずれもランク1上限10,000通貨)
+   - 複数通貨で勝てる=戦略が相場特性に依存していない証拠
+
+### 9-5. 現在のバックテスト結果(品質25%)の解釈
+
+**+42%純益 / PF 1.18** という結果は、疑似tickでの近似値です。実際には:
+
+- **楽観シナリオ(tick品質99%)**: 同程度またはやや改善(M1 OHLC近似は平均的)
+- **悲観シナリオ(実ライブ)**: スリッページ・約定拒否により **PF 1.0〜1.1** に劣化する可能性
+
+→ **まずはデモ口座で2週間回す** のが最も堅実な次ステップです。
