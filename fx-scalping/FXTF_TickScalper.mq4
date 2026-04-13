@@ -46,6 +46,7 @@ input bool   InpTradeOnlyEAHrs = true;   // Enable custom trading hours (overrid
 input int    InpStartHour      = 9;      // Custom start hour JST (inclusive)
 input int    InpEndHour        = 3;      // Custom end hour JST (exclusive); wraps past midnight
 input bool   InpVerbose        = false;  // Verbose log output
+input bool   InpLogCSV         = false;  // Append diagnostics to MQL4/Files/TickScalp_<Symbol>.csv
 
 //--- グローバル状態
 double   g_recentMids[];       // 直近tickのmid
@@ -53,10 +54,26 @@ int      g_recentCount = 0;
 double   g_point;              // = Point (0.001 on 3/5-digit)
 double   g_pipSize;            // 1pip価格幅
 int      g_direction = 0;      // +1=BUY / -1=SELL / 0=FLAT
+int      g_prevDirection = 0;  // DIR変化検出用 (UpdateDirection が比較)
+double   g_lastEmaFast = 0;    // 直近 UpdateDirection で読んだ emaF (ログ用)
+double   g_lastEmaSlow = 0;
+double   g_lastEmaSlopePip = 0;// emaF(bar1)-emaF(bar3) を pip 換算
 datetime g_lastM1Time = 0;
 double   g_peakPip = 0;        // 現ポジションのピーク利益(pip)
 datetime g_entryTime = 0;
 int      g_effectiveMagic = 0; // Magic number (auto-generated if InpMagicNumber=0)
+
+// エントリ時点の診断値 (EXITログで再利用 / CSV)
+int      g_entrySide     = 0;
+double   g_entryPrice    = 0;
+double   g_entryEmaGap   = 0;
+double   g_entryEmaSlope = 0;
+int      g_entryHits     = 0;
+double   g_entryTickMove = 0;
+double   g_entrySpread   = 0;
+
+string   g_csvFile = "";        // OnInit で確定
+int      g_csvHeaderWritten = 0;
 
 //+------------------------------------------------------------------+
 //| Symbol からマジックナンバーを自動生成 (77000-85999 の範囲)         |
@@ -118,6 +135,25 @@ int OnInit()
                InpTriggerHits, InpTriggerWindow, InpEMAFast, InpEMASlow);
    PrintFormat("Execution: lots=%.2f slippage=%d maxSpread=%.1fp",
                InpLots, InpSlippage, InpMaxSpreadPoints);
+
+   // CSV 診断ログ準備
+   g_csvFile = StringConcatenate("TickScalp_", Symbol(), ".csv");
+   if(InpLogCSV)
+   {
+      int h = FileOpen(g_csvFile, FILE_CSV|FILE_READ|FILE_ANSI, ';');
+      bool needHeader = (h == INVALID_HANDLE);
+      if(h != INVALID_HANDLE) FileClose(h);
+      if(needHeader)
+      {
+         int hw = FileOpen(g_csvFile, FILE_CSV|FILE_WRITE|FILE_ANSI, ';');
+         if(hw != INVALID_HANDLE)
+         {
+            FileWriteString(hw, "timestamp;symbol;event;side;pip;holdSec;emaGap;emaSlope;hits;tickMove;spread\r\n");
+            FileClose(hw);
+         }
+      }
+      PrintFormat("CSV log -> MQL4/Files/%s", g_csvFile);
+   }
    return(INIT_SUCCEEDED);
 }
 
@@ -172,6 +208,55 @@ bool IsSpreadAcceptable()
 }
 
 //+------------------------------------------------------------------+
+//| 診断ヘルパ                                                       |
+//+------------------------------------------------------------------+
+double ComputeEmaGapPip()
+{
+   return (g_lastEmaFast - g_lastEmaSlow) / g_pipSize;
+}
+
+double ComputeTickMovePip()
+{
+   int n = InpTriggerWindow;
+   if(g_recentCount < n) return 0;
+   return (g_recentMids[n-1] - g_recentMids[0]) / g_pipSize;
+}
+
+int ComputeHits(int dir)
+{
+   int hits = 0;
+   if(g_recentCount < InpTriggerWindow || dir == 0) return 0;
+   for(int i = 1; i < InpTriggerWindow; i++)
+   {
+      double diff = g_recentMids[i] - g_recentMids[i-1];
+      int sgn = (diff > 0) ? 1 : (diff < 0 ? -1 : 0);
+      if(sgn == dir) hits++;
+   }
+   return hits;
+}
+
+string SideStr(int s)
+{
+   if(s > 0) return "BUY";
+   if(s < 0) return "SELL";
+   return "FLAT";
+}
+
+void LogCSV(string line)
+{
+   if(!InpLogCSV) return;
+   int h = FileOpen(g_csvFile, FILE_CSV|FILE_READ|FILE_WRITE|FILE_ANSI, ';');
+   if(h == INVALID_HANDLE)
+   {
+      h = FileOpen(g_csvFile, FILE_CSV|FILE_WRITE|FILE_ANSI, ';');
+      if(h == INVALID_HANDLE) return;
+   }
+   FileSeek(h, 0, SEEK_END);
+   FileWriteString(h, line + "\r\n");
+   FileClose(h);
+}
+
+//+------------------------------------------------------------------+
 //| 方向更新 (M1足確定時に評価)                                      |
 //+------------------------------------------------------------------+
 void UpdateDirection()
@@ -180,18 +265,44 @@ void UpdateDirection()
    if(m1 == g_lastM1Time) return;
    g_lastM1Time = m1;
 
-   if(iBars(Symbol(), PERIOD_M1) < InpEMASlow + 2) return;
+   if(iBars(Symbol(), PERIOD_M1) < InpEMASlow + 4) return;
 
-   double emaF = iMA(Symbol(), PERIOD_M1, InpEMAFast, 0, MODE_EMA, PRICE_CLOSE, 1);
-   double emaS = iMA(Symbol(), PERIOD_M1, InpEMASlow, 0, MODE_EMA, PRICE_CLOSE, 1);
-   if(emaF > emaS)      g_direction =  1;
-   else if(emaF < emaS) g_direction = -1;
-   else                 g_direction =  0;
+   double emaF1 = iMA(Symbol(), PERIOD_M1, InpEMAFast, 0, MODE_EMA, PRICE_CLOSE, 1);
+   double emaF3 = iMA(Symbol(), PERIOD_M1, InpEMAFast, 0, MODE_EMA, PRICE_CLOSE, 3);
+   double emaS  = iMA(Symbol(), PERIOD_M1, InpEMASlow, 0, MODE_EMA, PRICE_CLOSE, 1);
+   g_lastEmaFast     = emaF1;
+   g_lastEmaSlow     = emaS;
+   g_lastEmaSlopePip = (emaF1 - emaF3) / 2.0 / g_pipSize;  // bar あたりの pip 傾き
 
-   if(InpVerbose)
-      PrintFormat("[%s] Dir=%s emaF=%.5f emaS=%.5f",
+   g_prevDirection = g_direction;
+   if(emaF1 > emaS)      g_direction =  1;
+   else if(emaF1 < emaS) g_direction = -1;
+   else                  g_direction =  0;
+
+   double gap = ComputeEmaGapPip();
+
+   // 方向が変わった時は常時ログ
+   if(g_direction != g_prevDirection)
+   {
+      PrintFormat("DIR %s->%s [%s] emaF=%.5f emaS=%.5f gap=%+.2fp slope=%+.2fp/bar",
+                  SideStr(g_prevDirection), SideStr(g_direction),
                   TimeToStr(m1, TIME_DATE|TIME_MINUTES),
-                  g_direction>0?"BUY":g_direction<0?"SELL":"FLAT", emaF, emaS);
+                  emaF1, emaS, gap, g_lastEmaSlopePip);
+      if(InpLogCSV)
+      {
+         string line = StringFormat("%s;%s;DIR;%s;;;%+0.2f;%+0.2f;;;",
+                                    TimeToStr(TimeCurrent(), TIME_DATE|TIME_SECONDS),
+                                    Symbol(), SideStr(g_direction),
+                                    gap, g_lastEmaSlopePip);
+         LogCSV(line);
+      }
+   }
+   else if(InpVerbose)
+   {
+      PrintFormat("[%s] Dir=%s emaF=%.5f emaS=%.5f gap=%+.2fp slope=%+.2fp/bar",
+                  TimeToStr(m1, TIME_DATE|TIME_MINUTES), SideStr(g_direction),
+                  emaF1, emaS, gap, g_lastEmaSlopePip);
+   }
 }
 
 //+------------------------------------------------------------------+
@@ -215,17 +326,18 @@ bool ShouldEnter(int &outSide)
    if(g_direction == 0) return false;
    if(g_recentCount < InpTriggerWindow) return false;
 
-   int hits = 0;
-   for(int i = 1; i < InpTriggerWindow; i++)
-   {
-      double diff = g_recentMids[i] - g_recentMids[i-1];
-      int sgn = (diff > 0) ? 1 : (diff < 0 ? -1 : 0);
-      if(sgn == g_direction) hits++;
-   }
+   int hits = ComputeHits(g_direction);
    if(hits >= InpTriggerHits)
    {
       outSide = g_direction;
       return true;
+   }
+   if(InpVerbose)
+   {
+      double move = ComputeTickMovePip();
+      PrintFormat("Gate[HITS] hits=%d/%d tickMove=%+.2fp (need %d+ in dir=%s)",
+                  hits, InpTriggerWindow-1, move,
+                  InpTriggerHits, SideStr(g_direction));
    }
    return false;
 }
@@ -316,9 +428,31 @@ void OpenPosition(int side)
    }
    g_peakPip  = 0;
    g_entryTime = TimeCurrent();
-   if(InpVerbose)
-      PrintFormat("ENTRY %s @%.5f ticket=%d",
-                  side>0?"BUY":"SELL", price, ticket);
+
+   // 診断値のスナップショット (EXIT ログで再利用)
+   g_entrySide     = side;
+   g_entryPrice    = price;
+   g_entryEmaGap   = ComputeEmaGapPip();
+   g_entryEmaSlope = g_lastEmaSlopePip;
+   g_entryHits     = ComputeHits(side);
+   g_entryTickMove = ComputeTickMovePip();
+   g_entrySpread   = (Ask - Bid) / g_point;
+
+   PrintFormat("ENTRY %s @%.5f ticket=%d emaGap=%+.2fp slope=%+.2fp/bar hits=%d/%d tickMove=%+.2fp spread=%.1fp",
+               SideStr(side), price, ticket,
+               g_entryEmaGap, g_entryEmaSlope,
+               g_entryHits, InpTriggerWindow-1,
+               g_entryTickMove, g_entrySpread);
+
+   if(InpLogCSV)
+   {
+      string line = StringFormat("%s;%s;ENTRY;%s;;;%+0.2f;%+0.2f;%d;%+0.2f;%.1f",
+                                 TimeToStr(g_entryTime, TIME_DATE|TIME_SECONDS),
+                                 Symbol(), SideStr(side),
+                                 g_entryEmaGap, g_entryEmaSlope,
+                                 g_entryHits, g_entryTickMove, g_entrySpread);
+      LogCSV(line);
+   }
 }
 
 //+------------------------------------------------------------------+
@@ -341,14 +475,30 @@ void ClosePosition(int ticket, string reason)
    if(!OrderSelect(ticket, SELECT_BY_TICKET)) return;
    double price = (OrderType() == OP_BUY) ? Bid : Ask;
    double pip   = CurrentPipPnL(ticket);
+   int side     = (OrderType() == OP_BUY) ? 1 : -1;
+   int holdSec  = (int)(TimeCurrent() - g_entryTime);
+
    bool ok = OrderClose(ticket, OrderLots(), price, InpSlippage, clrNONE);
    if(!ok)
    {
       PrintFormat("OrderClose failed err=%d", GetLastError());
       return;
    }
-   PrintFormat("EXIT[%s] pip=%s%.2f peak=%.2f ticket=%d",
-               reason, pip>=0?"+":"", pip, g_peakPip, ticket);
+   PrintFormat("EXIT[%s] side=%s pip=%+.2f peak=%+.2f holdSec=%d ticket=%d (entry: gap=%+.2fp slope=%+.2fp/bar hits=%d move=%+.2fp)",
+               reason, SideStr(side), pip, g_peakPip, holdSec, ticket,
+               g_entryEmaGap, g_entryEmaSlope, g_entryHits, g_entryTickMove);
+
+   if(InpLogCSV)
+   {
+      string evt = "EXIT_" + reason;
+      string line = StringFormat("%s;%s;%s;%s;%+0.2f;%d;%+0.2f;%+0.2f;%d;%+0.2f;%.1f",
+                                 TimeToStr(TimeCurrent(), TIME_DATE|TIME_SECONDS),
+                                 Symbol(), evt, SideStr(side),
+                                 pip, holdSec,
+                                 g_entryEmaGap, g_entryEmaSlope,
+                                 g_entryHits, g_entryTickMove, g_entrySpread);
+      LogCSV(line);
+   }
    g_peakPip = 0;
 }
 
