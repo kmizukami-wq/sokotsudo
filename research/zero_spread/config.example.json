@@ -1,0 +1,59 @@
+{
+  "_comment": "FXTF zero-spread scalper config. Copy to config.json and fill in your Twelve Data API key. Pip-value uses 1k-unit base; account.balance_jpy is denominated in JPY.",
+  "twelve_data_api_key": "YOUR_TWELVE_DATA_KEY",
+  "account": {
+    "balance_jpy": 500000,
+    "risk_pct": 0.5,
+    "daily_loss_pct": 2.0,
+    "max_dd_pct": 6.0
+  },
+  "fxtf_campaign_windows_jst": [
+    { "weekday": [1, 2, 3, 4, 5], "start": "09:00", "end": "10:30" },
+    { "weekday": [1, 2, 3, 4, 5], "start": "16:00", "end": "17:30" },
+    { "weekday": [1, 2, 3, 4, 5], "start": "21:30", "end": "23:00" }
+  ],
+  "news_blackouts_utc": [],
+  "slippage_pips": 0.2,
+  "spread_assumption_pips": 0.0,
+  "pairs": {
+    "USD/JPY": {
+      "enabled": true,
+      "window": 20,
+      "entry_k": 2.0,
+      "wick_ratio": 0.6,
+      "atr_window": 14,
+      "tp_pips": 2.5,
+      "sl_atr_mult": 1.5,
+      "sl_floor_pips": 2.0,
+      "sl_cap_pips": 4.0,
+      "max_trades_day": 10,
+      "time_stop_bars": 30
+    },
+    "EUR/USD": {
+      "enabled": true,
+      "window": 20,
+      "entry_k": 2.0,
+      "wick_ratio": 0.6,
+      "atr_window": 14,
+      "tp_pips": 2.5,
+      "sl_atr_mult": 1.5,
+      "sl_floor_pips": 2.0,
+      "sl_cap_pips": 4.0,
+      "max_trades_day": 10,
+      "time_stop_bars": 30
+    },
+    "EUR/JPY": {
+      "enabled": true,
+      "window": 20,
+      "entry_k": 2.2,
+      "wick_ratio": 0.6,
+      "atr_window": 14,
+      "tp_pips": 3.0,
+      "sl_atr_mult": 1.5,
+      "sl_floor_pips": 2.5,
+      "sl_cap_pips": 5.0,
+      "max_trades_day": 10,
+      "time_stop_bars": 30
+    }
+  }
+}
