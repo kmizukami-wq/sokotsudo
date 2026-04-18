@@ -100,6 +100,23 @@ nav {
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .mobile-drawer a:hover, .mobile-drawer a:active { color: var(--gold-light); }
+.mobile-drawer-legal {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin: 12px 0;
+}
+.mobile-drawer-legal a {
+  padding: 10px 8px !important;
+  font-size: 12px !important;
+  color: rgba(255,255,255,0.5) !important;
+  border-bottom: none !important;
+  letter-spacing: 0.03em !important;
+}
+.mobile-drawer-legal a:hover { color: var(--gold-light) !important; }
 .mobile-drawer-tel {
   margin-top: 20px;
   padding: 16px 20px !important;
@@ -336,34 +353,6 @@ footer { background: #080f1a; padding: 64px 40px 32px; color: rgba(255,255,255,0
 .cta-float .btn-tel { background: var(--white); color: var(--navy2); }
 .cta-float .btn-apply { background: var(--gold); color: var(--navy); }
 
-/* LEGAL SECTIONS */
-.legal-section { background: var(--off); padding: 80px 40px; }
-.legal-section:nth-of-type(even) { background: var(--white); }
-.legal-inner { max-width: 800px; margin: 0 auto; }
-.legal-updated { font-size: 13px; color: var(--muted); margin-bottom: 32px; text-align: right; }
-.legal-lead { font-size: 15px; color: var(--text); margin-bottom: 32px; line-height: 2; }
-.legal-article { margin-bottom: 32px; }
-.legal-article h3 {
-  font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--navy2);
-  padding-bottom: 10px; margin-bottom: 14px; border-bottom: 2px solid var(--gold);
-}
-.legal-article h4 { font-size: 14px; font-weight: 700; color: var(--navy2); margin: 16px 0 8px; }
-.legal-article p { font-size: 14px; margin-bottom: 10px; line-height: 1.9; }
-.legal-article ul, .legal-article ol { padding-left: 24px; margin-bottom: 10px; }
-.legal-article li { font-size: 14px; margin-bottom: 6px; line-height: 1.8; }
-.legal-article a { color: var(--gold); }
-.legal-article table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-.legal-article th, .legal-article td { border: 1px solid #e0ddd8; padding: 10px 14px; text-align: left; vertical-align: top; line-height: 1.7; }
-.legal-article th { background: var(--off); font-weight: 700; width: 35%; }
-.legal-section:nth-of-type(even) .legal-article th { background: var(--gray); }
-
-@media (max-width: 768px) {
-  .legal-section { padding: 56px 20px; }
-  .legal-article th, .legal-article td { display: block; width: 100%; }
-  .legal-article th { padding-bottom: 4px; }
-  .legal-article td { padding-top: 4px; }
-}
-
 @keyframes tabShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-4px); } 40%,80% { transform: translateX(4px); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
@@ -445,6 +434,11 @@ footer { background: #080f1a; padding: 64px 40px 32px; color: rgba(255,255,255,0
     <a href="#faq" onclick="toggleDrawer()">よくある質問</a>
     <a href="#company" onclick="toggleDrawer()">会社概要</a>
     <a href="#contact" onclick="toggleDrawer()">お問い合わせ</a>
+    <div class="mobile-drawer-legal">
+      <a href="/privacy.html">プライバシーポリシー</a>
+      <a href="/terms.html">利用規約</a>
+      <a href="/tokushoho.html">特定商取引法</a>
+    </div>
     <a href="tel:0120XXXXXX" class="mobile-drawer-tel">📞 お電話で相談する<br><span style="font-size:12px;font-weight:400;opacity:0.8;">0120-XXX-XXX（10:00〜17:00）</span></a>
     <a href="#apply" class="mobile-drawer-cta" onclick="toggleDrawer()">お申込はこちら</a>
   </div>
@@ -1089,7 +1083,7 @@ footer { background: #080f1a; padding: 64px 40px 32px; color: rgba(255,255,255,0
           第5条（配送）ご希望によりご自宅や施設へのご遺骨配送サービスをご利用いただけます。<br><br>
           第6条（解約）サービス開始後の中途解約はお受けいたしかねます。詳細は利用規約第8条をご確認ください。<br><br>
           第7条（個人情報）お客様の個人情報は、プライバシーポリシーに従い適切に管理します。<br><br>
-          ※全文は<a href="#terms" style="color:var(--gold-light);">利用規約セクション</a>をご確認ください。
+          ※全文は<a href="/terms.html" target="_blank" style="color:var(--gold-light);">利用規約ページ</a>をご確認ください。
         </div>
         <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:24px;">
           <input type="checkbox" id="consentCheck" onchange="checkConsent()" style="width:18px;height:18px;accent-color:var(--gold);">
@@ -1204,315 +1198,6 @@ footer { background: #080f1a; padding: 64px 40px 32px; color: rgba(255,255,255,0
   </div>
 </section>
 
-<!-- ========== LEGAL SECTIONS (一体化) ========== -->
-
-<!-- PRIVACY POLICY -->
-<section id="privacy" class="legal-section">
-  <div class="legal-inner">
-    <div class="section-label">Privacy Policy</div>
-    <h2 class="section-title">プライバシーポリシー</h2>
-    <div class="divider"></div>
-    <div class="legal-updated">最終改定日：2026年4月19日</div>
-    <p class="legal-lead">株式会社 送骨堂（以下「当社」といいます）は、お客様の個人情報の保護に関する法律その他の関係法令を遵守するとともに、以下のプライバシーポリシー（以下「本ポリシー」といいます）に従ってお客様の個人情報を適切に取得、利用、管理いたします。</p>
-
-    <div class="legal-article">
-      <h3>第1条（取得する個人情報）</h3>
-      <p>当社は、以下の個人情報を取得いたします。</p>
-      <ul>
-        <li>氏名、フリガナ、生年月日、年齢、性別</li>
-        <li>住所、郵便番号、電話番号、メールアドレス</li>
-        <li>宗教・宗派に関する情報（サービス提供に必要な範囲）</li>
-        <li>故人（ご遺骨）に関する情報</li>
-        <li>お支払いに関する情報（銀行口座情報など）</li>
-        <li>当社サービスの利用履歴、お問い合わせ内容</li>
-        <li>当社Webサイトへのアクセス情報（Cookie、IPアドレス、ブラウザ情報など）</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第2条（利用目的）</h3>
-      <p>当社は、取得した個人情報を以下の目的で利用いたします。</p>
-      <ol>
-        <li>本サービス（納骨・管理・送骨・墓じまいサポート等）の提供のため</li>
-        <li>ご契約内容、ご利用状況の管理のため</li>
-        <li>お客様からのお問い合わせ、ご相談への対応のため</li>
-        <li>提携寺院との連絡調整のため</li>
-        <li>契約更新、満了のご案内、その他重要なご連絡のため</li>
-        <li>サービス内容の改善、新サービスの開発のため</li>
-        <li>お支払いに関する処理のため</li>
-        <li>法令または行政機関等からの要請に対応するため</li>
-      </ol>
-    </div>
-
-    <div class="legal-article">
-      <h3>第3条（第三者提供）</h3>
-      <p>当社は、以下のいずれかに該当する場合を除き、あらかじめお客様の同意を得ることなく第三者に個人情報を提供いたしません。</p>
-      <ul>
-        <li>法令に基づく場合</li>
-        <li>人の生命、身体または財産の保護のために必要がある場合</li>
-        <li>公衆衛生の向上または児童の健全な育成の推進のために必要がある場合</li>
-        <li>国の機関等が法令の定める事務を遂行することに協力する必要がある場合</li>
-      </ul>
-      <p>なお、本サービス提供にあたり必要な範囲で、以下の第三者に情報を提供する場合があります。この場合、事前にお客様に通知または同意を得たうえで実施いたします。</p>
-      <ul>
-        <li>提携寺院（お預かりするご遺骨の管理・供養のため）</li>
-        <li>提携石材店（墓石撤去工事のため）</li>
-        <li>配送業務委託先（ご遺骨の配送のため）</li>
-        <li>決済処理業者、金融機関</li>
-        <li>墓じまい・改葬に関わる行政手続の代行事業者（士業等）</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第4条（個人情報の委託）</h3>
-      <p>当社は、利用目的の達成に必要な範囲内において、個人情報の取扱いの全部または一部を外部に委託することがあります。その場合、委託先には必要かつ適切な監督を行います。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第5条（安全管理措置）</h3>
-      <p>当社は、個人情報への不正アクセス、漏えい、滅失、毀損などを防止するため、以下の安全管理措置を講じます。</p>
-      <ul>
-        <li>個人情報保護管理者の設置</li>
-        <li>従業者への教育・研修の実施</li>
-        <li>個人情報を取り扱う機器・システムへのアクセス制限</li>
-        <li>通信経路の暗号化（SSL/TLS）</li>
-        <li>バックアップおよび障害対策の実施</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第6条（開示・訂正・削除等の請求）</h3>
-      <p>お客様は、当社が保有するご自身の個人情報について、開示、訂正、追加、削除、利用停止または第三者提供の停止を請求することができます。</p>
-      <p>ご請求に際しては、ご本人確認のため所定の書類をご提出いただく場合があります。詳細は末尾のお問い合わせ窓口までご連絡ください。</p>
-      <p>なお、以下の場合は開示等のご請求にお応えできない場合があります。</p>
-      <ul>
-        <li>ご本人または第三者の生命、身体、財産その他の権利利益を害するおそれがある場合</li>
-        <li>当社の業務の適正な実施に著しい支障を及ぼすおそれがある場合</li>
-        <li>他の法令に違反することとなる場合</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第7条（Cookie等の利用）</h3>
-      <p>当社Webサイトでは、サービスの品質向上、利用状況の分析、広告配信等のため、Cookieおよび類似の技術を利用する場合があります。お客様はブラウザの設定によりCookieの受け入れを拒否することができますが、その場合一部のサービスが正常に動作しない可能性があります。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第8条（お問い合わせ窓口）</h3>
-      <p>個人情報の取扱いに関するご質問、ご請求、ご意見等は、以下の窓口までご連絡ください。</p>
-      <table>
-        <tr><th>運営会社</th><td>株式会社 送骨堂</td></tr>
-        <tr><th>個人情報保護管理者</th><td>水上 由輝德</td></tr>
-        <tr><th>所在地</th><td>〒111-0051 東京都台東区蔵前4-33-9</td></tr>
-        <tr><th>電話番号</th><td><span class="tel-pc">0120-XXX-XXX</span><a href="tel:0120XXXXXX" class="tel-sp">0120-XXX-XXX</a>（受付：毎日10:00〜17:00）</td></tr>
-        <tr><th>お問い合わせフォーム</th><td><a href="#contact">サイト内お問い合わせフォーム</a></td></tr>
-      </table>
-    </div>
-
-    <div class="legal-article">
-      <h3>第9条（本ポリシーの改定）</h3>
-      <p>当社は、法令の改正や業務上の必要に応じて、本ポリシーを改定することがあります。改定後の本ポリシーは、当社Webサイトに掲載した時点で効力を生じるものとします。重要な変更がある場合は、別途お客様にご通知いたします。</p>
-    </div>
-  </div>
-</section>
-
-<!-- TERMS OF SERVICE -->
-<section id="terms" class="legal-section">
-  <div class="legal-inner">
-    <div class="section-label">Terms of Service</div>
-    <h2 class="section-title">利用規約</h2>
-    <div class="divider"></div>
-    <div class="legal-updated">最終改定日：2026年4月19日</div>
-    <p class="legal-lead">本利用規約（以下「本規約」といいます）は、株式会社 送骨堂（以下「当社」といいます）が提供する納骨・管理サービス（以下「本サービス」といいます）の利用条件を定めるものです。お客様（以下「契約者」といいます）は、本規約に同意のうえ本サービスをお申込みいただくものとします。</p>
-
-    <div class="legal-article">
-      <h3>第1条（目的）</h3>
-      <p>本規約は、当社が提供する本サービスに関し、当社と契約者との間の権利義務関係を定めることを目的とします。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第2条（定義）</h3>
-      <p>本規約において用いる用語の定義は、以下のとおりとします。</p>
-      <ul>
-        <li><strong>本サービス</strong>：当社が提携寺院の納骨堂または永代供養墓にご遺骨をお預かりし、QRコードによる管理、およびご希望日時でのご自宅等への配送（送骨）を提供するサービス</li>
-        <li><strong>契約者</strong>：本規約に同意のうえ、本サービスをお申込みいただいた方</li>
-        <li><strong>提携寺院</strong>：当社と業務提携し、ご遺骨の管理および供養を行う寺院</li>
-        <li><strong>管理期間</strong>：契約者が選択した、提携寺院にご遺骨をお預かりする期間</li>
-        <li><strong>送骨</strong>：契約者のご希望に基づき、専用車にてご遺骨をご自宅または指定の場所にお届けすること</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第3条（契約の成立）</h3>
-      <p>本サービスの利用契約は、契約者が本規約に同意のうえ所定の申込手続きを行い、当社がこれを承諾した時点で成立するものとします。</p>
-      <p>当社は、契約者が以下のいずれかに該当すると判断した場合、申込を承諾しないことがあります。</p>
-      <ul>
-        <li>申込内容に虚偽の記載があった場合</li>
-        <li>過去に本規約違反を理由に契約を解除されたことがある場合</li>
-        <li>反社会的勢力等に該当すると判断した場合</li>
-        <li>その他、当社が契約締結を適当でないと判断した場合</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第4条（費用および支払方法）</h3>
-      <p>契約者は、本サービスの対価として以下の費用を当社に支払うものとします。</p>
-      <ol>
-        <li>契約金</li>
-        <li>寺院への志納金</li>
-        <li>管理費（選択した管理期間分を一括前払い）</li>
-        <li>骨箱代</li>
-        <li>追加送骨料（ご希望に応じて）</li>
-      </ol>
-      <p>費用は銀行振込によりお支払いいただきます。振込手数料は契約者のご負担とします。</p>
-      <p>ご入金の確認をもって、本サービスを開始いたします。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第5条（管理期間および更新）</h3>
-      <p>管理期間は契約者がお申込時に選択した期間（最低3年〜最長30年）とします。</p>
-      <p>管理期間満了時、契約者は以下のいずれかをお選びいただけます。</p>
-      <ul>
-        <li>管理期間を延長（更新料のお支払いが必要）</li>
-        <li>永代供養（合祀）へ切替</li>
-      </ul>
-      <p>管理期間満了の3ヶ月前を目処に、当社より契約者へご案内いたします。ご連絡がない場合、または当社が契約者と連絡を取れない状態が一定期間継続した場合は、永代供養（合祀）へ切り替えさせていただくことがあります。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第6条（送骨サービス）</h3>
-      <p>契約者は、管理期間中、年1回の送骨を無料でご利用いただけます。</p>
-      <p>追加の送骨をご希望の場合は、1回あたり30,000円（税込）にてご依頼いただけます。</p>
-      <p>送骨は、当社または当社が委託する貨物軽自動車運送事業者により実施し、宅配便等での配送は行いません。</p>
-      <p>天災地変、交通事情等、当社の責に帰すことのできない事由により予定日にお届けできない場合があります。その場合は速やかに契約者にご連絡し、日程の再調整をさせていただきます。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第7条（契約者の遵守事項）</h3>
-      <p>契約者は、本サービスの利用にあたり、以下の事項を遵守するものとします。</p>
-      <ul>
-        <li>申込内容に変更が生じた場合、速やかに当社に届け出ること</li>
-        <li>ご遺骨の取扱いに際し、宗教的配慮をもって丁重に取扱うこと</li>
-        <li>法令および公序良俗に反する行為を行わないこと</li>
-        <li>他の契約者、提携寺院、当社または第三者の権利を侵害する行為を行わないこと</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第8条（契約の解除）</h3>
-      <h4>1. サービス開始前のキャンセル</h4>
-      <p>ご入金前であれば、契約者はキャンセル手数料なくお申込を取り消すことができます。</p>
-      <p>ご入金後、サービス開始前のキャンセルは、事務手数料10,000円（税込）を差し引いた金額を返金いたします。</p>
-      <h4>2. サービス開始後の中途解約</h4>
-      <p>ご遺骨をお預かりした後の中途解約はお受けいたしかねます。これは、ご遺骨の性質上、当社および提携寺院において継続的な管理・供養を前提に契約を締結していること、また料金をサービス開始時に一括前払いいただいている性質上、返金対応が困難であることに起因します。</p>
-      <p>契約者は、本規約に同意のうえ本サービスをお申込みいただくことで、本項の内容について了承したものとみなされます。</p>
-      <h4>3. 管理期間満了時のお取り扱い</h4>
-      <p>管理期間満了時には、契約者のご希望により「管理期間の延長」または「永代供養（合祀）への切替」をお選びいただけます。詳細は本規約第5条をご確認ください。</p>
-      <h4>4. 当社からの契約解除</h4>
-      <p>当社は、契約者が本規約に違反した場合、または以下の事由に該当する場合、事前の通知なく契約を解除することができます。この場合、既にお支払いいただいた費用の返金は原則として行いません。</p>
-      <ul>
-        <li>申込内容に虚偽があった場合</li>
-        <li>費用の支払いを怠った場合</li>
-        <li>当社または第三者に重大な損害を与えた場合</li>
-        <li>その他、信頼関係を維持することが困難と認められる場合</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h3>第9条（個人情報の取扱い）</h3>
-      <p>当社は、契約者の個人情報を別途定める<a href="#privacy">プライバシーポリシー</a>に従い、適切に取り扱います。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第10条（免責事項）</h3>
-      <p>当社は、天災地変、戦争、内乱、暴動、疫病、交通機関の事故、公権力による命令処分、争議行為等、当社の責に帰すことのできない事由により本サービスを提供できない場合、その責を負わないものとします。</p>
-      <p>ただし、当社の故意または過失によりご遺骨の紛失・毀損等が生じた場合、当社は合理的な範囲で損害賠償責任を負うものとします。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第11条（規約の変更）</h3>
-      <p>当社は、必要に応じて本規約を変更することがあります。変更後の規約は、当社Webサイトに掲示した時点から効力を生じるものとします。重要な変更がある場合は、契約者に事前に通知いたします。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第12条（準拠法および管轄裁判所）</h3>
-      <p>本規約の解釈および適用は、日本法に準拠するものとします。</p>
-      <p>本サービスに関して契約者と当社との間に紛争が生じた場合、東京地方裁判所を第一審の専属的合意管轄裁判所とします。</p>
-    </div>
-
-    <div class="legal-article">
-      <h3>第13条（お問い合わせ）</h3>
-      <p>本規約に関するお問い合わせは、以下の窓口までご連絡ください。</p>
-      <p>
-        株式会社 送骨堂<br>
-        〒111-0051 東京都台東区蔵前4-33-9<br>
-        電話：<span class="tel-pc">0120-XXX-XXX</span><a href="tel:0120XXXXXX" class="tel-sp">0120-XXX-XXX</a>（毎日10:00〜17:00）<br>
-        お問い合わせフォーム：<a href="#contact">サイト内フォーム</a>
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- TOKUSHOHO -->
-<section id="tokushoho" class="legal-section">
-  <div class="legal-inner">
-    <div class="section-label">Specified Commercial Transaction Act</div>
-    <h2 class="section-title">特定商取引法に基づく表記</h2>
-    <div class="divider"></div>
-    <div class="legal-updated">最終改定日：2026年4月19日</div>
-
-    <div class="legal-article">
-      <table>
-        <tr><th>販売業者</th><td>株式会社 送骨堂</td></tr>
-        <tr><th>運営統括責任者</th><td>水上 由輝德</td></tr>
-        <tr><th>所在地</th><td>〒111-0051<br>東京都台東区蔵前4-33-9</td></tr>
-        <tr><th>電話番号</th><td><span class="tel-pc">0120-XXX-XXX</span><a href="tel:0120XXXXXX" class="tel-sp">0120-XXX-XXX</a><br><span style="font-size:12px;color:var(--muted);">受付時間：毎日10:00〜17:00（年中無休）</span></td></tr>
-        <tr><th>メールアドレス</th><td>info@sokotsudo.com</td></tr>
-        <tr><th>URL</th><td><a href="https://sokotsudo.com">https://sokotsudo.com</a></td></tr>
-        <tr><th>販売価格</th><td>
-          各プラン・お寺・管理期間により異なります。<br>
-          目安：
-          <ul>
-            <li>契約金：90,000円〜（税込）</li>
-            <li>寺院への志納金：10,000円〜（税込）</li>
-            <li>管理費：36,000円/年（税込）× 選択年数</li>
-            <li>骨箱：20,000円（税込）</li>
-            <li>追加送骨：30,000円/回（税込）</li>
-          </ul>
-          詳細は<a href="#estimate">お見積りシミュレーター</a>にてご確認いただけます。
-        </td></tr>
-        <tr><th>商品代金以外の必要料金</th><td>
-          <ul>
-            <li>振込手数料（お客様ご負担）</li>
-            <li>インターネット通信料（お客様ご負担）</li>
-            <li>墓じまい・改葬をお申込の場合は、別途費用が発生する場合があります。個別にお見積りいたします。</li>
-          </ul>
-        </td></tr>
-        <tr><th>お支払方法</th><td>銀行振込（一括前払い）</td></tr>
-        <tr><th>お支払時期</th><td>お申込受付後、当社よりお送りするご請求書に記載の期日までにお振込ください（通常はお申込後2週間以内）。</td></tr>
-        <tr><th>役務の提供時期</th><td>ご入金の確認後、概ね3営業日以内にサービス開始のご案内をお送りいたします。ご遺骨の受入準備が整い次第、提携寺院での管理を開始いたします。</td></tr>
-        <tr><th>申込有効期限</th><td>お申込受付後14日以内にご入金の確認ができない場合、お申込は無効となる場合があります。</td></tr>
-        <tr><th>返品・キャンセル・中途解約について</th><td>
-          <strong>クーリング・オフ</strong><br>
-          本サービスは特定商取引法上のクーリング・オフ制度の対象外となる場合があります。ただし、当社独自の措置として、お申込後、ご入金前であればキャンセル手数料なくお申込を取り消すことができます。<br><br>
-          <strong>ご入金後のキャンセル</strong><br>
-          ご入金後、サービス開始前のキャンセルは、事務手数料10,000円（税込）を差し引いた金額を返金いたします。<br><br>
-          <strong>サービス開始後の中途解約</strong><br>
-          ご遺骨をお預かりした後の中途解約はお受けいたしかねます。これは、ご遺骨の性質上、当社および提携寺院において継続的な管理・供養を前提に契約を締結していること、また料金をサービス開始時に一括前払いいただいている性質上、返金対応が困難であることに起因します。<br>
-          あらかじめご了承のうえ、お申込みください。<br><br>
-          ※管理期間満了時には、契約者のご希望により「期間延長」または「永代供養（合祀）への切替」をお選びいただけます。詳細は<a href="#terms">利用規約</a>第5条・第8条をご確認ください。
-        </td></tr>
-        <tr><th>不良品・瑕疵について</th><td>当社の責に帰すべき事由によりご遺骨の紛失・毀損等が生じた場合、速やかにご連絡のうえ、合理的な範囲で対応いたします。詳細は<a href="#terms">利用規約</a>をご確認ください。</td></tr>
-        <tr><th>許可・資格</th><td>貨物軽自動車運送事業（黒ナンバー）</td></tr>
-      </table>
-      <p style="font-size:12px; color:var(--muted); margin-top:16px;">
-        ※上記の内容は、法令の改正、事業内容の変更等により予告なく変更する場合があります。最新の内容については、本ページをご確認ください。<br>
-        ※ご不明な点は、お電話またはお問い合わせフォームよりお気軽にご相談ください。
-      </p>
-    </div>
-  </div>
-</section>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -1559,9 +1244,9 @@ footer { background: #080f1a; padding: 64px 40px 32px; color: rgba(255,255,255,0
       <div>
         <div class="footer-col-title">Legal</div>
         <ul class="footer-links">
-          <li><a href="#privacy">プライバシーポリシー</a></li>
-          <li><a href="#terms">利用規約</a></li>
-          <li><a href="#tokushoho">特定商取引法</a></li>
+          <li><a href="/privacy.html">プライバシーポリシー</a></li>
+          <li><a href="/terms.html">利用規約</a></li>
+          <li><a href="/tokushoho.html">特定商取引法</a></li>
         </ul>
       </div>
     </div>
@@ -2056,4 +1741,3 @@ function onSearchAreaChange() {
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"f5fa9a16101d440ba11da367253e13f4","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
-
