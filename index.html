@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -160,7 +157,7 @@
       "name": "ご遺骨の配送は安全ですか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "専用の黒ナンバー貨物軽自動車を使用し、専門スタッフが直接お届けします。宅配便での配送は行いません。また、すべてのご遺骨はQRコードで管理され、いつでも状況を確認いただけます。"
+        "text": "専用の黒ナンバー貨物軽自動車を使用し、専門スタッフが直接お届けします。宅配便での配送は行いません。また、すべてのご遺骨はQRコードで管理され、いつでも状況を確認いただけます。送骨時も万全の対策を講じます。"
       }
     },
     {
@@ -292,7 +289,8 @@ nav {
 .nav-links a:hover { color: var(--gold-light); }
 .nav-cta { background: var(--gold); color: var(--navy) !important; padding: 8px 20px; border-radius: 2px; font-weight: 700 !important; font-size: 13px !important; }
 .nav-cta:hover { background: var(--gold-light) !important; color: var(--navy) !important; }
-.nav-tel { color: var(--gold-light) !important; font-weight: 500 !important; display: flex; align-items: center; gap: 6px; }
+.nav-tel { color: var(--gold-light) !important; font-weight: 500 !important; display: flex; align-items: center; gap: 6px; text-decoration: none; }
+.nav-tel:hover { color: var(--white) !important; }
 
 /* HAMBURGER & MOBILE DRAWER */
 .hamburger {
@@ -495,6 +493,8 @@ section { padding: 96px 40px; }
 .company-table tr { border-bottom: 1px solid #e0ddd8; }
 .company-table th { text-align: left; padding: 16px 20px; font-size: 13px; font-weight: 500; color: var(--muted); width: 200px; vertical-align: top; }
 .company-table td { padding: 16px 20px; font-size: 14px; color: var(--text); line-height: 1.7; }
+.company-table td a.tel-pc, .company-table td a.tel-sp { color: inherit; text-decoration: none; }
+.company-table td a.tel-pc:hover, .company-table td a.tel-sp:hover { color: var(--gold); }
 
 /* FAQ */
 #faq { background: var(--white); }
@@ -539,6 +539,8 @@ section { padding: 96px 40px; }
 #contact { background: var(--off); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 .tel-big { font-family: var(--serif); font-size: 36px; font-weight: 700; color: var(--navy2); letter-spacing: 2px; margin: 16px 0 8px; }
+.tel-big a { color: inherit; text-decoration: none; }
+.tel-big a:hover { color: var(--gold); }
 .tel-note { font-size: 12px; color: var(--muted); }
 .contact-form { background: var(--white); border-radius: 4px; padding: 40px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .cform-row { margin-bottom: 16px; }
@@ -656,7 +658,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
     <a href="#hakajimae">墓じまい</a>
     <a href="#faq">よくある質問</a>
     <a href="#contact">お問い合わせ</a>
-    <span class="nav-tel">0120-XXX-XXX</span>
+    <a href="tel:0120XXXXXX" class="nav-tel">📞 0120-XXX-XXX</a>
     <a href="#apply" class="nav-cta">お申込</a>
   </div>
   <button class="hamburger" id="hamburgerBtn" onclick="toggleDrawer()" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileDrawer">
@@ -1107,7 +1109,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
           <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;">CONTACT</div>
           <div style="font-size:14px;color:var(--text);line-height:1.7;">
             お急ぎの場合はお電話ください：<br>
-            <strong style="font-family:var(--serif);font-size:18px;color:var(--navy2);">0120-XXX-XXX</strong><br>
+            <a href="tel:0120XXXXXX" style="font-family:var(--serif);font-size:18px;color:var(--navy2);font-weight:700;text-decoration:none;">0120-XXX-XXX</a><br>
             <span style="font-size:12px;color:var(--muted);">受付時間 10:00〜17:00（年中無休）</span>
           </div>
         </div>
@@ -1170,7 +1172,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
       <tr><th>許可・資格</th><td>貨物軽自動車運送事業（黒ナンバー）<br>商標登録・ビジネスモデル特許申請中</td></tr>
       <tr><th>提携実績</th><td>600寺以上の寺院ネットワーク<br>NPO法人終活サポートセンター：5万人超の相談実績</td></tr>
       <tr><th>所在地</th><td>〒111-0051 東京都台東区蔵前4-33-9</td></tr>
-      <tr><th>電話番号</th><td><span class="tel-pc">0120-XXX-XXX</span><a href="tel:0120XXXXXX" class="tel-sp">0120-XXX-XXX</a>（受付時間：毎日10:00〜17:00）</td></tr>
+      <tr><th>電話番号</th><td><a href="tel:0120XXXXXX" class="tel-pc">0120-XXX-XXX</a><a href="tel:0120XXXXXX" class="tel-sp">0120-XXX-XXX</a>（受付時間：毎日10:00〜17:00）</td></tr>
     </table>
   </div>
 </section>
@@ -1324,8 +1326,9 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
               <label class="apply-label" for="infoZip">郵便番号 <span class="req">*</span></label>
               <div class="apply-zip-wrap">
                 <input class="apply-input" type="text" id="infoZip" autocomplete="postal-code" inputmode="numeric" placeholder="000-0000" maxlength="8" style="flex:1;" oninput="autoFillAddress(this.value)">
-                <button type="button" class="apply-zip-btn" onclick="autoFillAddress(document.getElementById('infoZip').value)">住所検索</button>
+                <button type="button" class="apply-zip-btn" onclick="autoFillAddress(document.getElementById('infoZip').value, true)">住所検索</button>
               </div>
+              <div id="zipFeedback" role="status" aria-live="polite" style="font-size:12px;margin-top:6px;min-height:16px;"></div>
             </div>
             <div></div>
           </div>
@@ -1453,7 +1456,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
           <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;">CONTACT</div>
           <div style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.7;">
             お急ぎの場合はお電話ください：<br>
-            <strong style="font-family:var(--serif);font-size:18px;color:var(--gold-light);">0120-XXX-XXX</strong><br>
+            <a href="tel:0120XXXXXX" style="font-family:var(--serif);font-size:18px;color:var(--gold-light);font-weight:700;text-decoration:none;">0120-XXX-XXX</a><br>
             <span style="font-size:12px;color:rgba(255,255,255,0.45);">受付時間 10:00〜17:00（年中無休）</span>
           </div>
         </div>
@@ -1481,7 +1484,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
         </p>
         <div style="margin-bottom:24px;">
           <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;">PHONE</div>
-          <div class="tel-big"><span class="tel-pc">0120-XXX-XXX</span><a href="tel:0120XXXXXX" class="tel-sp">0120-XXX-XXX</a></div>
+          <div class="tel-big"><a href="tel:0120XXXXXX" class="tel-pc">0120-XXX-XXX</a><a href="tel:0120XXXXXX" class="tel-sp">0120-XXX-XXX</a></div>
           <div class="tel-note">毎日 10:00〜17:00（年中無休）</div>
         </div>
         <div>
@@ -1632,12 +1635,10 @@ document.addEventListener('keydown', function(e) {
   if (focusables.length === 0) return;
   var first = focusables[0];
   var last = focusables[focusables.length - 1];
-  // Shift+Tab で最初の要素からさらに戻ろうとしたら最後へ
   if (e.shiftKey && document.activeElement === first) {
     e.preventDefault();
     last.focus();
   }
-  // Tab で最後の要素からさらに進もうとしたら最初へ
   else if (!e.shiftKey && document.activeElement === last) {
     e.preventDefault();
     first.focus();
@@ -1652,7 +1653,6 @@ document.addEventListener('keydown', function(e) {
   var ticking = false;
   function update() {
     var footerRect = footer.getBoundingClientRect();
-    // フッターが画面内に入ったらCTAを隠す
     if (footerRect.top < window.innerHeight) {
       cta.classList.add('hidden');
     } else {
@@ -1692,14 +1692,12 @@ function resetTurnstile(scopeSel) {
   } catch (e) {}
 }
 
-// A4: 共通フィードバック表示(role="alert" / aria-live 領域)
 function showFeedback(id, msg, type) {
   var el = document.getElementById(id);
   if (!el) return;
   el.textContent = msg;
   el.className = 'form-feedback ' + (type || 'error');
   el.hidden = false;
-  // スクリーンリーダーに再通知させるため一度見えてから scroll
   try { el.scrollIntoView({behavior:'smooth', block:'nearest'}); } catch(e) {}
 }
 function hideFeedback(id) {
@@ -1731,7 +1729,6 @@ function submitContactForm(btn) {
     if (data && data.success) {
       btn.textContent = '送信完了';
       btn.removeAttribute('aria-busy');
-      // 成功時は disabled のまま（二重送信防止）
       showFeedback('contactFeedback', 'お問い合わせを受け付けました。担当者からのご連絡をお待ちください。', 'success');
     } else {
       btn.disabled = false; btn.removeAttribute('aria-busy'); btn.textContent = '送信する';
@@ -1771,8 +1768,6 @@ var searchAreas = ["千葉県","東京都"];
 var searchAreaCityMap = {"千葉県":["市川市"],"東京都":["中央区","台東区","江東区"]};
 var searchSects = ["宗派不問","浄土宗","浄土真宗","真言宗"];
 
-// F4対応: templesはsync-web互換のため残すが、データの真実はestTemplesを使用する。
-// 表示・検索用に tags を付与した派生配列を getTemples() で生成する。
 var TEMPLE_DEFAULT_TAGS = ['永代供養','QR管理','個別安置'];
 function getTemples() {
   return (Array.isArray(estTemples) ? estTemples : []).map(function(t) {
@@ -1838,7 +1833,6 @@ function updateResults() {
     var priceMax = parseInt((document.getElementById('priceRange') || {}).value || 999999);
     filtered = filtered.filter(function(t) { return t.price <= priceMax; });
   }
-  // R23: 並び替え処理
   var sortVal = (document.getElementById('searchSort') || {}).value || 'default';
   if (sortVal === 'price-asc') {
     filtered = filtered.slice().sort(function(a, b) { return (a.price || 0) - (b.price || 0); });
@@ -1853,7 +1847,6 @@ function updateResults() {
   }
   list.innerHTML = filtered.map(function(t) {
     var tagsHtml = t.tags.map(function(tag, i) { return '<span class="tag' + (i===0?' gold':'') + '">' + tag + '</span>'; }).join('');
-    // エスケープ: 寺院名にシングルクォート等が含まれる場合の保険
     var safeName = t.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     return '<div class="search-result-card" role="button" tabindex="0" onclick="goToApplyWithTemple(\'' + safeName + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();goToApplyWithTemple(\'' + safeName + '\');}">' +
       '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>' +
@@ -1869,7 +1862,6 @@ function updateResults() {
   }).join('');
 }
 
-// 検索結果→申込セクションへ：寺院を選択状態にしてスクロール
 function goToApplyWithTemple(name) {
   var t = (typeof estTemples !== 'undefined' ? estTemples : []).find(function(x) { return x.name === name; });
   if (!t) { location.hash = '#apply'; return; }
@@ -1877,7 +1869,6 @@ function goToApplyWithTemple(name) {
   applyState.contract  = t.price;
   applyState.kinugi    = t.kinugi;
   applyState.annualFee = t.annualFee || 36000;
-  // #apply の temple-card を選択状態に
   document.querySelectorAll('.temple-card').forEach(function(card) {
     card.classList.remove('selected');
     var nameEl = card.querySelector('.temple-card-name');
@@ -1888,11 +1879,9 @@ function goToApplyWithTemple(name) {
   var annualLabel = document.getElementById('periodAnnualFeeLabel');
   if (annualLabel) annualLabel.textContent = applyState.annualFee.toLocaleString();
   updateApplySummary();
-  // 申込step1まで進めて、該当カードが選択済みと分かる状態でスクロール
   goApply(0);
 }
 
-// ── FAQ ──
 function toggleFaq(el) {
   var item = el.parentElement;
   item.classList.toggle('open');
@@ -1901,7 +1890,6 @@ function toggleFaq(el) {
 }
 function toggleIhai(show) { var el = document.getElementById('ihaiFields'); if (el) el.style.display = show ? 'block' : 'none'; }
 
-// ── Visit steps ──
 function switchVisit(idx) {
   document.querySelectorAll('.visit-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
   document.querySelectorAll('.vstep').forEach((s,i) => s.classList.toggle('active', i===idx));
@@ -1915,7 +1903,6 @@ function nextFromLoc() {
   switchVisit(1);
 }
 
-// ── Visit date inputs (希望日時入力) ──
 function initVisitDateInputs() {
   var today = new Date();
   var y = today.getFullYear();
@@ -1940,7 +1927,6 @@ function nextFromVisitDate() {
     }
     return;
   }
-  // 第2希望：片方だけ入力されていた場合は両方揃えてもらう
   if ((d2 && !t2) || (!d2 && t2)) {
     if (errEl) {
       errEl.textContent = '第2希望は、日付と時間帯の両方をご入力ください（不要な場合は両方空欄にしてください）。';
@@ -1961,7 +1947,6 @@ document.addEventListener('DOMContentLoaded', function() {
   updateManageFeeBox();
 });
 
-// ── Estimate ──
 function calcEstimate() {
   var period  = parseInt(document.getElementById('estPeriod').value) || 3;
   var extra   = parseInt(document.getElementById('estExtra').value)  || 0;
@@ -2002,25 +1987,44 @@ function calcEstimate() {
   if (tEl) tEl.textContent = '¥' + total.toLocaleString() + '〜';
 }
 
-// ── 郵便番号→住所自動入力 ──
-function autoFillAddress(zip) {
-  var clean = zip.replace(/[^0-9]/g, '');
-  if (clean.length !== 7) return;
+// ── 郵便番号→住所自動入力（強化版：エラー処理・フィードバック付き） ──
+function autoFillAddress(zip, isManualClick) {
+  var fbEl = document.getElementById('zipFeedback');
+  function setFb(msg, color) {
+    if (!fbEl) return;
+    fbEl.textContent = msg || '';
+    fbEl.style.color = color || '';
+  }
+  var clean = (zip || '').replace(/[^0-9]/g, '');
+  if (clean.length === 0) { setFb(''); return; }
+  if (clean.length !== 7) {
+    if (isManualClick) setFb('⚠ 郵便番号は7桁でご入力ください', '#e55');
+    else setFb('');
+    return;
+  }
+  setFb('住所を検索中…', 'rgba(255,255,255,0.6)');
   fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + clean)
-    .then(function(r) { return r.json(); })
+    .then(function(r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    })
     .then(function(data) {
-      if (data.results && data.results[0]) {
+      if (data && data.results && data.results[0]) {
         var r = data.results[0];
         var pref = document.getElementById('infoPref');
         var city = document.getElementById('infoCity');
         if (pref) pref.value = r.address1 || '';
         if (city) city.value = (r.address2 || '') + (r.address3 || '');
+        setFb('✓ 住所を自動入力しました。番地以降をご記入ください', 'var(--gold-light)');
+      } else {
+        setFb('⚠ この郵便番号に該当する住所が見つかりません。手動でご入力ください', '#e55');
       }
     })
-    .catch(function() {});
+    .catch(function() {
+      setFb('⚠ 住所検索に失敗しました。手動でご入力ください', '#e55');
+    });
 }
 
-// ── Apply ──
 var applyState = { temple:'', contract:90000, kinugi:10000, annualFee:36000, period:3 };
 
 function selectTemple(el, name, area, price, kinugi) {
@@ -2105,32 +2109,24 @@ var applyCompletedStep = 0;
 function resetApplyForm() {
   applyState = { temple:'', contract:90000, kinugi:10000, annualFee:36000, period:3 };
   applyCompletedStep = 0;
-  // 入力フィールドクリア
   ['infoName','infoKana','infoAge','infoZip','infoPref','infoCity','infoStreet','infoBldg','infoTel','infoEmail','infoEmail2'].forEach(function(id) {
     var el = document.getElementById(id); if (el) el.value = '';
   });
-  // チェックボックス解除
   var c1 = document.getElementById('consentCheck');  if (c1) c1.checked = false;
   var c2 = document.getElementById('privacyCheck');  if (c2) c2.checked = false;
   var nfc = document.getElementById('nextFromConsent'); if (nfc) nfc.disabled = true;
-  // temple-card 選択解除
   document.querySelectorAll('.temple-card').forEach(function(card) { card.classList.remove('selected'); });
-  // 期間スライダー初期値
   var slider = document.getElementById('periodSlider'); if (slider) slider.value = 3;
   var pDisp  = document.getElementById('periodDisplay');  if (pDisp)  pDisp.textContent  = '3';
   var yLabel = document.getElementById('periodYearLabel'); if (yLabel) yLabel.textContent = '3';
   var fDisp  = document.getElementById('periodFeeDisplay'); if (fDisp)  fDisp.textContent = '¥108,000';
   var aLabel = document.getElementById('periodAnnualFeeLabel'); if (aLabel) aLabel.textContent = '36,000';
-  // step-btn の completed クリア
   document.querySelectorAll('.apply-step-btn').forEach(function(b) { b.classList.remove('completed'); });
-  // エラー表示クリア
   var infoErr = document.getElementById('infoError'); if (infoErr) { infoErr.textContent = ''; infoErr.style.display = 'none'; }
-  // R22: customer code box クリア
+  var zipFb = document.getElementById('zipFeedback'); if (zipFb) { zipFb.textContent = ''; zipFb.style.color = ''; }
   var ccBox = document.getElementById('customerCodeBox'); if (ccBox) ccBox.style.display = 'none';
   var ccDisp = document.getElementById('customerCodeDisplay'); if (ccDisp) ccDisp.textContent = '—';
-  // 費用確認の表示リフレッシュ
   updateApplySummary();
-  // Turnstile もリセット
   resetTurnstile('#apply');
 }
 
@@ -2211,7 +2207,6 @@ async function submitApplyData() {
   }
 }
 
-// 申込送信フロー：ボタン無効化 → 送信 → 成功時のみ完了画面へ
 async function submitApplyFlow(btn) {
   if (!btn || btn.disabled) return;
   btn.disabled = true;
@@ -2221,7 +2216,6 @@ async function submitApplyFlow(btn) {
   var result = await submitApplyData();
   if (result && result.ok) {
     btn.removeAttribute('aria-busy');
-    // R22: customer_code を画面に表示
     if (result.customer_code) {
       var codeEl = document.getElementById('customerCodeDisplay');
       var codeBox = document.getElementById('customerCodeBox');
@@ -2287,7 +2281,6 @@ function submitVisitForm(btn) {
   .then(function(data) {
     if (data && data.success) {
       if (btn) { btn.textContent = '送信完了'; btn.removeAttribute('aria-busy'); }
-      // R22: visit_code を画面に表示
       if (data.visit_code) {
         var codeEl = document.getElementById('visitCodeDisplay');
         var codeBox = document.getElementById('visitCodeBox');
@@ -2316,7 +2309,6 @@ function checkConsent() {
   if (btn) btn.disabled = !ok;
 }
 
-// 見積もり → 申込 への条件引き継ぎ
 function applyFromEstimate() {
   var templeName = (document.getElementById('estTemple') || {}).value || '';
   var period = parseInt((document.getElementById('estPeriod') || {}).value) || 3;
@@ -2391,7 +2383,6 @@ function initSearchSelects() {
       var o = document.createElement('option'); o.value = s; o.textContent = s; sectEl.appendChild(o);
     });
   }
-  // 金額スライダーの max を実データに合わせて動的設定
   initPriceRange();
 }
 
@@ -2402,9 +2393,7 @@ function initPriceRange() {
   if (prices.length === 0) return;
   var minP = Math.min.apply(null, prices);
   var maxP = Math.max.apply(null, prices);
-  // スライダー下限：最小価格-50,000（下限10,000）
   var sliderMin = Math.max(10000, Math.floor((minP - 50000) / 10000) * 10000);
-  // スライダー上限：最大価格+100,000（最低でも300,000）
   var sliderMax = Math.max(300000, Math.ceil((maxP + 100000) / 10000) * 10000);
   slider.min = sliderMin;
   slider.max = sliderMax;
@@ -2428,6 +2417,6 @@ function onSearchAreaChange() {
   });
 }
 </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"f5fa9a16101d440ba11da367253e13f4","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"f5fa9a16101d440ba11da367253e13f4","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null }'></script>
 </body>
 </html>
