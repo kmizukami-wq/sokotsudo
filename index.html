@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -613,6 +614,12 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
 }
 </style>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+// Environment detection: dev.* or dev-* hostname → staging Supabase; otherwise prod
+window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname.startsWith('dev-'))
+  ? 'https://oiobfdtsnlgzdosweyzk.supabase.co'
+  : 'https://jbnhvwncddvvtpaigzeq.supabase.co';
+</script>
 </head>
 <body>
 
@@ -1719,7 +1726,7 @@ function submitContactForm(btn) {
   if (tel && !isValidTel(tel)) { showFeedback('contactFeedback', '電話番号の形式が正しくありません。(半角数字10桁以上)', 'error'); return; }
   hideFeedback('contactFeedback');
   btn.disabled = true; btn.setAttribute('aria-busy', 'true'); btn.textContent = '送信中...';
-  fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-contact', {
+  fetch(window.SUPABASE_URL + '/functions/v1/form-contact', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name: name, email: email, tel: tel, type: type, message: body, 'cf-turnstile-response': getTurnstileToken('#contact') })
@@ -2178,7 +2185,7 @@ function updateApplySummary() {
 }
 async function submitApplyData() {
   try {
-    var res = await fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-apply', {
+    var res = await fetch(window.SUPABASE_URL + '/functions/v1/form-apply', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2263,7 +2270,7 @@ function submitVisitForm(btn) {
   hideFeedback('visitFormFeedback');
 
   if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); btn.textContent = '送信中...'; }
-  fetch('https://jbnhvwncddvvtpaigzeq.supabase.co/functions/v1/form-visit', {
+  fetch(window.SUPABASE_URL + '/functions/v1/form-visit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
