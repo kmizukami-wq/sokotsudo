@@ -508,7 +508,6 @@ section { padding: 96px 40px; }
 .faq-item.open .faq-a { display: block; }
 
 /* APPLY */
-#apply { background: var(--navy); }
 .apply-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,162,39,0.3); border-radius: 4px; padding: 48px; max-width: 800px; margin: 0 auto; }
 .apply-steps-nav { display: flex; gap: 0; margin-bottom: 40px; overflow: hidden; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
 .apply-step-btn { flex: 1; padding: 12px 8px; background: transparent; border: none; border-right: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; }
@@ -569,7 +568,6 @@ footer { background: #080f1a; padding: 64px 40px 32px; color: rgba(255,255,255,0
 .cta-float a { display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 2px; font-family: var(--sans); font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 16px rgba(0,0,0,0.3); transition: transform 0.2s; letter-spacing: 0.05em; }
 .cta-float a:hover { transform: translateY(-2px); }
 .cta-float .btn-tel { background: var(--white); color: var(--navy2); }
-.cta-float .btn-apply { background: var(--gold); color: var(--navy); }
 
 @keyframes tabShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-4px); } 40%,80% { transform: translateX(4px); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
@@ -581,14 +579,11 @@ footer { background: #080f1a; padding: 64px 40px 32px; color: rgba(255,255,255,0
 .form-feedback.error { background: rgba(224,85,85,0.08); border: 1px solid rgba(224,85,85,0.4); color: #c93d3d; }
 .form-feedback.success { background: rgba(201,162,39,0.08); border: 1px solid rgba(201,162,39,0.4); color: #8b6f17; }
 /* 暗背景フォーム向けの色調整 */
-#apply .form-feedback.error { color: #ff8a8a; background: rgba(255,120,120,0.08); border-color: rgba(255,120,120,0.35); }
-#apply .form-feedback.success { color: var(--gold-light); background: rgba(201,162,39,0.12); border-color: rgba(201,162,39,0.45); }
 
 /* R13: aria-busy 送信中ボタン視覚フィードバック */
 button[aria-busy="true"] { cursor: wait; opacity: 0.7; }
 button[aria-busy="true"]::after { content: ' ⏳'; }
 
-/* R17: 申込 step3 入力フィールドの共通クラス(インラインstyle置換用) */
 .apply-label { display: block; font-size: 12px; color: var(--gold-light); margin-bottom: 6px; }
 .apply-label .req { color: #e55; }
 .apply-input { width: 100%; padding: 10px 12px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: var(--white); font-size: 14px; box-sizing: border-box; font-family: inherit; }
@@ -629,7 +624,6 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
 <!-- FLOATING CTA -->
 <div class="cta-float">
   <a href="#contact" class="btn-tel">お問い合わせ</a>
-  <a href="#apply" class="btn-apply">お申込はこちら</a>
 </div>
 
 <!-- NAV -->
@@ -666,7 +660,6 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
     <a href="#faq">よくある質問</a>
     <a href="#contact">お問い合わせ</a>
     <a href="tel:0120XXXXXX" class="nav-tel">📞 0120-XXX-XXX</a>
-    <a href="#apply" class="nav-cta">お申込</a>
   </div>
   <button class="hamburger" id="hamburgerBtn" onclick="toggleDrawer()" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileDrawer">
     <span></span><span></span><span></span>
@@ -690,7 +683,6 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
       <a href="/tokushoho.html">特定商取引法</a>
     </div>
     <a href="tel:0120XXXXXX" class="mobile-drawer-tel" onclick="toggleDrawer()">📞 お電話で相談する<br><span style="font-size:12px;font-weight:400;opacity:0.8;">0120-XXX-XXX（10:00〜17:00）</span></a>
-    <a href="#apply" class="mobile-drawer-cta" onclick="toggleDrawer()">お申込はこちら</a>
   </div>
 </div>
 
@@ -852,6 +844,21 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
       <button class="btn-primary" onclick="updateResults()">検索する</button>
     </div>
 
+    <div id="kuyo-filter" style="margin-top:20px;padding:16px;background:var(--off);border-radius:4px;">
+      <div style="font-size:11px;letter-spacing:0.2em;color:var(--muted);margin-bottom:10px;">供養方法</div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
+          <input type="checkbox" name="kuyo" value="納骨堂" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 納骨堂
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
+          <input type="checkbox" name="kuyo" value="永代供養墓" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 永代供養墓
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
+          <input type="checkbox" name="kuyo" value="樹木葬" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 樹木葬
+        </label>
+      </div>
+    </div>
+
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:16px;flex-wrap:wrap;">
       <p style="font-size:12px;color:var(--muted);margin:0;">※表示価格は全て税込です</p>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -929,7 +936,7 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
         </div>
         <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">※表示価格は全て税込です</p>
         <div id="estimateFeedback" class="form-feedback" role="alert" aria-live="assertive" hidden></div>
-        <button type="button" class="btn-primary" onclick="applyFromEstimate()" style="width:100%;text-align:center;display:block;border:none;">このプランで申込む</button>
+        <a href="#visit" class="btn-primary" style="width:100%;text-align:center;display:block;">見学を申し込む</a>
       </div>
     </div>
   </div>
@@ -1223,261 +1230,6 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
   </div>
 </section>
 
-<!-- APPLY -->
-<section id="apply">
-  <div class="section-inner">
-    <div class="section-label" style="color:var(--gold-light);">Apply</div>
-    <h2 class="section-title white">お申込</h2>
-    <div class="divider"></div>
-
-    <div class="apply-box">
-      <div class="apply-steps-nav">
-        <button class="apply-step-btn active" onclick="switchApplyGuarded(0)">① お寺の選択</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(1)">② 管理期間</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(2)">③ 費用確認</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(3)">④ お客様情報</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(4)">⑤ 規約同意</button>
-        <button class="apply-step-btn" onclick="switchApplyGuarded(5)">⑥ 今後の流れ</button>
-      </div>
-
-      <div class="apply-panel" id="ap0" style="display:block;">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">お寺・納骨堂をお選びください</h3>
-        <div class="temple-grid" id="templeGrid">
-          <div class="temple-card" onclick="selectTemple(this,'サンプル2寺　納骨堂','千葉県市川市',90000,10000)">
-            <div class="temple-card-name">サンプル2寺　納骨堂</div>
-            <div class="temple-card-area">千葉県市川市 · 浄土真宗</div>
-            <div style="margin-top:4px;font-size:10px;opacity:0.6;">永代供養 · QR管理 · 個別安置</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'サンプル3　永代供養墓','東京都江東区',90000,10000)">
-            <div class="temple-card-name">サンプル3　永代供養墓</div>
-            <div class="temple-card-area">東京都江東区 · 真言宗</div>
-            <div style="margin-top:4px;font-size:10px;opacity:0.6;">永代供養 · QR管理 · 個別安置</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'サンプル寺　永代供養墓','東京都台東区',90000,20000)">
-            <div class="temple-card-name">サンプル寺　永代供養墓</div>
-            <div class="temple-card-area">東京都台東区 · 浄土宗</div>
-            <div style="margin-top:4px;font-size:10px;opacity:0.6;">永代供養 · QR管理 · 個別安置</div>
-          </div>
-          <div class="temple-card" onclick="selectTemple(this,'サンプル寺　納骨堂','東京都中央区',90000,10000)">
-            <div class="temple-card-name">サンプル寺　納骨堂</div>
-            <div class="temple-card-area">東京都中央区 · 宗派不問</div>
-            <div style="margin-top:4px;font-size:10px;opacity:0.6;">永代供養 · QR管理 · 個別安置</div>
-          </div>
-        </div>
-        <button class="btn-primary" onclick="nextFromTemple()">次へ →</button>
-      </div>
-
-      <div class="apply-panel" id="ap1">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">管理期間をお選びください</h3>
-        <div style="margin-bottom:32px;">
-          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
-            <div class="period-value" id="periodDisplay">3</div>
-            <div style="font-size:18px;color:rgba(255,255,255,0.5);">年</div>
-          </div>
-          <input type="range" min="3" max="30" step="1" value="3" class="period-slider" id="periodSlider" oninput="updatePeriod(this.value)">
-          <div class="period-display"><span>最低 3年</span><span>30年</span></div>
-        </div>
-        <div style="background:rgba(255,255,255,0.04);border-radius:4px;padding:20px;margin-bottom:24px;">
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:8px;">管理費（一括払い）</div>
-          <div style="font-size:28px;font-family:var(--serif);color:var(--gold-light);font-weight:700;" id="periodFeeDisplay">¥108,000</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;">¥<span id="periodAnnualFeeLabel">36,000</span> × <span id="periodYearLabel">3</span>年分</div>
-        </div>
-        <div style="display:flex;gap:12px;">
-          <button class="btn-outline" onclick="goApply(0)">← 戻る</button>
-          <button class="btn-primary" style="flex:1;" onclick="markStepCompleted(2);goApply(2)">次へ →</button>
-        </div>
-      </div>
-
-      <div class="apply-panel" id="ap2">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">費用のご確認</h3>
-        <div class="cost-breakdown">
-          <div class="cost-row"><span>ご選択のお寺</span><span id="apTemple" style="color:var(--gold-light);">—</span></div>
-          <div class="cost-row"><span>管理期間</span><span id="apPeriod">3年</span></div>
-          <div class="cost-row"><span>契約金</span><span id="apContract">¥90,000</span></div>
-          <div class="cost-row"><span>寺院への志納金</span><span id="apKinugi">¥10,000</span></div>
-          <div class="cost-row"><span>管理費（一括）</span><span id="apManage">¥108,000</span></div>
-          <div class="cost-row"><span>骨箱</span><span id="apBox">¥20,000</span></div>
-          <div class="cost-row total"><span>お支払い合計</span><span id="apTotal">¥228,000</span></div>
-        </div>
-        <p style="font-size:12px;color:rgba(255,255,255,0.35);margin:16px 0 24px;">※表示価格は全て税込です。費用は選択内容により変動します。</p>
-        <div style="display:flex;gap:12px;">
-          <button class="btn-outline" onclick="goApply(1)">← 戻る</button>
-          <button class="btn-primary" style="flex:1;" onclick="markStepCompleted(3);goApply(3)">次へ →</button>
-        </div>
-      </div>
-
-      <div class="apply-panel" id="ap3">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">お客様情報のご入力</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:20px;">すべて必須項目です</p>
-        <form onsubmit="nextFromInfo(); return false;">
-        <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-          <div class="apply-row">
-            <div>
-              <label class="apply-label" for="infoName">氏名 <span class="req">*</span></label>
-              <input class="apply-input" type="text" id="infoName" name="infoName" placeholder="山田 太郎" autocomplete="name">
-            </div>
-            <div>
-              <label class="apply-label" for="infoKana">ふりがな <span class="req">*</span></label>
-              <input class="apply-input" type="text" id="infoKana" autocomplete="off" placeholder="やまだ たろう">
-            </div>
-          </div>
-          <div class="apply-row">
-            <div>
-              <label class="apply-label" for="infoAge">ご年齢 <span class="req">*</span></label>
-              <input class="apply-input" type="number" id="infoAge" autocomplete="off" placeholder="例:65" min="0" max="120">
-            </div>
-            <div></div>
-          </div>
-          <div class="apply-row">
-            <div>
-              <label class="apply-label" for="infoZip">郵便番号 <span class="req">*</span></label>
-              <div class="apply-zip-wrap">
-                <input class="apply-input" type="text" id="infoZip" autocomplete="postal-code" inputmode="numeric" placeholder="000-0000" maxlength="8" style="flex:1;" oninput="autoFillAddress(this.value)">
-                <button type="button" class="apply-zip-btn" onclick="autoFillAddress(document.getElementById('infoZip').value, true)">住所検索</button>
-              </div>
-              <div id="zipFeedback" role="status" aria-live="polite" style="font-size:12px;margin-top:6px;min-height:16px;"></div>
-            </div>
-            <div></div>
-          </div>
-          <div class="apply-row">
-            <div>
-              <label class="apply-label" for="infoPref">都道府県 <span class="req">*</span></label>
-              <input class="apply-input" type="text" id="infoPref" autocomplete="address-level1" placeholder="東京都">
-            </div>
-            <div>
-              <label class="apply-label" for="infoCity">市区町村 <span class="req">*</span></label>
-              <input class="apply-input" type="text" id="infoCity" autocomplete="address-level2" placeholder="渋谷区神宮前">
-            </div>
-          </div>
-          <div class="apply-row">
-            <div>
-              <label class="apply-label" for="infoStreet">番地以降 <span class="req">*</span></label>
-              <input class="apply-input" type="text" id="infoStreet" autocomplete="address-line1" placeholder="1-2-3">
-            </div>
-            <div></div>
-          </div>
-          <div>
-            <label class="apply-label" for="infoBldg">建物名・部屋番号など</label>
-            <input class="apply-input" type="text" id="infoBldg" autocomplete="address-line2" placeholder="〇〇マンション 101号室">
-          </div>
-          <div class="apply-row">
-            <div>
-              <label class="apply-label" for="infoTel">電話番号 <span class="req">*</span></label>
-              <input class="apply-input" type="tel" id="infoTel" autocomplete="tel" inputmode="tel" placeholder="090-0000-0000">
-            </div>
-            <div></div>
-          </div>
-          <div>
-            <label class="apply-label" for="infoEmail">メールアドレス <span class="req">*</span></label>
-            <input class="apply-input" type="email" id="infoEmail" autocomplete="email" inputmode="email" placeholder="example@mail.com">
-          </div>
-          <div>
-            <label class="apply-label" for="infoEmail2">メールアドレス（確認） <span class="req">*</span></label>
-            <input class="apply-input" type="email" id="infoEmail2" autocomplete="email" inputmode="email" placeholder="example@mail.com（再入力）">
-          </div>
-        </div>
-        <div id="infoError" role="alert" aria-live="assertive" style="color:#e55;font-size:13px;margin-bottom:12px;display:none;"></div>
-        <div style="display:flex;gap:12px;">
-          <button type="button" class="btn-outline" onclick="goApply(2)">← 戻る</button>
-          <button type="submit" class="btn-primary" style="flex:1;">次へ →</button>
-        </div>
-        </form>
-      </div>
-
-      <div class="apply-panel" id="ap4">
-        <h3 style="font-family:var(--serif);font-size:18px;color:var(--white);margin-bottom:20px;">規約・同意</h3>
-        <div style="background:rgba(255,255,255,0.04);border-radius:4px;padding:20px;height:200px;overflow-y:auto;margin-bottom:20px;font-size:13px;color:rgba(255,255,255,0.6);line-height:2;">
-          <strong style="color:var(--white);display:block;margin-bottom:12px;">送骨堂 利用規約（要点）</strong>
-          <ul style="list-style:none;padding:0;margin:0;">
-            <li style="padding-left:16px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;color:var(--gold);">●</span>本サービスは、提携寺院の納骨堂または永代供養墓でご遺骨をお預かりし、ご希望に応じて送骨サービスをご提供するものです。</li>
-            <li style="padding-left:16px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;color:var(--gold);">●</span>ご契約は、本規約・プライバシーポリシーへの同意をもって成立します。</li>
-            <li style="padding-left:16px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;color:var(--gold);">●</span>契約金および管理費は一括前払いとなります（銀行振込）。</li>
-            <li style="padding-left:16px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;color:var(--gold);">●</span>お預かりしたご遺骨は、提携寺院にて丁重にお守りし、QRコードで管理いたします。</li>
-            <li style="padding-left:16px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;color:var(--gold);">●</span>ご希望の日時にご自宅や施設への送骨サービスをご利用いただけます。</li>
-            <li style="padding-left:16px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;color:var(--gold);">●</span>サービス開始後の中途解約は原則お受けできません。詳細は利用規約（契約の解除）をご確認ください。</li>
-            <li style="padding-left:16px;position:relative;margin-bottom:8px;"><span style="position:absolute;left:0;color:var(--gold);">●</span>お客様の個人情報は、プライバシーポリシーに従い適切に管理いたします。</li>
-          </ul>
-          <div style="margin-top:12px;">※ 規約全文は<a href="/terms.html" target="_blank" rel="noopener" style="color:var(--gold-light);">利用規約ページ</a>をご確認ください。</div>
-        </div>
-        <form onsubmit="submitApplyFlow(document.getElementById('nextFromConsent')); return false;">
-        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:12px;">
-          <input type="checkbox" id="consentCheck" onchange="checkConsent()" style="width:18px;height:18px;accent-color:var(--gold);flex-shrink:0;margin-top:2px;">
-          <span style="font-size:14px;color:var(--white);line-height:1.6;"><a href="/terms.html" target="_blank" rel="noopener" style="color:var(--gold-light);text-decoration:underline;">利用規約</a>に同意します</span>
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:24px;">
-          <input type="checkbox" id="privacyCheck" onchange="checkConsent()" style="width:18px;height:18px;accent-color:var(--gold);flex-shrink:0;margin-top:2px;">
-          <span style="font-size:14px;color:var(--white);line-height:1.6;"><a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--gold-light);text-decoration:underline;">プライバシーポリシー</a>に同意し、個人情報の利用目的について承諾します</span>
-        </label>
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAC_oXRrYWjg7pCkf" style="margin-bottom:16px;"></div>
-        <div id="applyFeedback" class="form-feedback" role="alert" aria-live="assertive" hidden></div>
-        <div style="display:flex;gap:12px;">
-          <button type="button" class="btn-outline" onclick="goApply(3)">← 戻る</button>
-          <button type="submit" class="btn-primary" id="nextFromConsent" disabled style="flex:1;">次へ：今後の流れ →</button>
-        </div>
-        </form>
-      </div>
-
-      <div class="apply-panel" id="ap5">
-        <h3 style="font-family:var(--serif);font-size:22px;color:var(--gold-light);margin-bottom:8px;text-align:center;">お申込を受け付けました</h3>
-        <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:32px;">ご登録ありがとうございます</p>
-        <div id="customerCodeBox" style="display:none;background:rgba(201,162,39,0.12);border:1px solid rgba(201,162,39,0.5);border-radius:6px;padding:20px;max-width:440px;margin:0 auto 24px;text-align:center;">
-          <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:6px;">RECEIPT NUMBER</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;">お申込受付番号</div>
-          <div id="customerCodeDisplay" style="font-family:var(--serif);font-size:22px;font-weight:700;color:var(--gold-light);letter-spacing:1px;">—</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:6px;">お問い合わせ時にこちらの番号をお伝えください</div>
-        </div>
-        <div style="background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.3);border-radius:6px;padding:28px;margin-bottom:28px;">
-          <div style="font-size:13px;letter-spacing:0.3em;color:var(--gold);margin-bottom:20px;">今後の流れ</div>
-          <div style="display:flex;flex-direction:column;gap:20px;">
-            <div style="display:flex;gap:16px;align-items:flex-start;">
-              <div style="min-width:32px;height:32px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--navy);">1</div>
-              <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">ご担当者よりお電話にてご連絡</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">お申込後2〜3営業日以内に、担当者よりご登録の電話番号へご連絡いたします。</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:16px;align-items:flex-start;">
-              <div style="min-width:32px;height:32px;background:rgba(201,162,39,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);">2</div>
-              <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">お寺・日程のご確認</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">ご希望のお寺と管理期間、お支払い方法を確認いたします。</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:16px;align-items:flex-start;">
-              <div style="min-width:32px;height:32px;background:rgba(201,162,39,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);">3</div>
-              <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">銀行振込・ご入金確認</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">ご入金確認後、3営業日以内にサービス開始のご案内をお送りします。</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:16px;align-items:flex-start;">
-              <div style="min-width:32px;height:32px;background:rgba(201,162,39,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);">4</div>
-              <div>
-                <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:4px;">サービス開始</div>
-                <div style="font-size:13px;color:rgba(255,255,255,0.45);">QRコード付き管理カードをご郵送。ご利用開始となります。</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="background:rgba(255,255,255,0.04);border-left:3px solid var(--gold);padding:20px;max-width:440px;margin:0 auto 28px;">
-          <div style="font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;">CONTACT</div>
-          <div style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.7;">
-            お急ぎの場合はお電話ください：<br>
-            <a href="tel:0120XXXXXX" style="font-family:var(--serif);font-size:18px;color:var(--gold-light);font-weight:700;text-decoration:none;">0120-XXX-XXX</a><br>
-            <span style="font-size:12px;color:rgba(255,255,255,0.45);">受付時間 10:00〜17:00（年中無休）</span>
-          </div>
-        </div>
-        <p style="text-align:center;font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:24px;">ご不明な点はお気軽にお問い合わせください</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-          <a href="#hero" class="btn-outline">トップへ戻る</a>
-          <button type="button" class="btn-outline" onclick="resetApplyForm();goApply(0);">新しく申込を始める</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-inner">
@@ -1571,7 +1323,6 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
           <li><a href="#search">送骨堂を探す</a></li>
           <li><a href="#estimate">お見積り</a></li>
           <li><a href="#visit">見学申込</a></li>
-          <li><a href="#apply">お申込</a></li>
         </ul>
       </div>
       <div>
@@ -1760,16 +1511,16 @@ function switchTab(btn, panelId) {
 
 // ── Temple data (auto-generated by sync-web) ──
 var estTemples = [
-  { name:'サンプル2寺　納骨堂', area:'千葉県', city:'市川市', sect:'浄土真宗', price:90000, kinugi:10000, annualFee:36000 },
-  { name:'サンプル3　永代供養墓', area:'東京都', city:'江東区', sect:'真言宗', price:90000, kinugi:10000, annualFee:36000 },
-  { name:'サンプル寺　永代供養墓', area:'東京都', city:'台東区', sect:'浄土宗', price:90000, kinugi:20000, annualFee:36000 },
-  { name:'サンプル寺　納骨堂', area:'東京都', city:'中央区', sect:'宗派不問', price:90000, kinugi:10000, annualFee:36000 }
+  { name:'サンプル2寺　納骨堂', area:'千葉県', city:'市川市', sect:'浄土真宗', price:90000, kinugi:10000, annualFee:36000, types:['納骨堂'] },
+  { name:'サンプル3　永代供養墓', area:'東京都', city:'江東区', sect:'真言宗', price:90000, kinugi:10000, annualFee:36000, types:['永代供養墓'] },
+  { name:'サンプル寺　永代供養墓', area:'東京都', city:'台東区', sect:'浄土宗', price:90000, kinugi:20000, annualFee:36000, types:['永代供養墓'] },
+  { name:'サンプル寺　納骨堂', area:'東京都', city:'中央区', sect:'宗派不問', price:90000, kinugi:10000, annualFee:36000, types:['納骨堂'] }
 ];
 var temples = [
-  { name:'サンプル2寺　納骨堂', area:'千葉県', city:'市川市', sect:'浄土真宗', price:90000, kinugi:10000, annualFee:36000, tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル3　永代供養墓', area:'東京都', city:'江東区', sect:'真言宗', price:90000, kinugi:10000, annualFee:36000, tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル寺　永代供養墓', area:'東京都', city:'台東区', sect:'浄土宗', price:90000, kinugi:20000, annualFee:36000, tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル寺　納骨堂', area:'東京都', city:'中央区', sect:'宗派不問', price:90000, kinugi:10000, annualFee:36000, tags:['永代供養','QR管理','個別安置'] }
+  { name:'サンプル2寺　納骨堂', area:'千葉県', city:'市川市', sect:'浄土真宗', price:90000, kinugi:10000, annualFee:36000, types:['納骨堂'], tags:['永代供養','QR管理','個別安置'] },
+  { name:'サンプル3　永代供養墓', area:'東京都', city:'江東区', sect:'真言宗', price:90000, kinugi:10000, annualFee:36000, types:['永代供養墓'], tags:['永代供養','QR管理','個別安置'] },
+  { name:'サンプル寺　永代供養墓', area:'東京都', city:'台東区', sect:'浄土宗', price:90000, kinugi:20000, annualFee:36000, types:['永代供養墓'], tags:['永代供養','QR管理','個別安置'] },
+  { name:'サンプル寺　納骨堂', area:'東京都', city:'中央区', sect:'宗派不問', price:90000, kinugi:10000, annualFee:36000, types:['納骨堂'], tags:['永代供養','QR管理','個別安置'] }
 ];
 var searchAreas = ["千葉県","東京都"];
 var searchAreaCityMap = {"千葉県":["市川市"],"東京都":["中央区","台東区","江東区"]};
@@ -1782,6 +1533,8 @@ function getTemples() {
   });
 }
 
+var estFeeState = { annualFee: 36000, period: 3 };
+
 function initEstArea() {
   var sel = document.getElementById('estArea');
   if (!sel) return;
@@ -1790,12 +1543,11 @@ function initEstArea() {
     areas.map(function(a) { return '<option value="' + a + '">' + a + '</option>'; }).join('') +
     '<option value="__all__">すべて表示</option>';
   if (estTemples.length > 0) {
-    applyState.annualFee = estTemples[0].annualFee || 36000;
+    estFeeState.annualFee = estTemples[0].annualFee || 36000;
     var annualLabel = document.getElementById('periodAnnualFeeLabel');
-    if (annualLabel) annualLabel.textContent = applyState.annualFee.toLocaleString();
+    if (annualLabel) annualLabel.textContent = estFeeState.annualFee.toLocaleString();
     var feeDisplay = document.getElementById('periodFeeDisplay');
-    if (feeDisplay) feeDisplay.textContent = '\u00a5' + (applyState.annualFee * applyState.period).toLocaleString();
-    updateApplySummary();
+    if (feeDisplay) feeDisplay.textContent = '\u00a5' + (estFeeState.annualFee * estFeeState.period).toLocaleString();
   }
 }
 
@@ -1826,6 +1578,16 @@ function updateResults() {
   var list = document.getElementById('resultsList');
   if (!list) return;
   var filtered = getTemples();
+  // 供養方法フィルター（全タブ共通）
+  var checkedKuyo = Array.from(document.querySelectorAll('input[name="kuyo"]:checked')).map(function(el) { return el.value; });
+  if (checkedKuyo.length > 0) {
+    filtered = filtered.filter(function(t) {
+      var ts = Array.isArray(t.types) ? t.types : [];
+      // 供養方法が未登録の寺院は除外しない（CRM で登録されるまでの暫定措置）
+      if (ts.length === 0) return true;
+      return ts.some(function(x) { return checkedKuyo.indexOf(x) !== -1; });
+    });
+  }
   if (activeTab.includes('エリア')) {
     var areaVal  = (document.getElementById('searchArea')||{}).value || '';
     var cityVal  = (document.getElementById('searchCity')||{}).value || '';
@@ -1855,7 +1617,7 @@ function updateResults() {
   list.innerHTML = filtered.map(function(t) {
     var tagsHtml = t.tags.map(function(tag, i) { return '<span class="tag' + (i===0?' gold':'') + '">' + tag + '</span>'; }).join('');
     var safeName = t.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-    return '<div class="search-result-card" role="button" tabindex="0" onclick="goToApplyWithTemple(\'' + safeName + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();goToApplyWithTemple(\'' + safeName + '\');}">' +
+    return '<div class="search-result-card" role="button" tabindex="0" onclick="document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'})" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'});}">' +
       '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>' +
       '<div><div class="result-name">' + t.name + '</div>' +
       '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
@@ -1867,26 +1629,6 @@ function updateResults() {
       '</div>' +
       '</div>';
   }).join('');
-}
-
-function goToApplyWithTemple(name) {
-  var t = (typeof estTemples !== 'undefined' ? estTemples : []).find(function(x) { return x.name === name; });
-  if (!t) { location.hash = '#apply'; return; }
-  applyState.temple    = t.name;
-  applyState.contract  = t.price;
-  applyState.kinugi    = t.kinugi;
-  applyState.annualFee = t.annualFee || 36000;
-  document.querySelectorAll('.temple-card').forEach(function(card) {
-    card.classList.remove('selected');
-    var nameEl = card.querySelector('.temple-card-name');
-    if (nameEl && nameEl.textContent.trim() === t.name.trim()) {
-      card.classList.add('selected');
-    }
-  });
-  var annualLabel = document.getElementById('periodAnnualFeeLabel');
-  if (annualLabel) annualLabel.textContent = applyState.annualFee.toLocaleString();
-  updateApplySummary();
-  goApply(0);
 }
 
 function toggleFaq(el) {
@@ -2032,214 +1774,6 @@ function autoFillAddress(zip, isManualClick) {
     });
 }
 
-var applyState = { temple:'', contract:90000, kinugi:10000, annualFee:36000, period:3 };
-
-function selectTemple(el, name, area, price, kinugi) {
-  document.querySelectorAll('.temple-card').forEach(function(c) { c.classList.remove('selected'); });
-  el.classList.add('selected');
-  applyState.temple = name;
-  applyState.contract = price;
-  applyState.kinugi = kinugi;
-  var tData = estTemples.find(function(t) { return t.name === name; });
-  applyState.annualFee = tData ? (tData.annualFee || 36000) : 36000;
-  var annualLabel = document.getElementById('periodAnnualFeeLabel');
-  if (annualLabel) annualLabel.textContent = (applyState.annualFee).toLocaleString();
-}
-function nextFromTemple() {
-  if (!applyState.temple) { showFeedback('templeSelectFeedback', 'お寺・納骨堂をお選びください。', 'error'); return; }
-  hideFeedback('templeSelectFeedback');
-  markStepCompleted(1);
-  goApply(1);
-}
-function nextFromInfo() {
-  var required = [
-    {id:'infoName',   label:'氏名'},
-    {id:'infoKana',   label:'ふりがな'},
-    {id:'infoAge',    label:'ご年齢'},
-    {id:'infoZip',    label:'郵便番号'},
-    {id:'infoPref',   label:'都道府県'},
-    {id:'infoCity',   label:'市区町村'},
-    {id:'infoStreet', label:'番地以降'},
-    {id:'infoTel',    label:'電話番号'},
-    {id:'infoEmail',  label:'メールアドレス'},
-    {id:'infoEmail2', label:'メールアドレス（確認）'},
-  ];
-  var errEl = document.getElementById('infoError');
-  for (var i = 0; i < required.length; i++) {
-    var el = document.getElementById(required[i].id);
-    if (!el || !el.value.trim()) {
-      errEl.textContent = required[i].label + 'を入力してください';
-      errEl.style.display = 'block';
-      if (el) el.focus();
-      return;
-    }
-  }
-  var e1 = document.getElementById('infoEmail').value.trim();
-  var e2 = document.getElementById('infoEmail2').value.trim();
-  if (!isValidEmail(e1)) {
-    errEl.textContent = 'メールアドレスの形式が正しくありません';
-    errEl.style.display = 'block';
-    document.getElementById('infoEmail').focus();
-    return;
-  }
-  if (e1 !== e2) {
-    errEl.textContent = 'メールアドレスが一致しません';
-    errEl.style.display = 'block';
-    document.getElementById('infoEmail2').focus();
-    return;
-  }
-  var telVal = document.getElementById('infoTel').value.trim();
-  if (!isValidTel(telVal)) {
-    errEl.textContent = '電話番号の形式が正しくありません（半角数字10桁以上）';
-    errEl.style.display = 'block';
-    document.getElementById('infoTel').focus();
-    return;
-  }
-  errEl.style.display = 'none';
-  markStepCompleted(4);
-  goApply(4);
-}
-function goApply(idx) {
-  for (var i = 0; i <= 5; i++) {
-    var el = document.getElementById('ap' + i);
-    if (el) el.style.display = (i === idx) ? 'block' : 'none';
-  }
-  document.querySelectorAll('.apply-step-btn').forEach(function(b, i) {
-    b.classList.toggle('active', i === idx);
-  });
-  updateApplySummary();
-  var sec = document.getElementById('apply');
-  if (sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
-}
-var applyCompletedStep = 0;
-
-function resetApplyForm() {
-  applyState = { temple:'', contract:90000, kinugi:10000, annualFee:36000, period:3 };
-  applyCompletedStep = 0;
-  ['infoName','infoKana','infoAge','infoZip','infoPref','infoCity','infoStreet','infoBldg','infoTel','infoEmail','infoEmail2'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.value = '';
-  });
-  var c1 = document.getElementById('consentCheck');  if (c1) c1.checked = false;
-  var c2 = document.getElementById('privacyCheck');  if (c2) c2.checked = false;
-  var nfc = document.getElementById('nextFromConsent'); if (nfc) nfc.disabled = true;
-  document.querySelectorAll('.temple-card').forEach(function(card) { card.classList.remove('selected'); });
-  var slider = document.getElementById('periodSlider'); if (slider) slider.value = 3;
-  var pDisp  = document.getElementById('periodDisplay');  if (pDisp)  pDisp.textContent  = '3';
-  var yLabel = document.getElementById('periodYearLabel'); if (yLabel) yLabel.textContent = '3';
-  var fDisp  = document.getElementById('periodFeeDisplay'); if (fDisp)  fDisp.textContent = '¥108,000';
-  var aLabel = document.getElementById('periodAnnualFeeLabel'); if (aLabel) aLabel.textContent = '36,000';
-  document.querySelectorAll('.apply-step-btn').forEach(function(b) { b.classList.remove('completed'); });
-  var infoErr = document.getElementById('infoError'); if (infoErr) { infoErr.textContent = ''; infoErr.style.display = 'none'; }
-  var zipFb = document.getElementById('zipFeedback'); if (zipFb) { zipFb.textContent = ''; zipFb.style.color = ''; }
-  var ccBox = document.getElementById('customerCodeBox'); if (ccBox) ccBox.style.display = 'none';
-  var ccDisp = document.getElementById('customerCodeDisplay'); if (ccDisp) ccDisp.textContent = '—';
-  updateApplySummary();
-  resetTurnstile('#apply');
-}
-
-function markStepCompleted(idx) {
-  if (idx > applyCompletedStep) applyCompletedStep = idx;
-  document.querySelectorAll('.apply-step-btn').forEach(function(btn, i) {
-    btn.classList.remove('completed');
-    if (i < applyCompletedStep) btn.classList.add('completed');
-  });
-}
-
-function switchApplyGuarded(idx) {
-  if (idx === 0 || idx <= applyCompletedStep) {
-    goApply(idx);
-  } else {
-    var btns = document.querySelectorAll('.apply-step-btn');
-    if (btns[idx]) {
-      btns[idx].style.animation = 'none';
-      btns[idx].offsetHeight;
-      btns[idx].style.animation = 'tabShake 0.4s ease';
-      setTimeout(function() { btns[idx].style.animation = ''; }, 400);
-    }
-  }
-}
-
-function switchApply(idx, btn) { switchApplyGuarded(idx); }
-function updatePeriod(val) {
-  document.getElementById('periodDisplay').textContent = val;
-  document.getElementById('periodYearLabel').textContent = val;
-  var annualFee = applyState.annualFee || 36000;
-  document.getElementById('periodFeeDisplay').textContent = '¥' + (annualFee * parseInt(val)).toLocaleString();
-  var annualLabel = document.getElementById('periodAnnualFeeLabel');
-  if (annualLabel) annualLabel.textContent = annualFee.toLocaleString();
-  applyState.period = parseInt(val);
-  updateApplySummary();
-}
-function updateApplySummary() {
-  var manage = applyState.annualFee * applyState.period;
-  var box    = 20000;
-  var total  = applyState.contract + applyState.kinugi + manage + box;
-  function s(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; }
-  s('apTemple',   applyState.temple || '（未選択）');
-  s('apPeriod',   applyState.period + '年');
-  s('apContract', '¥' + applyState.contract.toLocaleString());
-  s('apKinugi',   '¥' + applyState.kinugi.toLocaleString());
-  s('apManage',   '¥' + manage.toLocaleString() + '（' + (applyState.annualFee||36000).toLocaleString() + '×' + applyState.period + '年・一括）');
-  s('apBox',      '¥20,000');
-  s('apTotal',    '¥' + total.toLocaleString());
-}
-async function submitApplyData() {
-  try {
-    var res = await fetch(window.SUPABASE_URL + '/functions/v1/form-apply', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        temple:   applyState.temple,
-        contract: applyState.contract,
-        kinugi:   applyState.kinugi,
-        period:   applyState.period,
-        name:     (document.getElementById('infoName')   ||{}).value||'',
-        kana:     (document.getElementById('infoKana')   ||{}).value||'',
-        age:      (document.getElementById('infoAge')    ||{}).value||'',
-        zip:      (document.getElementById('infoZip')    ||{}).value||'',
-        pref:     (document.getElementById('infoPref')   ||{}).value||'',
-        city:     (document.getElementById('infoCity')   ||{}).value||'',
-        street:   (document.getElementById('infoStreet') ||{}).value||'',
-        bldg:     (document.getElementById('infoBldg')   ||{}).value||'',
-        tel:      (document.getElementById('infoTel')    ||{}).value||'',
-        email:    (document.getElementById('infoEmail')  ||{}).value||'',
-        'cf-turnstile-response': getTurnstileToken('#apply'),
-      })
-    });
-    if (!res.ok) return { ok: false };
-    var data = await res.json().catch(function() { return {}; });
-    return { ok: data.success !== false, customer_code: data.customer_code || '' };
-  } catch (e) {
-    return { ok: false };
-  }
-}
-
-async function submitApplyFlow(btn) {
-  if (!btn || btn.disabled) return;
-  btn.disabled = true;
-  btn.setAttribute('aria-busy', 'true');
-  var originalText = btn.textContent;
-  btn.textContent = '送信中…';
-  var result = await submitApplyData();
-  if (result && result.ok) {
-    btn.removeAttribute('aria-busy');
-    if (result.customer_code) {
-      var codeEl = document.getElementById('customerCodeDisplay');
-      var codeBox = document.getElementById('customerCodeBox');
-      if (codeEl) codeEl.textContent = result.customer_code;
-      if (codeBox) codeBox.style.display = 'block';
-    }
-    markStepCompleted(5);
-    goApply(5);
-  } else {
-    btn.disabled = false;
-    btn.removeAttribute('aria-busy');
-    btn.textContent = originalText;
-    resetTurnstile('#apply');
-    showFeedback('applyFeedback', '申込の送信に失敗しました。時間をおいて再度お試しください。', 'error');
-  }
-}
-
 function submitVisitForm(btn) {
   var locEl     = document.querySelector('.loc-card.selected');
   var name      = ((document.getElementById('visitName')      ||{}).value || '').trim();
@@ -2308,62 +1842,6 @@ function submitVisitForm(btn) {
   });
 }
 
-function checkConsent() {
-  var cb1 = document.getElementById('consentCheck');
-  var cb2 = document.getElementById('privacyCheck');
-  var btn = document.getElementById('nextFromConsent');
-  var ok = !!(cb1 && cb1.checked && cb2 && cb2.checked);
-  if (btn) btn.disabled = !ok;
-}
-
-function applyFromEstimate() {
-  var templeName = (document.getElementById('estTemple') || {}).value || '';
-  var period = parseInt((document.getElementById('estPeriod') || {}).value) || 3;
-
-  if (!templeName) {
-    showFeedback('estimateFeedback', 'まず「ご希望エリア」と「送骨堂」を選択してください。', 'error');
-    var estArea = document.getElementById('estArea');
-    if (estArea) estArea.focus();
-    return;
-  }
-  hideFeedback('estimateFeedback');
-
-  var t = estTemples.find(function(x) { return x.name === templeName; });
-  if (!t) {
-    location.hash = '#apply';
-    return;
-  }
-
-  applyState.temple    = t.name;
-  applyState.contract  = t.price;
-  applyState.kinugi    = t.kinugi;
-  applyState.annualFee = t.annualFee || 36000;
-  applyState.period    = period;
-
-  document.querySelectorAll('.temple-card').forEach(function(card) {
-    card.classList.remove('selected');
-    var nameEl = card.querySelector('.temple-card-name');
-    if (nameEl && nameEl.textContent.trim() === t.name.trim()) {
-      card.classList.add('selected');
-    }
-  });
-
-  var slider = document.getElementById('periodSlider');
-  if (slider) slider.value = period;
-  var periodDisplay = document.getElementById('periodDisplay');
-  if (periodDisplay) periodDisplay.textContent = period;
-  var yearLabel = document.getElementById('periodYearLabel');
-  if (yearLabel) yearLabel.textContent = period;
-  var feeDisplay = document.getElementById('periodFeeDisplay');
-  if (feeDisplay) feeDisplay.textContent = '¥' + (applyState.annualFee * period).toLocaleString();
-  var annualLabel = document.getElementById('periodAnnualFeeLabel');
-  if (annualLabel) annualLabel.textContent = applyState.annualFee.toLocaleString();
-
-  updateApplySummary();
-
-  markStepCompleted(2);
-  goApply(2);
-}
 
 function updateManageFeeBox() {
   var period = parseInt((document.getElementById('estPeriod') || {value:'3'}).value) || 3;
@@ -2376,6 +1854,7 @@ function updateManageFeeBox() {
   if (amtEl) amtEl.textContent = tData ? '¥' + manage.toLocaleString() : '—';
   if (lblEl) lblEl.textContent = '管理費（' + period + '年分）';
 }
+
 
 function initSearchSelects() {
   var areaEl = document.getElementById('searchArea');
