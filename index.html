@@ -659,7 +659,7 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
   </a>
   <div class="nav-links">
     <a href="#about">送骨堂とは</a>
-    <a href="#search">送骨堂を探す</a>
+    <a href="#search">お墓を探す</a>
     <a href="#visit">見学申込</a>
     <a href="#hakajimae">墓じまい</a>
     <a href="#faq">よくある質問</a>
@@ -675,7 +675,7 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
 <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="メインメニュー" aria-hidden="true">
   <div class="mobile-drawer-inner">
     <a href="#about" onclick="toggleDrawer()">送骨堂とは</a>
-    <a href="#search" onclick="toggleDrawer()">送骨堂を探す</a>
+    <a href="#search" onclick="toggleDrawer()">お墓を探す</a>
     <a href="#estimate" onclick="toggleDrawer()">お見積り</a>
     <a href="#visit" onclick="toggleDrawer()">見学申込</a>
     <a href="#hakajimae" onclick="toggleDrawer()">墓じまい</a>
@@ -896,36 +896,18 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
         </div>
       </div>
       <div id="estTempleRow" style="display:none;margin-bottom:16px;">
-        <label for="estTemple" class="field-label">送骨堂を選択</label>
+        <label for="estTemple" class="field-label">お墓を選択</label>
         <select class="field-select" id="estTemple" onchange="onTempleChange()">
           <option value="">選択してください</option>
         </select>
       </div>
       <div class="estimate-row" style="grid-template-columns:1fr;">
         <div>
-          <label for="estPeriod" class="field-label">管理期間：<span id="estPeriodLabel" style="color:var(--gold-light);font-size:14px;">3年</span></label>
-          <input type="range" min="3" max="30" step="1" value="3" id="estPeriod"
-            style="width:100%;accent-color:var(--gold);margin:10px 0 4px;"
-            oninput="document.getElementById('estPeriodLabel').textContent=this.value+'年';calcEstimate();updateManageFeeBox()">
-          <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);">
-            <span>3年</span><span>30年</span>
-          </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:8px;">
-            ※管理期間後は更新するか合祀供養かご選択いただけます
-          </div>
-          <div id="estManageFee" style="margin-top:12px;background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.25);border-radius:4px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:12px;color:rgba(255,255,255,0.5);" id="estManageFeeLabel">管理費（3年分）</span>
-            <span style="font-size:18px;font-weight:700;color:var(--gold-light);" id="estManageFeeAmt">—</span>
-          </div>
-        </div>
-      </div>
-      <div class="estimate-row">
-        <div>
-          <label for="estExtra" class="field-label">追加送骨（任意）<span style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:400;display:block;margin-top:3px;">年1回の送骨は管理費に含まれます</span></label>
+          <label for="estExtra" class="field-label">送骨申込</label>
+          <p style="font-size:12px;line-height:1.8;color:rgba(255,255,255,0.6);margin:0 0 10px;">送骨はご希望の日時に専用車でご自宅や施設にご遺骨をお届けするサービスです。<br>2回目以降の送骨は都度33,000円（税込）になります。</p>
           <select class="field-select" id="estExtra" onchange="calcEstimate()">
-            <option value="0">追加なし</option>
-            <option value="1">年1回追加（+¥30,000/回）</option>
-            <option value="2">年2回追加（+¥60,000/年）</option>
+            <option value="0" selected>依頼しない</option>
+            <option value="1">依頼する</option>
           </select>
         </div>
       </div>
@@ -934,10 +916,9 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
         <div class="est-breakdown">
           <div class="est-line" id="estContract"><span>契約金</span><span id="estContractAmt">¥90,000</span></div>
           <div class="est-line" id="estKinugiLine"><span>寺院への志納金</span><span id="estKinugiAmt">¥10,000</span></div>
-          <div class="est-line" id="estManage"><span>管理費（3年分）</span><span id="estManageAmt">¥108,000</span></div>
-          <div class="est-line" id="estBoxLine"><span>骨箱</span><span>¥20,000</span></div>
-          <div class="est-line" id="estExtraLine" style="display:none"><span>追加送骨料</span><span id="estExtraAmt">¥30,000/回</span></div>
-          <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">¥228,000〜</span></div>
+          <div class="est-line" id="estManage"><span>管理費（年）</span><span id="estManageAmt">¥36,000</span></div>
+          <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span id="estBoxAmt">¥22,000</span></div>
+          <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">¥136,000〜</span></div>
         </div>
         <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">※表示価格は全て税込です</p>
         <div id="estimateFeedback" class="form-feedback" role="alert" aria-live="assertive" hidden></div>
@@ -1701,44 +1682,26 @@ document.addEventListener('DOMContentLoaded', function() {
   updateManageFeeBox();
 });
 
+// 骨箱は送骨を依頼する場合のみ必要
+var EST_BOX_FEE = 22000;
 function calcEstimate() {
-  var period  = parseInt(document.getElementById('estPeriod').value) || 3;
-  var extra   = parseInt(document.getElementById('estExtra').value)  || 0;
+  var sokotsu = (document.getElementById('estExtra') || {}).value === '1';
   var templeName = (document.getElementById('estTemple') || {}).value || '';
   var tData = estTemples.find(function(t) { return t.name === templeName; });
-  var contract = tData ? tData.price     : 90000;
-  var kinugi   = tData ? tData.kinugi    : 10000;
-  var manage   = (tData ? tData.annualFee : 36000) * period;
-  var boxFee   = 20000;
-  var extraFee = extra * 30000 * period;
-  var total    = contract + kinugi + manage + boxFee + extraFee;
+  var contract = tData ? tData.price  : 90000;
+  var kinugi   = tData ? tData.kinugi : 10000;
+  var manage   = tData ? (tData.annualFee || 36000) : 36000;  // 管理費（年）
+  var boxFee   = sokotsu ? EST_BOX_FEE : 0;
+  var total    = contract + kinugi + manage + boxFee;
 
-  var mEl = document.getElementById('estManageAmt');
-  if (mEl) mEl.textContent = '¥' + manage.toLocaleString();
-
-  var mLabelEl = document.getElementById('estManage');
-  if (mLabelEl) mLabelEl.querySelector('span').textContent = '管理費（' + period + '年分）';
-
-  var kEl = document.getElementById('estKinugiAmt');
-  if (kEl) kEl.textContent = '¥' + kinugi.toLocaleString();
-
-  var cEl = document.getElementById('estContractAmt');
-  if (cEl) cEl.textContent = '¥' + contract.toLocaleString();
-
-  var mFeeAmt = document.getElementById('estManageFeeAmt');
-  if (mFeeAmt) mFeeAmt.textContent = '¥' + manage.toLocaleString();
-  var mFeeLabel = document.getElementById('estManageFeeLabel');
-  if (mFeeLabel) mFeeLabel.textContent = '管理費（' + period + '年分）';
-
-  var exEl = document.getElementById('estExtraLine');
-  var exAmtEl = document.getElementById('estExtraAmt');
-  if (exEl) {
-    exEl.style.display = extra > 0 ? '' : 'none';
-    if (exAmtEl && extra > 0) exAmtEl.textContent = '¥' + (extra * 30000).toLocaleString() + '/回';
-  }
-
-  var tEl = document.getElementById('estTotalAmt');
-  if (tEl) tEl.textContent = '¥' + total.toLocaleString() + '〜';
+  var set = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+  set('estContractAmt', '¥' + contract.toLocaleString());
+  set('estKinugiAmt',   '¥' + kinugi.toLocaleString());
+  set('estManageAmt',   '¥' + manage.toLocaleString());
+  set('estBoxAmt',      '¥' + EST_BOX_FEE.toLocaleString());
+  var boxLine = document.getElementById('estBoxLine');
+  if (boxLine) boxLine.style.display = sokotsu ? '' : 'none';
+  set('estTotalAmt', '¥' + total.toLocaleString() + '〜');
 }
 
 // ── 郵便番号→住所自動入力（強化版：エラー処理・フィードバック付き） ──
@@ -1848,17 +1811,7 @@ function submitVisitForm(btn) {
 }
 
 
-function updateManageFeeBox() {
-  var period = parseInt((document.getElementById('estPeriod') || {value:'3'}).value) || 3;
-  var tName  = (document.getElementById('estTemple') || {}).value || '';
-  var tData  = estTemples.find(function(t) { return t.name === tName; });
-  var fee    = tData ? (tData.annualFee || 36000) : 36000;
-  var manage = fee * period;
-  var amtEl  = document.getElementById('estManageFeeAmt');
-  var lblEl  = document.getElementById('estManageFeeLabel');
-  if (amtEl) amtEl.textContent = tData ? '¥' + manage.toLocaleString() : '—';
-  if (lblEl) lblEl.textContent = '管理費（' + period + '年分）';
-}
+function updateManageFeeBox() { /* 管理期間スライダー廃止に伴い処理なし（呼び出し元互換のため残置） */ }
 
 
 function initSearchSelects() {
