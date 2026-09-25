@@ -113,7 +113,7 @@
       },
       {
         "@type": "Offer",
-        "itemOffered": { "@type": "Service", "name": "寺院への志納金" },
+        "itemOffered": { "@type": "Service", "name": "志納金（お墓）" },
         "priceSpecification": {
           "@type": "PriceSpecification",
           "minPrice": "10000",
@@ -121,7 +121,7 @@
           "priceCurrency": "JPY",
           "valueAddedTaxIncluded": true
         },
-        "description": "寺院への志納金（税込）・寺院により¥10,000〜¥20,000で変動"
+        "description": "志納金（お墓）（税込）・寺院により¥10,000〜¥20,000で変動"
       },
       {
         "@type": "Offer",
@@ -904,7 +904,7 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
       <div class="estimate-row" style="grid-template-columns:1fr;">
         <div>
           <label for="estExtra" class="field-label">送骨申込</label>
-          <p style="font-size:12px;line-height:1.8;color:rgba(255,255,255,0.6);margin:0 0 10px;">送骨はご希望の日時に専用車でご自宅や施設にご遺骨をお届けするサービスです。<br>2回目以降の送骨は都度33,000円（税込）になります。</p>
+          <p style="font-size:12px;line-height:1.8;color:rgba(255,255,255,0.6);margin:0 0 10px;">送骨はご希望の日時に専用車でご自宅や施設にご遺骨をお届けするサービスです。<br>2回目以降の送骨は別途33,000円〜（税込）になります。</p>
           <select class="field-select" id="estExtra" onchange="calcEstimate()">
             <option value="0" selected>依頼しない</option>
             <option value="1">依頼する</option>
@@ -915,9 +915,10 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
       <div class="estimate-result show" id="estResult">
         <div class="est-breakdown">
           <div class="est-line" id="estContract"><span>契約金</span><span id="estContractAmt">¥90,000</span></div>
-          <div class="est-line" id="estKinugiLine"><span>寺院への志納金</span><span id="estKinugiAmt">¥10,000</span></div>
+          <div class="est-line" id="estKinugiLine"><span>志納金（お墓）</span><span id="estKinugiAmt">¥10,000</span></div>
           <div class="est-line" id="estManage"><span>管理費（年）</span><span id="estManageAmt">¥36,000</span></div>
           <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span id="estBoxAmt">¥22,000</span></div>
+          <div class="est-line" id="estSendKinugiLine" style="display:none"><span>志納金（送金）</span><span id="estSendKinugiAmt">—</span></div>
           <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">¥136,000〜</span></div>
         </div>
         <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">※表示価格は全て税込です</p>
@@ -1545,7 +1546,7 @@ function onAreaChange() {
   var filtered = area === '__all__' ? estTemples : estTemples.filter(function(t) { return t.area === area; });
   templeSelect.innerHTML = '<option value="">選択してください</option>' +
     filtered.map(function(t) {
-      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　契約金 ¥' + t.price.toLocaleString() + '　志納金 ¥' + t.kinugi.toLocaleString() + '</option>';
+      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　契約金 ¥' + t.price.toLocaleString() + '　志納金（お墓） ¥' + t.kinugi.toLocaleString() + '</option>';
     }).join('');
   templeRow.style.display = 'block';
   calcEstimate();
@@ -1611,7 +1612,7 @@ function updateResults() {
       '<div class="result-price">' +
       '<div class="fee-row"><span class="fee-label">契約金</span><span class="fee-value fee-main">¥' + t.price.toLocaleString() + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">管理費<span class="fee-note">/年</span></span><span class="fee-value">¥' + t.annualFee.toLocaleString() + '</span></div>' +
-      '<div class="fee-row"><span class="fee-label">志納金</span><span class="fee-value">¥' + t.kinugi.toLocaleString() + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">志納金（お墓）</span><span class="fee-value">¥' + t.kinugi.toLocaleString() + '</span></div>' +
       '</div>' +
       '</div>';
   }).join('');
@@ -1692,7 +1693,10 @@ function calcEstimate() {
   var kinugi   = tData ? tData.kinugi : 10000;
   var manage   = tData ? (tData.annualFee || 36000) : 36000;  // 管理費（年）
   var boxFee   = sokotsu ? EST_BOX_FEE : 0;
-  var total    = contract + kinugi + manage + boxFee;
+  // 志納金（送金）: CRM の temples.sokotsu_donation_amount（sync-web が sendKinugi として出力）。未設定なら合計に含めない
+  var sendKinugiSet = !!tData && typeof tData.sendKinugi === 'number';
+  var sendKinugi    = (sokotsu && sendKinugiSet) ? tData.sendKinugi : 0;
+  var total    = contract + kinugi + manage + boxFee + sendKinugi;
 
   var set = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
   set('estContractAmt', '¥' + contract.toLocaleString());
@@ -1701,6 +1705,9 @@ function calcEstimate() {
   set('estBoxAmt',      '¥' + EST_BOX_FEE.toLocaleString());
   var boxLine = document.getElementById('estBoxLine');
   if (boxLine) boxLine.style.display = sokotsu ? '' : 'none';
+  var sendLine = document.getElementById('estSendKinugiLine');
+  if (sendLine) sendLine.style.display = sokotsu ? '' : 'none';
+  set('estSendKinugiAmt', sendKinugiSet ? '¥' + tData.sendKinugi.toLocaleString() : (tData ? '別途ご案内' : 'お墓選択後に表示'));
   set('estTotalAmt', '¥' + total.toLocaleString() + '〜');
 }
 
