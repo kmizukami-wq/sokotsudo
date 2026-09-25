@@ -853,13 +853,13 @@ window.SUPABASE_URL = (location.hostname.startsWith('dev.') || location.hostname
       <div style="font-size:11px;letter-spacing:0.2em;color:var(--muted);margin-bottom:10px;">供養方法</div>
       <div style="display:flex;gap:20px;flex-wrap:wrap;">
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
+          <input type="checkbox" name="kuyo" value="樹木葬" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 樹木葬
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
           <input type="checkbox" name="kuyo" value="納骨堂" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 納骨堂
         </label>
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
           <input type="checkbox" name="kuyo" value="永代供養墓" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 永代供養墓
-        </label>
-        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
-          <input type="checkbox" name="kuyo" value="樹木葬" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 樹木葬
         </label>
       </div>
     </div>
