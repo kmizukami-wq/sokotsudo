@@ -923,7 +923,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
         <div class="est-breakdown">
           <div class="est-line" id="estKinugiLine"><span>志納金（お寺）</span><span id="estKinugiAmt">10,000円〜</span></div>
           <div class="est-line" id="estManage"><span>管理費(年)</span><span id="estManageAmt">36,000円〜</span></div>
-          <div class="est-line" id="estContract"><span>お墓代</span><span id="estContractAmt">90,000円〜</span></div>
+          <div class="est-line" id="estContract"><span>お墓代</span><span id="estContractAmt">90,000円</span></div>
           <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span id="estBoxAmt">22,000円</span></div>
           <div class="est-line" id="estSendKinugiLine" style="display:none"><span>志納金（送骨）</span><span id="estSendKinugiAmt">—</span></div>
           <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">136,000円〜</span></div>
@@ -1501,6 +1501,12 @@ var templesLoadState = 'loading'; // loading | ready | error
 // 金額表示：「¥」ではなく「円」。区画・距離で変動する金額は末尾に「〜」
 function yen(n) { return (Number(n) || 0).toLocaleString() + '円'; }
 function yenFrom(n) { return yen(n) + '〜'; }
+// お墓代：樹木葬は区画により変動するため「〜」を付ける。納骨堂・永代供養墓は定額表示
+function graveFee(t) {
+  var price = t ? t.price : 0;
+  var isJumoku = !!t && Array.isArray(t.types) && t.types.indexOf('樹木葬') !== -1;
+  return isJumoku ? yenFrom(price) : yen(price);
+}
 
 var TEMPLE_DEFAULT_TAGS = ['永代供養','QR管理','個別安置'];
 function getTemples() {
@@ -1535,7 +1541,7 @@ function onAreaChange() {
   var filtered = area === '__all__' ? estTemples : estTemples.filter(function(t) { return t.area === area; });
   templeSelect.innerHTML = '<option value="">選択してください</option>' +
     filtered.map(function(t) {
-      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　志納金（お寺） ' + yenFrom(t.kinugi) + '　お墓代 ' + yenFrom(t.price) + '</option>';
+      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　志納金（お寺） ' + yenFrom(t.kinugi) + '　お墓代 ' + graveFee(t) + '</option>';
     }).join('');
   templeRow.style.display = 'block';
   calcEstimate();
@@ -1606,7 +1612,7 @@ function updateResults() {
       '<div class="result-price">' +
       '<div class="fee-row"><span class="fee-label">志納金（お寺）</span><span class="fee-value">' + yenFrom(t.kinugi) + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">管理費(年)</span><span class="fee-value">' + yenFrom(t.annualFee) + '</span></div>' +
-      '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + yenFrom(t.price) + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + graveFee(t) + '</span></div>' +
       '</div>' +
       '</div>';
   }).join('');
@@ -1778,10 +1784,10 @@ function calcEstimate() {
   var total    = contract + kinugi + manage + boxFee + sendKinugi;
 
   var set = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
-  // 志納金（お寺）・管理費(年)・お墓代は区画により、志納金（送骨）は距離により変動するため「〜」を付ける
+  // 志納金（お寺）・管理費(年)は区画により、志納金（送骨）は距離により変動するため「〜」を付ける（お墓代は graveFee 参照）
   set('estKinugiAmt',   yenFrom(kinugi));
   set('estManageAmt',   yenFrom(manage));
-  set('estContractAmt', yenFrom(contract));
+  set('estContractAmt', tData ? graveFee(tData) : yen(contract));
   set('estBoxAmt',      yen(EST_BOX_FEE));
   var boxLine = document.getElementById('estBoxLine');
   if (boxLine) boxLine.style.display = sokotsu ? '' : 'none';
