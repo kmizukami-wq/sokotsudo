@@ -925,7 +925,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
           <div class="est-line" id="estManage"><span>管理費(年)</span><span id="estManageAmt">36,000円〜</span></div>
           <div class="est-line" id="estContract"><span>お墓代</span><span id="estContractAmt">90,000円</span></div>
           <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span id="estBoxAmt">22,000円</span></div>
-          <div class="est-line" id="estSendKinugiLine" style="display:none"><span>志納金（送骨）</span><span id="estSendKinugiAmt">—</span></div>
+          <div class="est-line" id="estSendKinugiLine" style="display:none"><span>送骨費用</span><span id="estSendKinugiAmt">—</span></div>
           <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">136,000円〜</span></div>
         </div>
         <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">※表示価格は全て税込です</p>
@@ -1778,13 +1778,13 @@ function calcEstimate() {
   var kinugi   = tData ? tData.kinugi : 10000;
   var manage   = tData ? (tData.annualFee || 36000) : 36000;  // 管理費(年)
   var boxFee   = sokotsu ? EST_BOX_FEE : 0;
-  // 志納金（送骨）: CRM の temples.sokotsu_donation_amount（sync-web が sendKinugi として出力）。未設定なら合計に含めない
+  // 送骨費用: CRM の temples.sokotsu_donation_amount（sync-web が sendKinugi として出力）。未設定なら合計に含めない
   var sendKinugiSet = !!tData && typeof tData.sendKinugi === 'number';
   var sendKinugi    = (sokotsu && sendKinugiSet) ? tData.sendKinugi : 0;
   var total    = contract + kinugi + manage + boxFee + sendKinugi;
 
   var set = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
-  // 志納金（お寺）・管理費(年)は区画により、志納金（送骨）は距離により変動するため「〜」を付ける（お墓代は graveFee 参照）
+  // 志納金（お寺）・管理費(年)は区画により、送骨費用は距離により変動するため「〜」を付ける（お墓代は graveFee 参照）
   set('estKinugiAmt',   yenFrom(kinugi));
   set('estManageAmt',   yenFrom(manage));
   set('estContractAmt', tData ? graveFee(tData) : yen(contract));
