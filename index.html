@@ -91,14 +91,14 @@
     "itemListElement": [
       {
         "@type": "Offer",
-        "itemOffered": { "@type": "Service", "name": "基本契約（契約金）" },
+        "itemOffered": { "@type": "Service", "name": "お墓代" },
         "priceSpecification": {
           "@type": "PriceSpecification",
           "price": "90000",
           "priceCurrency": "JPY",
           "valueAddedTaxIncluded": true
         },
-        "description": "契約金（税込）・寺院により変動する場合があります"
+        "description": "お墓代（税込）・区画により変動する場合があります"
       },
       {
         "@type": "Offer",
@@ -113,7 +113,7 @@
       },
       {
         "@type": "Offer",
-        "itemOffered": { "@type": "Service", "name": "志納金（お墓）" },
+        "itemOffered": { "@type": "Service", "name": "志納金（お寺）" },
         "priceSpecification": {
           "@type": "PriceSpecification",
           "minPrice": "10000",
@@ -121,7 +121,7 @@
           "priceCurrency": "JPY",
           "valueAddedTaxIncluded": true
         },
-        "description": "志納金（お墓）（税込）・寺院により¥10,000〜¥20,000で変動"
+        "description": "志納金（お寺）（税込）・区画により変動する場合があります"
       },
       {
         "@type": "Offer",
@@ -845,12 +845,12 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
 
     <div id="tab-price" class="search-panel">
       <div style="margin-bottom:24px;">
-        <label for="priceRange" style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:12px;">契約金（上限）</label>
+        <label for="priceRange" style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:12px;">お墓代（上限）</label>
         <input type="range" min="90000" max="300000" step="10000" value="150000" style="width:100%;accent-color:var(--gold);margin-bottom:8px;" id="priceRange" oninput="document.getElementById('priceVal').textContent=Number(this.value).toLocaleString();updateResults()">
         <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);">
-          <span id="priceMinLabel">¥90,000〜</span>
-          <span style="color:var(--gold);font-weight:700;">〜¥<span id="priceVal">150,000</span></span>
-          <span id="priceMaxLabel">¥300,000</span>
+          <span id="priceMinLabel">90,000円〜</span>
+          <span style="color:var(--gold);font-weight:700;">〜<span id="priceVal">150,000</span>円</span>
+          <span id="priceMaxLabel">300,000円</span>
         </div>
       </div>
       <button class="btn-primary" onclick="updateResults()">検索する</button>
@@ -877,9 +877,9 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
         <label for="searchSort" style="font-size:12px;color:var(--muted);">並び替え：</label>
         <select id="searchSort" onchange="updateResults()" style="padding:6px 10px;border:1px solid #e0ddd8;border-radius:2px;background:var(--off);font-family:var(--sans);font-size:13px;color:var(--text);-webkit-appearance:none;appearance:none;">
           <option value="default">おすすめ順</option>
-          <option value="price-asc">契約金：安い順</option>
-          <option value="price-desc">契約金：高い順</option>
-          <option value="fee-asc">管理費：安い順</option>
+          <option value="price-asc">お墓代：安い順</option>
+          <option value="price-desc">お墓代：高い順</option>
+          <option value="fee-asc">管理費(年)：安い順</option>
         </select>
       </div>
     </div>
@@ -921,12 +921,12 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
 
       <div class="estimate-result show" id="estResult">
         <div class="est-breakdown">
-          <div class="est-line" id="estContract"><span>契約金</span><span id="estContractAmt">¥90,000</span></div>
-          <div class="est-line" id="estKinugiLine"><span>志納金（お墓）</span><span id="estKinugiAmt">¥10,000</span></div>
-          <div class="est-line" id="estManage"><span>管理費（年）</span><span id="estManageAmt">¥36,000</span></div>
-          <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span id="estBoxAmt">¥22,000</span></div>
+          <div class="est-line" id="estKinugiLine"><span>志納金（お寺）</span><span id="estKinugiAmt">10,000円〜</span></div>
+          <div class="est-line" id="estManage"><span>管理費(年)</span><span id="estManageAmt">36,000円〜</span></div>
+          <div class="est-line" id="estContract"><span>お墓代</span><span id="estContractAmt">90,000円〜</span></div>
+          <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span id="estBoxAmt">22,000円</span></div>
           <div class="est-line" id="estSendKinugiLine" style="display:none"><span>志納金（送骨）</span><span id="estSendKinugiAmt">—</span></div>
-          <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">¥136,000〜</span></div>
+          <div class="est-line total" id="estTotal"><span>概算合計</span><span id="estTotalAmt">136,000円〜</span></div>
         </div>
         <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px;">※表示価格は全て税込です</p>
         <div id="estimateFeedback" class="form-feedback" role="alert" aria-live="assertive" hidden></div>
@@ -1498,6 +1498,10 @@ var searchAreaCityMap = {};
 var searchSects = [];
 var templesLoadState = 'loading'; // loading | ready | error
 
+// 金額表示：「¥」ではなく「円」。区画・距離で変動する金額は末尾に「〜」
+function yen(n) { return (Number(n) || 0).toLocaleString() + '円'; }
+function yenFrom(n) { return yen(n) + '〜'; }
+
 var TEMPLE_DEFAULT_TAGS = ['永代供養','QR管理','個別安置'];
 function getTemples() {
   return (Array.isArray(estTemples) ? estTemples : []).map(function(t) {
@@ -1531,7 +1535,7 @@ function onAreaChange() {
   var filtered = area === '__all__' ? estTemples : estTemples.filter(function(t) { return t.area === area; });
   templeSelect.innerHTML = '<option value="">選択してください</option>' +
     filtered.map(function(t) {
-      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　契約金 ¥' + t.price.toLocaleString() + '　志納金（お墓） ¥' + t.kinugi.toLocaleString() + '</option>';
+      return '<option value="' + t.name + '">' + t.name + '（' + t.sect + '）　志納金（お寺） ' + yenFrom(t.kinugi) + '　お墓代 ' + yenFrom(t.price) + '</option>';
     }).join('');
   templeRow.style.display = 'block';
   calcEstimate();
@@ -1600,9 +1604,9 @@ function updateResults() {
       '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
       '<div class="result-tags">' + tagsHtml + '</div></div>' +
       '<div class="result-price">' +
-      '<div class="fee-row"><span class="fee-label">契約金</span><span class="fee-value fee-main">¥' + t.price.toLocaleString() + '</span></div>' +
-      '<div class="fee-row"><span class="fee-label">管理費<span class="fee-note">/年</span></span><span class="fee-value">¥' + t.annualFee.toLocaleString() + '</span></div>' +
-      '<div class="fee-row"><span class="fee-label">志納金（お墓）</span><span class="fee-value">¥' + t.kinugi.toLocaleString() + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">志納金（お寺）</span><span class="fee-value">' + yenFrom(t.kinugi) + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">管理費(年)</span><span class="fee-value">' + yenFrom(t.annualFee) + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + yenFrom(t.price) + '</span></div>' +
       '</div>' +
       '</div>';
   }).join('');
@@ -1766,7 +1770,7 @@ function calcEstimate() {
   var tData = estTemples.find(function(t) { return t.name === templeName; });
   var contract = tData ? tData.price  : 90000;
   var kinugi   = tData ? tData.kinugi : 10000;
-  var manage   = tData ? (tData.annualFee || 36000) : 36000;  // 管理費（年）
+  var manage   = tData ? (tData.annualFee || 36000) : 36000;  // 管理費(年)
   var boxFee   = sokotsu ? EST_BOX_FEE : 0;
   // 志納金（送骨）: CRM の temples.sokotsu_donation_amount（sync-web が sendKinugi として出力）。未設定なら合計に含めない
   var sendKinugiSet = !!tData && typeof tData.sendKinugi === 'number';
@@ -1774,16 +1778,17 @@ function calcEstimate() {
   var total    = contract + kinugi + manage + boxFee + sendKinugi;
 
   var set = function(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
-  set('estContractAmt', '¥' + contract.toLocaleString());
-  set('estKinugiAmt',   '¥' + kinugi.toLocaleString());
-  set('estManageAmt',   '¥' + manage.toLocaleString());
-  set('estBoxAmt',      '¥' + EST_BOX_FEE.toLocaleString());
+  // 志納金（お寺）・管理費(年)・お墓代は区画により、志納金（送骨）は距離により変動するため「〜」を付ける
+  set('estKinugiAmt',   yenFrom(kinugi));
+  set('estManageAmt',   yenFrom(manage));
+  set('estContractAmt', yenFrom(contract));
+  set('estBoxAmt',      yen(EST_BOX_FEE));
   var boxLine = document.getElementById('estBoxLine');
   if (boxLine) boxLine.style.display = sokotsu ? '' : 'none';
   var sendLine = document.getElementById('estSendKinugiLine');
   if (sendLine) sendLine.style.display = sokotsu ? '' : 'none';
-  set('estSendKinugiAmt', sendKinugiSet ? '¥' + tData.sendKinugi.toLocaleString() : (tData ? '別途ご案内' : 'お墓選択後に表示'));
-  set('estTotalAmt', '¥' + total.toLocaleString() + '〜');
+  set('estSendKinugiAmt', sendKinugiSet ? yenFrom(tData.sendKinugi) : (tData ? '別途ご案内' : 'お墓選択後に表示'));
+  set('estTotalAmt', yenFrom(total));
 }
 
 // ── 郵便番号→住所自動入力（強化版：エラー処理・フィードバック付き） ──
@@ -1932,8 +1937,8 @@ function initPriceRange() {
   if (valEl) valEl.textContent = Number(sliderMax).toLocaleString();
   var minLbl = document.getElementById('priceMinLabel');
   var maxLbl = document.getElementById('priceMaxLabel');
-  if (minLbl) minLbl.textContent = '¥' + sliderMin.toLocaleString() + '〜';
-  if (maxLbl) maxLbl.textContent = '¥' + sliderMax.toLocaleString();
+  if (minLbl) minLbl.textContent = sliderMin.toLocaleString() + '円〜';
+  if (maxLbl) maxLbl.textContent = sliderMax.toLocaleString() + '円';
 }
 
 function onSearchAreaChange() {
