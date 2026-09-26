@@ -1557,11 +1557,10 @@ var templesLoadState = 'loading'; // loading | ready | error
 // 金額表示：「¥」ではなく「円」。区画・距離で変動する金額は末尾に「〜」
 function yen(n) { return (Number(n) || 0).toLocaleString() + '円'; }
 function yenFrom(n) { return yen(n) + '〜'; }
-// お墓代：樹木葬は区画により変動するため「〜」を付ける。納骨堂・永代供養墓は定額表示
+// お墓代：0円のときは「0円」、それ以外は区画により変動するため「〜」を付ける
 function graveFee(t) {
-  var price = t ? t.price : 0;
-  var isJumoku = !!t && Array.isArray(t.types) && t.types.indexOf('樹木葬') !== -1;
-  return isJumoku ? yenFrom(price) : yen(price);
+  var price = Number(t ? t.price : 0) || 0;
+  return price > 0 ? yenFrom(price) : yen(price);
 }
 
 var TEMPLE_DEFAULT_TAGS = ['永代供養','QR管理','個別安置'];
