@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>料金について | 送骨堂</title>
+<meta name="description" content="送骨堂の料金について。お墓（樹木葬・納骨堂・永代供養墓）の費用と、送骨（ご遺骨のお届け）の料金表をご案内します。">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1c30; --navy2:#1a2744; --gold:#c9a227; --gold-light:#e8c76e;
+  --white:#fff; --off:#faf8f4; --text:#2a2a2a; --muted:#888;
+  --serif:'Noto Serif JP',serif; --sans:'Noto Sans JP',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--text);background:var(--white);line-height:1.9}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(15,28,48,0.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,162,39,0.2);
+  padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;
+}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo span{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--white);letter-spacing:4px}
+.nav-back{color:rgba(255,255,255,0.7);font-size:13px;letter-spacing:0.05em}
+.nav-back:hover{color:var(--gold-light);text-decoration:none}
+
+.page-hero{
+  background:var(--navy);color:var(--white);
+  padding:120px 40px 60px;text-align:center;
+}
+.page-hero-label{font-size:10px;letter-spacing:0.5em;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.page-hero-title{font-family:var(--serif);font-size:clamp(24px,4vw,40px);font-weight:700;letter-spacing:0.05em}
+
+main{max-width:800px;margin:0 auto;padding:64px 24px 96px}
+.updated{font-size:13px;color:var(--muted);margin-bottom:40px;text-align:right}
+
+.spec-table{width:100%;border-collapse:collapse;margin-bottom:40px}
+.spec-table tr{border-bottom:1px solid #e0ddd8}
+.spec-table th{
+  text-align:left;padding:18px 20px;
+  font-size:13px;font-weight:500;color:var(--muted);
+  width:220px;vertical-align:top;background:var(--off);
+}
+.spec-table td{
+  padding:18px 20px;font-size:14px;color:var(--text);line-height:1.9;
+}
+.spec-table td ul{padding-left:20px;margin:4px 0}
+.spec-table td li{margin-bottom:4px}
+
+.lead{font-size:15px;line-height:2;margin-bottom:16px}
+.section-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy2);margin:48px 0 16px;padding-bottom:10px;border-bottom:2px solid var(--gold)}
+.section-title:first-of-type{margin-top:0}
+.price-box{background:var(--off);border:1px solid #e0ddd8;border-radius:4px;padding:20px 24px;margin:16px 0 24px}
+.price-box .label{font-size:13px;color:var(--muted)}
+.price-box .amount{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--navy2);margin:2px 0 4px}
+.price-box .sub{font-size:13px;color:var(--muted);line-height:1.8}
+.price-table{width:100%;border-collapse:collapse;margin:16px 0 8px}
+.price-table th{font-size:13px;font-weight:500;color:var(--muted);text-align:left;padding:12px 16px;background:var(--off);border-bottom:1px solid #e0ddd8}
+.price-table th:last-child,.price-table td:last-child{text-align:right}
+.price-table td{padding:14px 16px;font-size:15px;border-bottom:1px solid #e0ddd8}
+.price-table td:last-child{font-weight:700;color:var(--navy2)}
+.tax{font-size:12px;color:var(--muted);text-align:right;margin-bottom:8px}
+.btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:700;font-size:14px;letter-spacing:0.1em;padding:14px 32px;border-radius:2px;margin-top:8px}
+.btn:hover{text-decoration:none;opacity:0.9}
+.note{
+  background:var(--off);border-left:3px solid var(--gold);
+  padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.9;
+  margin-top:24px;
+}
+
+footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
+.footer-inner{max-width:800px;margin:0 auto;text-align:center}
+.footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,0.5);font-size:12px}
+.footer-links a:hover{color:var(--gold-light);text-decoration:none}
+.footer-copy{font-size:11px;color:rgba(255,255,255,0.3)}
+
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .page-hero{padding:100px 20px 48px}
+  main{padding:48px 20px 64px}
+  .spec-table th,.spec-table td{display:block;width:100%;padding:14px 16px}
+  .spec-table th{padding-bottom:4px}
+  .spec-table td{padding-top:4px}
+  .price-box{padding:16px 18px}
+  .price-table th,.price-table td{padding:12px 10px}
+  .btn{display:block;text-align:center}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="34" height="24" viewBox="0 0 420 290" xmlns="http://www.w3.org/2000/svg">
+      <path d="M52 152 Q68 148 210 58 Q352 148 368 152 Z" fill="#e8eaf0"/>
+      <rect x="28" y="145" width="364" height="17" rx="4" fill="#e8eaf0"/>
+      <path d="M108 170 Q210 72 312 170" fill="none" stroke="#c9a227" stroke-width="14" stroke-linecap="round"/>
+      <path d="M130 170 Q210 96 290 170" fill="none" stroke="#c9a227" stroke-width="14" stroke-linecap="round"/>
+    </svg>
+    <span>送骨堂</span>
+  </a>
+  <a href="/" class="nav-back">← サイトへ戻る</a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-label">Price</div>
+  <h1 class="page-hero-title">料金について</h1>
+</div>
+
+<main>
+  <h2 class="section-title">お墓の費用</h2>
+  <p class="lead">お墓（樹木葬、納骨堂、永代供養墓等）の費用については、寺院、プラン等により異なります。<br>
+  概算については<a href="/#estimate">お見積りシミュレーター</a>にてご確認いただけます。</p>
+  <a href="/#estimate" class="btn">お見積りシミュレーターへ</a>
+
+  <h2 class="section-title">送骨の料金</h2>
+  <p class="lead">ご希望の日時に専用車でご自宅や施設にご遺骨をお届けするサービス（送骨）をご希望される場合は、以下の料金をご参照ください。</p>
+
+  <div class="price-box">
+    <div class="label">志納金</div>
+    <div class="amount">150,000円〜</div>
+    <div class="sub">1回目の送骨費用は含まれます。費用は寺院により異なります。</div>
+  </div>
+
+  <p class="lead">2回目以降の送骨費用については、以下の料金表をご確認ください。</p>
+  <table class="price-table">
+    <thead>
+      <tr><th>総運行距離</th><th>送骨料金</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>〜50km</td><td>33,000円</td></tr>
+      <tr><td>51〜100km</td><td>55,000円</td></tr>
+      <tr><td>101〜150km</td><td>77,000円</td></tr>
+      <tr><td>151〜200km</td><td>99,000円</td></tr>
+      <tr><td>201〜250km</td><td>121,000円</td></tr>
+      <tr><td><strong>251km〜</strong></td><td>個別見積</td></tr>
+    </tbody>
+  </table>
+  <p class="tax">※表示価格は全て税込です</p>
+
+  <div class="note">
+    ※料金は予告なく変更する場合があります。最新の内容については、本ページをご確認ください。<br>
+    ※ご不明な点は、お電話またはお問い合わせフォームよりお気軽にご相談ください。
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/">トップ</a>
+      <a href="/privacy.html">プライバシーポリシー</a>
+      <a href="/price.html">料金</a>
+      <a href="/terms.html">利用規約</a>
+      <a href="/tokushoho.html">特定商取引法</a>
+    </div>
+    <div class="footer-copy">© 2026 送骨堂. All rights reserved.</div>
+  </div>
+</footer>
+</body>
+</html>
