@@ -1823,7 +1823,7 @@ function applyTempleData(rows) {
     return {
       name: r.name || '',
       area: splitArea(r.area).pref,
-      city: splitArea(r.area).city,
+      city: splitArea(r.area).city || (r.city || ''),  // エリアに市区町村がない場合のみ旧 city 列を使う
       sect: r.sect || '',
       price: Number(r.contract_amount) || 0,
       kinugi: Number(r.donation_amount) || 0,
