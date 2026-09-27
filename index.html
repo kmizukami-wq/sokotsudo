@@ -893,61 +893,51 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
       <div class="search-grid">
         <div class="search-select-wrap">
           <label for="searchArea">都道府県</label>
-          <select class="search-input" id="searchArea" onchange="onSearchAreaChange();updateResults()">
+          <select class="search-input" id="searchArea">
             <option value="">選択してください</option>
           </select></div>
-        <div class="search-select-wrap">
-          <label for="searchCity">市区町村</label>
-          <select class="search-input" id="searchCity" onchange="updateResults()">
-            <option value="">選択してください</option>
-          </select></div>
-        <div>
-          <label for="searchKeyword" style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:6px;">キーワード</label>
-          <input class="search-input" id="searchKeyword" type="text" placeholder="寺院名・地名など" oninput="updateResults()" style="border:1px solid #e0ddd8;border-radius:2px;background:var(--off);">
-        </div>
       </div>
-      <button class="btn-primary" onclick="updateResults()">検索する</button>
     </div>
 
     <div id="tab-sect" class="search-panel">
       <div class="search-grid">
         <div class="search-select-wrap">
           <label for="searchSect">宗派</label>
-          <select class="search-input" id="searchSect" onchange="updateResults()">
+          <select class="search-input" id="searchSect">
             <option value="">宗派を選択</option>
           </select>
         </div>
       </div>
-      <button class="btn-primary" onclick="updateResults()">検索する</button>
     </div>
 
     <div id="tab-price" class="search-panel">
       <div style="margin-bottom:24px;">
         <label for="priceRange" style="font-size:11px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:12px;">お墓代（上限）</label>
-        <input type="range" min="90000" max="300000" step="10000" value="150000" style="width:100%;accent-color:var(--gold);margin-bottom:8px;" id="priceRange" oninput="document.getElementById('priceVal').textContent=Number(this.value).toLocaleString();updateResults()">
+        <input type="range" min="90000" max="300000" step="10000" value="150000" style="width:100%;accent-color:var(--gold);margin-bottom:8px;" id="priceRange" oninput="document.getElementById('priceVal').textContent=Number(this.value).toLocaleString();">
         <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);">
           <span id="priceMinLabel">90,000円〜</span>
           <span style="color:var(--gold);font-weight:700;">〜<span id="priceVal">150,000</span>円</span>
           <span id="priceMaxLabel">300,000円</span>
         </div>
       </div>
-      <button class="btn-primary" onclick="updateResults()">検索する</button>
     </div>
 
     <div id="kuyo-filter" style="margin-top:20px;padding:16px;background:var(--off);border-radius:4px;">
       <div style="font-size:11px;letter-spacing:0.2em;color:var(--muted);margin-bottom:10px;">供養方法</div>
       <div style="display:flex;gap:20px;flex-wrap:wrap;">
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
-          <input type="checkbox" name="kuyo" value="樹木葬" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 樹木葬
+          <input type="checkbox" name="kuyo" value="樹木葬" style="accent-color:var(--gold);width:16px;height:16px;"> 樹木葬
         </label>
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
-          <input type="checkbox" name="kuyo" value="納骨堂" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 納骨堂
+          <input type="checkbox" name="kuyo" value="納骨堂" style="accent-color:var(--gold);width:16px;height:16px;"> 納骨堂
         </label>
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
-          <input type="checkbox" name="kuyo" value="永代供養墓" onchange="updateResults()" style="accent-color:var(--gold);width:16px;height:16px;"> 永代供養墓
+          <input type="checkbox" name="kuyo" value="永代供養墓" style="accent-color:var(--gold);width:16px;height:16px;"> 永代供養墓
         </label>
       </div>
     </div>
+
+    <button class="btn-primary" id="searchBtn" onclick="runSearch()" style="margin-top:20px;">検索する</button>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:16px;flex-wrap:wrap;">
       <p style="font-size:12px;color:var(--muted);margin:0;">※表示価格は全て税込です</p>
@@ -1656,8 +1646,24 @@ function onTempleChange() {
   updateManageFeeBox();
 }
 
-function updateResults() {
+// 検索条件は「検索する」ボタンを押したときだけ確定する（選択しただけでは結果は変わらない）
+var searchCriteria = null;
+function runSearch() {
   var activeTab = (document.querySelector('.search-tab.active') || {}).textContent || '';
+  searchCriteria = {
+    tab: activeTab,
+    area: (document.getElementById('searchArea') || {}).value || '',
+    sect: (document.getElementById('searchSect') || {}).value || '',
+    priceMax: parseInt((document.getElementById('priceRange') || {}).value || 999999),
+    kuyo: Array.from(document.querySelectorAll('input[name="kuyo"]:checked')).map(function(el) { return el.value; })
+  };
+  updateResults();
+  var list = document.getElementById('resultsList');
+  if (list && list.getBoundingClientRect().top > window.innerHeight - 80) list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function updateResults() {
+  var c = searchCriteria || { tab: '', area: '', sect: '', priceMax: 999999, kuyo: [] };
+  var activeTab = c.tab;
   var list = document.getElementById('resultsList');
   if (!list) return;
   if (templesLoadState !== 'ready') {
@@ -1667,7 +1673,7 @@ function updateResults() {
   }
   var filtered = getTemples();
   // 供養方法フィルター（全タブ共通）
-  var checkedKuyo = Array.from(document.querySelectorAll('input[name="kuyo"]:checked')).map(function(el) { return el.value; });
+  var checkedKuyo = c.kuyo;
   if (checkedKuyo.length > 0) {
     filtered = filtered.filter(function(t) {
       var ts = Array.isArray(t.types) ? t.types : [];
@@ -1677,17 +1683,13 @@ function updateResults() {
     });
   }
   if (activeTab.includes('エリア')) {
-    var areaVal  = (document.getElementById('searchArea')||{}).value || '';
-    var cityVal  = (document.getElementById('searchCity')||{}).value || '';
-    var keyword  = (document.getElementById('searchKeyword')||{}).value.trim();
+    var areaVal = c.area;
     if (areaVal) filtered = filtered.filter(function(t) { return t.area === areaVal; });
-    if (cityVal) filtered = filtered.filter(function(t) { return t.city === cityVal; });
-    if (keyword) filtered = filtered.filter(function(t) { return t.name.includes(keyword)||t.area.includes(keyword)||t.city.includes(keyword); });
   } else if (activeTab.includes('宗派')) {
-    var sectVal = (document.getElementById('searchSect')||{}).value || '';
+    var sectVal = c.sect;
     if (sectVal && sectVal !== '宗派を選択') filtered = filtered.filter(function(t) { return t.sect === sectVal || t.sect === '宗派不問'; });
   } else if (activeTab.includes('金額')) {
-    var priceMax = parseInt((document.getElementById('priceRange') || {}).value || 999999);
+    var priceMax = c.priceMax;
     filtered = filtered.filter(function(t) { return t.price <= priceMax; });
   }
   var sortVal = (document.getElementById('searchSort') || {}).value || 'default';
