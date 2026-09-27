@@ -424,6 +424,12 @@ section { padding: 96px 40px; }
   .search-result-card:hover { box-shadow: 0 4px 20px rgba(15,28,48,0.1); border-color: var(--gold); }
 }
 .result-icon { width: 56px; height: 56px; background: var(--navy2); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.result-icon { width: 120px; height: 90px; }
+.result-icon svg { width: 64px; height: 54px; }
+.result-icon.result-photo { overflow: hidden; background: #eee; }
+.result-icon.result-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.loc-photo { display: block; width: calc(100% + 40px); margin: -20px -20px 14px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 2px 2px 0 0; background: var(--navy2); }
+.loc-photo-empty { display: flex; align-items: center; justify-content: center; }
 .result-name { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--navy2); margin-bottom: 4px; word-break: keep-all; overflow-wrap: anywhere; }
 .result-area { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
 .result-tags { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -650,8 +656,9 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
   .search-tab { flex: 1; padding: 12px 4px; font-size: 12px; white-space: nowrap; }
 
   /* 検索結果カード：寺院情報を上、料金を下に */
-  .search-result-card { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 18px 16px; align-items: start; }
-  .result-icon { width: 44px; height: 44px; }
+  .search-result-card { grid-template-columns: auto 1fr; gap: 12px 14px; padding: 18px 16px; align-items: start; }
+  .result-icon { width: 88px; height: 66px; }
+  .result-icon svg { width: 48px; height: 40px; }
   .result-name { font-size: 16px; word-break: normal; }
   .result-price { grid-column: 1 / -1; min-width: 0; width: auto; text-align: left; border-top: 1px solid #eee; padding-top: 12px; gap: 6px; }
   .fee-row { justify-content: space-between; }
@@ -1593,6 +1600,11 @@ function graveFeeHtml(t) {
   return s.slice(-1) === '〜' ? s : s + '<span class="tilde-pad" aria-hidden="true">〜</span>';
 }
 
+// 寺院写真のURL（CRMで登録・https のみ許可）
+function templePhotoUrl(t) {
+  var u = t && t.photo ? String(t.photo) : '';
+  return /^https:\/\//.test(u) ? u.replace(/"/g, '%22') : '';
+}
 // 検索結果のタグ：CRMの供養方法（金色）＋CRMの特徴（永代供養・QR管理・個別安置）
 var KUYO_ORDER = ['樹木葬', '納骨堂', '永代供養墓'];
 function getTemples() {
@@ -1695,7 +1707,9 @@ function updateResults() {
       t.tags.map(function(tag) { return '<span class="tag">' + tag + '</span>'; }).join('');
     var safeName = t.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     return '<div class="search-result-card" role="button" tabindex="0" onclick="document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'})" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'});}">' +
-      '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>' +
+      (templePhotoUrl(t)
+        ? '<div class="result-icon result-photo"><img src="' + templePhotoUrl(t) + '" alt="' + t.name + 'の写真" loading="lazy"></div>'
+        : '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>') +
       '<div><div class="result-name">' + t.name + '</div>' +
       '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
       '<div class="result-tags">' + tagsHtml + '</div></div>' +
@@ -1809,7 +1823,8 @@ function applyTempleData(rows) {
       annualFee: Number(r.annual_fee) || 0,
       types: (Array.isArray(r.kuyo_types) ? r.kuyo_types : []).filter(function(x) { return KUYO.indexOf(x) !== -1; }),
       sendKinugi: (typeof r.sokotsu_donation_amount === 'number') ? r.sokotsu_donation_amount : null,
-      tags: tags
+      tags: tags,
+      photo: r.photo_url || ''
     };
   });
   temples = estTemples;
@@ -1846,11 +1861,24 @@ function renderLocCards() {
     return;
   }
   grid.innerHTML = '';
+  // 写真が1件でも登録されていれば、全カードの上部に写真枠を出す（写真なしは紺色＋マーク）
+  var anyPhoto = estTemples.some(function(t) { return !!templePhotoUrl(t); });
   estTemples.forEach(function(t) {
     var btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'loc-card';
     btn.setAttribute('onclick', 'selectLoc(this)');
+    if (anyPhoto) {
+      var url = templePhotoUrl(t);
+      if (url) {
+        var im = document.createElement('img'); im.className = 'loc-photo'; im.src = url; im.alt = t.name + 'の写真'; im.loading = 'lazy';
+        btn.appendChild(im);
+      } else {
+        var ph = document.createElement('span'); ph.className = 'loc-photo loc-photo-empty';
+        ph.innerHTML = '<svg width="120" height="100" viewBox="0 0 260 220" aria-hidden="true"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg>';
+        btn.appendChild(ph);
+      }
+    }
     var nm = document.createElement('div'); nm.className = 'loc-name'; nm.textContent = t.name;
     var ar = document.createElement('div'); ar.className = 'loc-area'; ar.textContent = t.area + t.city;
     btn.appendChild(nm); btn.appendChild(ar);
