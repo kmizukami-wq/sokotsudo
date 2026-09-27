@@ -427,6 +427,7 @@ section { padding: 96px 40px; }
 .fee-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
 .fee-label { font-size: 11px; color: var(--muted); white-space: nowrap; }
 .fee-value { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--navy2); white-space: nowrap; }
+.tilde-pad { visibility: hidden; }
 .fee-note { font-size: 10px; color: var(--muted); font-weight: 400; margin-left: 1px; }
 .results-list { display: flex; flex-direction: column; gap: 12px; }
 
@@ -1579,6 +1580,11 @@ function graveFee(t) {
   var price = Number(t ? t.price : 0) || 0;
   return price > 0 ? yenFrom(price) : yen(price);
 }
+// 金額欄（右揃え）用：「〜」が付かない金額は透明な「〜」で幅をそろえる
+function graveFeeHtml(t) {
+  var s = graveFee(t);
+  return s.slice(-1) === '〜' ? s : s + '<span class="tilde-pad" aria-hidden="true">〜</span>';
+}
 
 var TEMPLE_DEFAULT_TAGS = ['永代供養','QR管理','個別安置'];
 function getTemples() {
@@ -1684,7 +1690,7 @@ function updateResults() {
       '<div class="result-price">' +
       '<div class="fee-row"><span class="fee-label">志納金（お寺）</span><span class="fee-value">' + yenFrom(t.kinugi) + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">管理費(年)</span><span class="fee-value">' + yenFrom(t.annualFee) + '</span></div>' +
-      '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + graveFee(t) + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + graveFeeHtml(t) + '</span></div>' +
       '</div>' +
       '</div>';
   }).join('');
@@ -1861,7 +1867,7 @@ function calcEstimate() {
   // お墓が未選択のあいだは金額を表示しない
   if (!tData) {
     set('estKinugiAmt', '—'); set('estManageAmt', '—'); set('estContractAmt', '—');
-    set('estBoxAmt', yen(EST_BOX_FEE));
+    var bx = document.getElementById('estBoxAmt'); if (bx) bx.innerHTML = yen(EST_BOX_FEE) + '<span class="tilde-pad" aria-hidden="true">〜</span>';
     var bl = document.getElementById('estBoxLine'); if (bl) bl.style.display = sokotsu ? '' : 'none';
     var sl = document.getElementById('estSendKinugiLine'); if (sl) sl.style.display = sokotsu ? '' : 'none';
     set('estSendKinugiAmt', 'お墓選択後に表示');
@@ -1871,8 +1877,9 @@ function calcEstimate() {
   // 志納金（お寺）・管理費(年)は区画により、送骨費用は距離により変動するため「〜」を付ける（お墓代は graveFee 参照）
   set('estKinugiAmt',   yenFrom(kinugi));
   set('estManageAmt',   yenFrom(manage));
-  set('estContractAmt', tData ? graveFee(tData) : yen(contract));
-  set('estBoxAmt',      yen(EST_BOX_FEE));
+  var contractEl = document.getElementById('estContractAmt');
+  if (contractEl) contractEl.innerHTML = graveFeeHtml(tData);
+  var bx = document.getElementById('estBoxAmt'); if (bx) bx.innerHTML = yen(EST_BOX_FEE) + '<span class="tilde-pad" aria-hidden="true">〜</span>';
   var boxLine = document.getElementById('estBoxLine');
   if (boxLine) boxLine.style.display = sokotsu ? '' : 'none';
   var sendLine = document.getElementById('estSendKinugiLine');
