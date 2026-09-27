@@ -128,11 +128,11 @@
         "itemOffered": { "@type": "Service", "name": "追加送骨" },
         "priceSpecification": {
           "@type": "PriceSpecification",
-          "price": "30000",
+          "minPrice": "33000",
           "priceCurrency": "JPY",
           "valueAddedTaxIncluded": true
         },
-        "description": "追加送骨1回あたり（税込）"
+        "description": "2回目以降の送骨1回あたり・距離により変動（税込）"
       }
     ]
   }
@@ -174,7 +174,7 @@
       "name": "最低契約期間はありますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "最低3年間からのご契約となります。3年経過後は引き続き更新いただくか、永代供養に切り替えていただくことができます。"
+        "text": "契約期間やご契約の条件は、お寺・プランにより異なります。詳しくはお気軽にお問い合わせください。"
       }
     },
     {
@@ -182,7 +182,7 @@
       "name": "年1回の送骨以外に追加でお届けはできますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、追加送骨は30,000円/回でご依頼いただけます。お盆・お彼岸・命日など、ご希望の日時にお届けいたします。"
+        "text": "はい、2回目以降の送骨は距離に応じて33,000円〜（税込）でご依頼いただけます。お盆・お彼岸・命日など、ご希望の日時にお届けいたします。"
       }
     },
     {
@@ -423,10 +423,11 @@ section { padding: 96px 40px; }
 .result-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid #e0ddd8; color: var(--muted); }
 .tag.gold { border-color: var(--gold); color: var(--gold); }
-.result-price { display: flex; flex-direction: column; gap: 5px; min-width: 150px; text-align: right; }
+.result-price { display: flex; flex-direction: column; gap: 5px; width: 230px; text-align: right; }
 .fee-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
 .fee-label { font-size: 11px; color: var(--muted); white-space: nowrap; }
 .fee-value { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--navy2); white-space: nowrap; }
+.tilde-pad { visibility: hidden; }
 .fee-note { font-size: 10px; color: var(--muted); font-weight: 400; margin-left: 1px; }
 .results-list { display: flex; flex-direction: column; gap: 12px; }
 
@@ -503,6 +504,15 @@ section { padding: 96px 40px; }
 /* FAQ */
 #faq { background: var(--white); }
 .faq-list { max-width: 720px; margin-top: 40px; }
+.faq-side { font-size: 14px; color: var(--muted); line-height: 1.9; margin-bottom: 24px; }
+.faq-side-btn { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--navy2); border: 1px solid var(--navy2); padding: 12px 24px; border-radius: 2px; text-decoration: none; transition: background 0.2s, color 0.2s; }
+.faq-side-btn:hover { background: var(--navy2); color: var(--white); }
+@media (min-width: 900px) {
+  #faq .section-inner { display: grid; grid-template-columns: 300px 1fr; grid-template-rows: auto auto auto 1fr; column-gap: 80px; align-items: start; }
+  #faq .section-label, #faq .section-title, #faq .divider, #faq .faq-aside { grid-column: 1; }
+  #faq .faq-list { grid-column: 2; grid-row: 1 / span 4; max-width: none; margin-top: 0; }
+}
+@media (max-width: 899px) { .faq-aside { display: none; } }
 .faq-item { border-bottom: 1px solid #f0ece6; overflow: hidden; }
 .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; cursor: pointer; font-size: 15px; font-weight: 500; color: var(--navy2); gap: 16px; user-select: none; background: none; border: none; width: 100%; text-align: left; font-family: inherit; }
 .faq-icon { width: 24px; height: 24px; border: 1px solid #e0ddd8; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--gold); flex-shrink: 0; transition: transform 0.2s; }
@@ -637,7 +647,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
   .search-result-card { grid-template-columns: 44px 1fr; gap: 12px 14px; padding: 18px 16px; align-items: start; }
   .result-icon { width: 44px; height: 44px; }
   .result-name { font-size: 16px; word-break: normal; }
-  .result-price { grid-column: 1 / -1; min-width: 0; text-align: left; border-top: 1px solid #eee; padding-top: 12px; gap: 6px; }
+  .result-price { grid-column: 1 / -1; min-width: 0; width: auto; text-align: left; border-top: 1px solid #eee; padding-top: 12px; gap: 6px; }
   .fee-row { justify-content: space-between; }
   .fee-label { font-size: 12px; }
   .fee-value { font-size: 16px; }
@@ -721,6 +731,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
     <a href="#search">お墓を探す</a>
     <a href="#visit">見学申込</a>
     <a href="#hakajimae">墓じまい</a>
+    <a href="/price.html">料金</a>
     <a href="#faq">よくある質問</a>
     <a href="#contact">お問い合わせ</a>
     <a href="tel:0120XXXXXX" class="nav-tel">📞 0120-XXX-XXX</a>
@@ -1230,6 +1241,10 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
     <div class="section-label">FAQ</div>
     <h2 class="section-title">よくある質問</h2>
     <div class="divider"></div>
+    <div class="faq-aside">
+      <p class="faq-side">ここにないご質問も、お電話・お問い合わせフォームからお気軽にご相談ください。</p>
+      <a href="#contact" class="faq-side-btn">お問い合わせはこちら</a>
+    </div>
     <div class="faq-list">
       <div class="faq-item">
         <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>送骨堂と通常の納骨堂の違いは何ですか？</span><span class="faq-icon" aria-hidden="true">+</span></button>
@@ -1245,11 +1260,11 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>最低契約期間はありますか？</span><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a">最低3年間からのご契約となります。3年経過後は引き続き更新いただくか、永代供養に切り替えていただくことができます。</div>
+        <div class="faq-a">契約期間やご契約の条件は、お寺・プランにより異なります。詳しくはお気軽にお問い合わせください。</div>
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>年1回の送骨以外に追加でお届けはできますか？</span><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a">はい、追加送骨は30,000円/回でご依頼いただけます。お盆・お彼岸・命日など、ご希望の日時にお届けいたします。</div>
+        <div class="faq-a">はい、2回目以降の送骨は距離に応じて33,000円〜（税込）でご依頼いただけます。お盆・お彼岸・命日など、ご希望の日時にお届けいたします。料金の詳細は<a href="/price.html">料金ページ</a>をご確認ください。</div>
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>墓じまいのサポートもお願いできますか？</span><span class="faq-icon" aria-hidden="true">+</span></button>
@@ -1550,25 +1565,11 @@ function switchTab(btn, panelId) {
 // ── Temple data (auto-generated by sync-web) ──
 // 寺院データは Supabase のビュー web_temples から読み込む（loadTemplesFromDB）。
 // CRM で WEB表示オンの寺院を変更すると、ページを開いた時点の最新データが表示される。
-var estTemples = [
-  { name:'サンプル10寺　樹木葬', area:'東京都', city:'', sect:'真言宗', price:150000, kinugi:300000, annualFee:6000, types:['樹木葬'], sendKinugi:150000 },
-  { name:'サンプル2寺　納骨堂', area:'千葉県', city:'市川市', sect:'浄土真宗', price:0, kinugi:150000, annualFee:10000, types:['納骨堂'], sendKinugi:150000 },
-  { name:'サンプル3　永代供養墓', area:'東京都', city:'江東区', sect:'真言宗', price:0, kinugi:110000, annualFee:8000, types:['永代供養墓'], sendKinugi:150000 },
-  { name:'サンプル9寺　樹木葬', area:'東京都', city:'', sect:'日蓮宗', price:150000, kinugi:200000, annualFee:6000, types:['樹木葬'], sendKinugi:150000 },
-  { name:'サンプル寺　永代供養墓', area:'東京都', city:'台東区', sect:'浄土宗', price:0, kinugi:100000, annualFee:10000, types:['永代供養墓'], sendKinugi:150000 },
-  { name:'サンプル寺　納骨堂', area:'東京都', city:'中央区', sect:'宗派不問', price:0, kinugi:150000, annualFee:10000, types:['納骨堂'], sendKinugi:150000 }
-];
-var temples = [
-  { name:'サンプル10寺　樹木葬', area:'東京都', city:'', sect:'真言宗', price:150000, kinugi:300000, annualFee:6000, types:['樹木葬'], tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル2寺　納骨堂', area:'千葉県', city:'市川市', sect:'浄土真宗', price:0, kinugi:150000, annualFee:10000, types:['納骨堂'], tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル3　永代供養墓', area:'東京都', city:'江東区', sect:'真言宗', price:0, kinugi:110000, annualFee:8000, types:['永代供養墓'], tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル9寺　樹木葬', area:'東京都', city:'', sect:'日蓮宗', price:150000, kinugi:200000, annualFee:6000, types:['樹木葬'], tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル寺　永代供養墓', area:'東京都', city:'台東区', sect:'浄土宗', price:0, kinugi:100000, annualFee:10000, types:['永代供養墓'], tags:['永代供養','QR管理','個別安置'] },
-  { name:'サンプル寺　納骨堂', area:'東京都', city:'中央区', sect:'宗派不問', price:0, kinugi:150000, annualFee:10000, types:['納骨堂'], tags:['永代供養','QR管理','個別安置'] }
-];
-var searchAreas = ["千葉県","東京都"];
-var searchAreaCityMap = {"東京都":["中央区","台東区","江東区"],"千葉県":["市川市"]};
-var searchSects = ["宗派不問","日蓮宗","浄土宗","浄土真宗","真言宗"];
+var estTemples = [];
+var temples = [];
+var searchAreas = [];
+var searchAreaCityMap = {};
+var searchSects = [];
 var templesLoadState = 'loading'; // loading | ready | error
 
 // 金額表示：「¥」ではなく「円」。区画・距離で変動する金額は末尾に「〜」
@@ -1579,11 +1580,18 @@ function graveFee(t) {
   var price = Number(t ? t.price : 0) || 0;
   return price > 0 ? yenFrom(price) : yen(price);
 }
+// 金額欄（右揃え）用：「〜」が付かない金額は透明な「〜」で幅をそろえる
+function graveFeeHtml(t) {
+  var s = graveFee(t);
+  return s.slice(-1) === '〜' ? s : s + '<span class="tilde-pad" aria-hidden="true">〜</span>';
+}
 
-var TEMPLE_DEFAULT_TAGS = ['永代供養','QR管理','個別安置'];
+// 検索結果のタグ：CRMの供養方法（金色）＋CRMの特徴（永代供養・QR管理・個別安置）
+var KUYO_ORDER = ['樹木葬', '納骨堂', '永代供養墓'];
 function getTemples() {
   return (Array.isArray(estTemples) ? estTemples : []).map(function(t) {
-    return Object.assign({}, t, { tags: (Array.isArray(t.tags) && t.tags.length ? t.tags : TEMPLE_DEFAULT_TAGS) });
+    var types = (Array.isArray(t.types) ? t.types : []).slice().sort(function(a, b) { return KUYO_ORDER.indexOf(a) - KUYO_ORDER.indexOf(b); });
+    return Object.assign({}, t, { kuyoTags: types, tags: (Array.isArray(t.tags) ? t.tags : []) });
   });
 }
 
@@ -1674,7 +1682,8 @@ function updateResults() {
     return;
   }
   list.innerHTML = filtered.map(function(t) {
-    var tagsHtml = t.tags.map(function(tag, i) { return '<span class="tag' + (i===0?' gold':'') + '">' + tag + '</span>'; }).join('');
+    var tagsHtml = t.kuyoTags.map(function(tag) { return '<span class="tag gold">' + tag + '</span>'; }).join('') +
+      t.tags.map(function(tag) { return '<span class="tag">' + tag + '</span>'; }).join('');
     var safeName = t.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     return '<div class="search-result-card" role="button" tabindex="0" onclick="document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'})" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'});}">' +
       '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>' +
@@ -1684,7 +1693,7 @@ function updateResults() {
       '<div class="result-price">' +
       '<div class="fee-row"><span class="fee-label">志納金（お寺）</span><span class="fee-value">' + yenFrom(t.kinugi) + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">管理費(年)</span><span class="fee-value">' + yenFrom(t.annualFee) + '</span></div>' +
-      '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + graveFee(t) + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + graveFeeHtml(t) + '</span></div>' +
       '</div>' +
       '</div>';
   }).join('');
@@ -1861,7 +1870,7 @@ function calcEstimate() {
   // お墓が未選択のあいだは金額を表示しない
   if (!tData) {
     set('estKinugiAmt', '—'); set('estManageAmt', '—'); set('estContractAmt', '—');
-    set('estBoxAmt', yen(EST_BOX_FEE));
+    var bx = document.getElementById('estBoxAmt'); if (bx) bx.innerHTML = yen(EST_BOX_FEE) + '<span class="tilde-pad" aria-hidden="true">〜</span>';
     var bl = document.getElementById('estBoxLine'); if (bl) bl.style.display = sokotsu ? '' : 'none';
     var sl = document.getElementById('estSendKinugiLine'); if (sl) sl.style.display = sokotsu ? '' : 'none';
     set('estSendKinugiAmt', 'お墓選択後に表示');
@@ -1871,8 +1880,9 @@ function calcEstimate() {
   // 志納金（お寺）・管理費(年)は区画により、送骨費用は距離により変動するため「〜」を付ける（お墓代は graveFee 参照）
   set('estKinugiAmt',   yenFrom(kinugi));
   set('estManageAmt',   yenFrom(manage));
-  set('estContractAmt', tData ? graveFee(tData) : yen(contract));
-  set('estBoxAmt',      yen(EST_BOX_FEE));
+  var contractEl = document.getElementById('estContractAmt');
+  if (contractEl) contractEl.innerHTML = graveFeeHtml(tData);
+  var bx = document.getElementById('estBoxAmt'); if (bx) bx.innerHTML = yen(EST_BOX_FEE) + '<span class="tilde-pad" aria-hidden="true">〜</span>';
   var boxLine = document.getElementById('estBoxLine');
   if (boxLine) boxLine.style.display = sokotsu ? '' : 'none';
   var sendLine = document.getElementById('estSendKinugiLine');
