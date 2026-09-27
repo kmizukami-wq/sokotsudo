@@ -174,7 +174,7 @@
       "name": "最低契約期間はありますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "最低3年間からのご契約となります。3年経過後は引き続き更新いただくか、永代供養に切り替えていただくことができます。"
+        "text": "契約期間やご契約の条件は、お寺・プランにより異なります。詳しくはお気軽にお問い合わせください。"
       }
     },
     {
@@ -1260,7 +1260,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>最低契約期間はありますか？</span><span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a">最低3年間からのご契約となります。3年経過後は引き続き更新いただくか、永代供養に切り替えていただくことができます。</div>
+        <div class="faq-a">契約期間やご契約の条件は、お寺・プランにより異なります。詳しくはお気軽にお問い合わせください。</div>
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>年1回の送骨以外に追加でお届けはできますか？</span><span class="faq-icon" aria-hidden="true">+</span></button>
@@ -1586,10 +1586,12 @@ function graveFeeHtml(t) {
   return s.slice(-1) === '〜' ? s : s + '<span class="tilde-pad" aria-hidden="true">〜</span>';
 }
 
-var TEMPLE_DEFAULT_TAGS = ['永代供養','QR管理','個別安置'];
+// 検索結果のタグ：CRMの供養方法（金色）＋CRMの特徴（永代供養・QR管理・個別安置）
+var KUYO_ORDER = ['樹木葬', '納骨堂', '永代供養墓'];
 function getTemples() {
   return (Array.isArray(estTemples) ? estTemples : []).map(function(t) {
-    return Object.assign({}, t, { tags: (Array.isArray(t.tags) && t.tags.length ? t.tags : TEMPLE_DEFAULT_TAGS) });
+    var types = (Array.isArray(t.types) ? t.types : []).slice().sort(function(a, b) { return KUYO_ORDER.indexOf(a) - KUYO_ORDER.indexOf(b); });
+    return Object.assign({}, t, { kuyoTags: types, tags: (Array.isArray(t.tags) ? t.tags : []) });
   });
 }
 
@@ -1680,7 +1682,8 @@ function updateResults() {
     return;
   }
   list.innerHTML = filtered.map(function(t) {
-    var tagsHtml = t.tags.map(function(tag, i) { return '<span class="tag' + (i===0?' gold':'') + '">' + tag + '</span>'; }).join('');
+    var tagsHtml = t.kuyoTags.map(function(tag) { return '<span class="tag gold">' + tag + '</span>'; }).join('') +
+      t.tags.map(function(tag) { return '<span class="tag">' + tag + '</span>'; }).join('');
     var safeName = t.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     return '<div class="search-result-card" role="button" tabindex="0" onclick="document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'})" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'});}">' +
       '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>' +
