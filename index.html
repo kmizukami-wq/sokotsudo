@@ -218,7 +218,24 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=optional" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+/* ヘッダーの文字は Webフォントの準備ができてから表示する（再読み込み時に文字の大きさが変わって見えるのを防ぐ・最大1.5秒） */
+(function(){
+  var d = document.documentElement;
+  if (!document.fonts || !document.fonts.load) return;
+  d.classList.add('fonts-pending');
+  var done = function(){ d.classList.remove('fonts-pending'); };
+  Promise.race([
+    Promise.all([
+      document.fonts.load('700 20px "Noto Serif JP"', '送骨堂'),
+      document.fonts.load('400 13px "Noto Sans JP"', '送骨堂とはお墓を探す簡単お見積り見学申込墓じまい料金よくある質問お問い合わせ'),
+      document.fonts.load('700 17px "Noto Sans JP"', '0120-740-398')
+    ]),
+    new Promise(function(r){ setTimeout(r, 1500); })
+  ]).then(done, done);
+})();
+</script>
 <style>
 :root {
   --navy: #0f1c30;
@@ -287,6 +304,8 @@ nav {
   display: flex; align-items: center; justify-content: space-between;
   height: 64px;
 }
+html.fonts-pending .nav-logo span, html.fonts-pending .nav-links { visibility: hidden; }
+.nav-logo span, .nav-links { transition: opacity 0.2s; }
 .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .nav-logo span { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--white); letter-spacing: 4px; }
 .nav-links { display: flex; align-items: center; gap: 28px; }
