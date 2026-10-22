@@ -449,6 +449,18 @@ section { padding: 96px 40px; }
 .result-icon svg { width: 64px; height: 54px; }
 .result-icon.result-photo { overflow: hidden; background: #eee; }
 .result-icon.result-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* 検索結果：写真を大きく */
+.search-result-card { padding: 0; overflow: hidden; grid-template-columns: 280px 1fr auto; gap: 28px; align-items: stretch; }
+.search-result-card > .result-icon { position: relative; width: 100%; height: 100%; min-height: 210px; border-radius: 0; }
+.search-result-card > .result-icon svg { width: 72px; height: 60px; }
+.result-body { padding: 24px 0; align-self: center; min-width: 0; }
+.search-result-card > .result-price { align-self: center; padding: 24px 28px 24px 0; }
+.result-count { position: absolute; right: 8px; bottom: 8px; background: rgba(15,28,48,0.72); color: #fff; font-size: 11px; line-height: 1; padding: 5px 9px; border-radius: 12px; letter-spacing: 0.05em; }
+.result-name { font-size: 18px; }
+@media (hover: hover) {
+  .search-result-card .result-photo img { transition: transform 0.4s; }
+  .search-result-card:hover .result-photo img { transform: scale(1.04); }
+}
 .loc-photo { display: block; width: calc(100% + 40px); margin: -20px -20px 14px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 2px 2px 0 0; background: var(--navy2); }
 .loc-photo-empty { display: flex; align-items: center; justify-content: center; }
 .result-name { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--navy2); margin-bottom: 4px; word-break: keep-all; overflow-wrap: anywhere; }
@@ -677,11 +689,12 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
   .search-tab { flex: 1; padding: 12px 4px; font-size: 12px; white-space: nowrap; }
 
   /* 検索結果カード：寺院情報を上、料金を下に */
-  .search-result-card { grid-template-columns: auto 1fr; gap: 12px 14px; padding: 18px 16px; align-items: start; }
-  .result-icon { width: 88px; height: 66px; }
-  .result-icon svg { width: 48px; height: 40px; }
-  .result-name { font-size: 16px; word-break: normal; }
-  .result-price { grid-column: 1 / -1; min-width: 0; width: auto; text-align: left; border-top: 1px solid #eee; padding-top: 12px; gap: 6px; }
+  .search-result-card { grid-template-columns: 1fr; gap: 0; padding: 0; align-items: start; }
+  .search-result-card > .result-icon { width: 100%; height: auto; min-height: 0; aspect-ratio: 16 / 10; }
+  .search-result-card > .result-icon svg { width: 64px; height: 54px; }
+  .result-body { padding: 16px 16px 12px; }
+  .result-name { font-size: 17px; word-break: normal; }
+  .search-result-card > .result-price { grid-column: 1 / -1; min-width: 0; width: auto; text-align: left; border-top: 1px solid #eee; margin: 0 16px; padding: 12px 0 16px; gap: 6px; }
   .fee-row { justify-content: space-between; }
   .fee-label { font-size: 12px; }
   .fee-value { font-size: 16px; }
@@ -1732,9 +1745,9 @@ function updateResults() {
     var detailHref = t.id ? '/temple.html?id=' + encodeURIComponent(t.id) : '#visit';
     return '<a class="search-result-card" href="' + detailHref + '">' +
       (templePhotoUrl(t)
-        ? '<div class="result-icon result-photo"><img src="' + templePhotoUrl(t) + '" alt="' + t.name + 'の写真" loading="lazy"></div>'
+        ? '<div class="result-icon result-photo"><img src="' + templePhotoUrl(t) + '" alt="' + t.name + 'の写真" loading="lazy">' + ((t.photos && t.photos.length > 1) ? '<span class="result-count">📷 ' + t.photos.length + '枚</span>' : '') + '</div>'
         : '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>') +
-      '<div><div class="result-name">' + t.name + '</div>' +
+      '<div class="result-body"><div class="result-name">' + t.name + '</div>' +
       '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
       '<div class="result-tags">' + tagsHtml + '</div>' +
       '<div class="result-more">詳しく見る →</div></div>' +
