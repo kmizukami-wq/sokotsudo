@@ -438,6 +438,8 @@ section { padding: 96px 40px; }
 .search-select-wrap label { display: block; font-size: 11px; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 6px; }
 .search-select-wrap select, .search-input { width: 100%; padding: 12px 16px; border: 1px solid #e0ddd8; border-radius: 2px; font-family: var(--sans); font-size: 14px; color: var(--text); background: var(--off); appearance: none; -webkit-appearance: none; }
 .search-select-wrap::after { content: '▾'; position: absolute; right: 12px; bottom: 14px; color: var(--muted); pointer-events: none; font-size: 12px; }
+.search-result-card { text-decoration: none; color: inherit; }
+.result-more { margin-top: 10px; font-size: 12px; font-weight: 700; color: var(--gold); letter-spacing: 0.05em; }
 .search-result-card { border: 1px solid #e0ddd8; border-radius: 4px; padding: 24px; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; transition: box-shadow 0.2s, border-color 0.2s; cursor: pointer; background: var(--white); }
 @media (hover: hover) {
   .search-result-card:hover { box-shadow: 0 4px 20px rgba(15,28,48,0.1); border-color: var(--gold); }
@@ -1727,19 +1729,21 @@ function updateResults() {
     var tagsHtml = t.kuyoTags.map(function(tag) { return '<span class="tag gold">' + tag + '</span>'; }).join('') +
       t.tags.map(function(tag) { return '<span class="tag">' + tag + '</span>'; }).join('');
     var safeName = t.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-    return '<div class="search-result-card" role="button" tabindex="0" onclick="document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'})" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();document.getElementById(\'visit\').scrollIntoView({behavior:\'smooth\'});}">' +
+    var detailHref = t.id ? '/temple.html?id=' + encodeURIComponent(t.id) : '#visit';
+    return '<a class="search-result-card" href="' + detailHref + '">' +
       (templePhotoUrl(t)
         ? '<div class="result-icon result-photo"><img src="' + templePhotoUrl(t) + '" alt="' + t.name + 'の写真" loading="lazy"></div>'
         : '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>') +
       '<div><div class="result-name">' + t.name + '</div>' +
       '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
-      '<div class="result-tags">' + tagsHtml + '</div></div>' +
+      '<div class="result-tags">' + tagsHtml + '</div>' +
+      '<div class="result-more">詳しく見る →</div></div>' +
       '<div class="result-price">' +
       '<div class="fee-row"><span class="fee-label">志納金（お寺）</span><span class="fee-value">' + yenFrom(t.kinugi) + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">管理費(年)</span><span class="fee-value">' + yenFrom(t.annualFee) + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + graveFeeHtml(t) + '</span></div>' +
       '</div>' +
-      '</div>';
+      '</a>';
   }).join('');
 }
 
@@ -1842,6 +1846,7 @@ function applyTempleData(rows) {
     if (r.feature_qr)         tags.push('QR管理');
     if (r.feature_individual) tags.push('個別安置');
     return {
+      id: r.id || '',
       name: r.name || '',
       area: splitArea(r.area).pref,
       city: splitArea(r.area).city || (r.city || ''),  // エリアに市区町村がない場合のみ旧 city 列を使う
@@ -1852,7 +1857,8 @@ function applyTempleData(rows) {
       types: (Array.isArray(r.kuyo_types) ? r.kuyo_types : []).filter(function(x) { return KUYO.indexOf(x) !== -1; }),
       sendKinugi: (typeof r.sokotsu_donation_amount === 'number') ? r.sokotsu_donation_amount : null,
       tags: tags,
-      photo: r.photo_url || ''
+      photos: (Array.isArray(r.photo_urls) && r.photo_urls.length ? r.photo_urls : (r.photo_url ? [r.photo_url] : [])),
+      photo: (Array.isArray(r.photo_urls) && r.photo_urls.length ? r.photo_urls[0] : (r.photo_url || ''))
     };
   });
   temples = estTemples;
@@ -1877,6 +1883,12 @@ function applyTempleData(rows) {
   initEstArea();
   calcEstimate();
   renderLocCards();
+  // 詳細ページの「このお寺の見学を申し込む」から来た場合は、そのお寺を見学場所に選んでおく
+  var want = new URLSearchParams(location.search).get('temple');
+  if (want) {
+    var card = document.querySelector('.loc-card[data-id="' + want.replace(/[^0-9a-fA-F-]/g, '') + '"]');
+    if (card) { selectLoc(card); var v = document.getElementById('visit'); if (v) v.scrollIntoView(); }
+  }
 }
 
 // 見学申込の「見学場所」カード
@@ -1896,6 +1908,7 @@ function renderLocCards() {
     btn.type = 'button';
     btn.className = 'loc-card';
     btn.setAttribute('onclick', 'selectLoc(this)');
+    if (t.id) btn.setAttribute('data-id', t.id);
     if (anyPhoto) {
       var url = templePhotoUrl(t);
       if (url) {
