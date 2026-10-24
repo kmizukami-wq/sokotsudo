@@ -113,7 +113,7 @@
       },
       {
         "@type": "Offer",
-        "itemOffered": { "@type": "Service", "name": "志納金（お寺）" },
+        "itemOffered": { "@type": "Service", "name": "志納金（土地代）" },
         "priceSpecification": {
           "@type": "PriceSpecification",
           "minPrice": "10000",
@@ -121,7 +121,7 @@
           "priceCurrency": "JPY",
           "valueAddedTaxIncluded": true
         },
-        "description": "志納金（お寺）（税込）・区画により変動する場合があります"
+        "description": "志納金（土地代）（税込）・区画により変動する場合があります"
       },
       {
         "@type": "Offer",
@@ -1023,7 +1023,7 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
 
       <div class="estimate-result show" id="estResult">
         <div class="est-breakdown">
-          <div class="est-line" id="estKinugiLine"><span>志納金（お寺）</span><span id="estKinugiAmt">—</span></div>
+          <div class="est-line" id="estKinugiLine"><span>志納金（土地代）</span><span id="estKinugiAmt">—</span></div>
           <div class="est-line" id="estManage"><span>管理費(年)</span><span id="estManageAmt">—</span></div>
           <div class="est-line" id="estContract"><span>お墓代</span><span id="estContractAmt">—</span></div>
           <div class="est-line" id="estBoxLine" style="display:none"><span>骨箱</span><span id="estBoxAmt">22,000円</span></div>
@@ -1670,7 +1670,7 @@ function onAreaChange() {
     filtered.map(function(t) {
       var kuyo = (Array.isArray(t.types) ? t.types : []).slice().sort(function(a, b) { return KUYO_ORDER.indexOf(a) - KUYO_ORDER.indexOf(b); });
       var kuyoLabel = kuyo.length ? '【' + kuyo.join('・') + '】' : '';
-      return '<option value="' + t.name + '">' + kuyoLabel + t.name + '（' + t.sect + '）　志納金（お寺） ' + yenFrom(t.kinugi) + '　お墓代 ' + graveFee(t) + '</option>';
+      return '<option value="' + t.name + '">' + kuyoLabel + t.name + '（' + t.sect + '）　志納金（土地代） ' + yenFrom(t.kinugi) + '　お墓代 ' + graveFee(t) + '</option>';
     }).join('');
   templeRow.style.display = 'block';
   calcEstimate();
@@ -1756,7 +1756,7 @@ function updateResults() {
       '<div class="result-tags">' + tagsHtml + '</div>' +
       '<div class="result-more">詳しく見る →</div></div>' +
       '<div class="result-price">' +
-      '<div class="fee-row"><span class="fee-label">志納金（お寺）</span><span class="fee-value">' + yenFrom(t.kinugi) + '</span></div>' +
+      '<div class="fee-row"><span class="fee-label">志納金（土地代）</span><span class="fee-value">' + yenFrom(t.kinugi) + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">管理費(年)</span><span class="fee-value">' + yenFrom(t.annualFee) + '</span></div>' +
       '<div class="fee-row"><span class="fee-label">お墓代</span><span class="fee-value fee-main">' + graveFeeHtml(t) + '</span></div>' +
       '</div>' +
@@ -1973,7 +1973,7 @@ function calcEstimate() {
     set('estTotalAmt', '—');
     return;
   }
-  // 志納金（お寺）・管理費(年)は区画により、送骨費用は距離により変動するため「〜」を付ける（お墓代は graveFee 参照）
+  // 志納金（土地代）・管理費(年)は区画により、送骨費用は距離により変動するため「〜」を付ける（お墓代は graveFee 参照）
   set('estKinugiAmt',   yenFrom(kinugi));
   set('estManageAmt',   yenFrom(manage));
   var contractEl = document.getElementById('estContractAmt');
