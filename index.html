@@ -1748,7 +1748,7 @@ function updateResults() {
         ? '<div class="result-icon result-photo"><img src="' + templePhotoUrl(t) + '" alt="' + t.name + 'の写真" loading="lazy">' + ((t.photos && t.photos.length > 1) ? '<span class="result-count">📷 ' + t.photos.length + '枚</span>' : '') + '</div>'
         : '<div class="result-icon"><svg width="28" height="24" viewBox="0 0 260 220"><g fill="#c9a227"><polygon points="72,88 130,46 188,88"/><rect x="62" y="85" width="136" height="7" rx="1.5"/></g></svg></div>') +
       '<div class="result-body"><div class="result-name">' + t.name + '</div>' +
-      '<div class="result-area">📍 ' + t.area + t.city + ' · ' + t.sect + '</div>' +
+      '<div class="result-area">📍 ' + t.area + t.city + '</div>' +
       '<div class="result-tags">' + tagsHtml + '</div>' +
       '<div class="result-more">詳しく見る →</div></div>' +
       '<div class="result-price">' +
