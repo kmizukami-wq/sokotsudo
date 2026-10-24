@@ -1855,7 +1855,7 @@ function applyTempleData(rows) {
   var KUYO = ['樹木葬', '納骨堂', '永代供養墓'];
   estTemples = rows.map(function(r) {
     var tags = [];
-    if (r.feature_eitaikuyo)  tags.push('永代供養');
+    if (r.feature_eitaikuyo)  tags.push('永代供養付き');
     if (r.feature_qr)         tags.push('QR管理');
     if (r.feature_individual) tags.push('個別安置');
     if (r.feature_pet)        tags.push('ペットと一緒');
