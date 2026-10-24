@@ -274,7 +274,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     if (md) md.setAttribute('content', t.name + '（' + place + '・' + (t.sect || '') + '）の料金・写真・アクセス。送骨堂の提携寺院です。');
 
     $('crumbName').textContent = t.name;
-    $('tArea').textContent = '📍 ' + place + (t.sect ? ' · ' + t.sect : '');
+    $('tArea').textContent = '📍 ' + place;
     $('tName').textContent = t.name;
 
     var tags = $('tTags');
