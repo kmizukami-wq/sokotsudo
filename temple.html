@@ -335,9 +335,9 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     row(fees, '送骨費用（依頼時）', typeof t.sokotsu_donation_amount === 'number' ? yenFrom(t.sokotsu_donation_amount) : '別途ご案内', 'num');
 
     var info = $('tInfo');
-    row(info, '寺院名', t.name);
+    row(info, '寺院名', t.temple_name);
     row(info, '宗派', t.sect);
-    row(info, '所在地', place);
+    row(info, '所在地', t.address);
     row(info, '供養方法', kuyo.join('・'));
     if (t.temple_info) { $('tInfoText').textContent = t.temple_info; $('tInfoText').hidden = false; }
 
