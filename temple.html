@@ -287,7 +287,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     var price = Number(t.contract_amount) || 0;
     var grave = price > 0 ? yenFrom(price) : yen(price);
     $('tPrice').innerHTML = '';
-    [['お墓代', grave], ['志納金（土地代）', yenFrom(t.donation_amount)], ['管理費(年)', yenFrom(t.annual_fee)]].forEach(function (p) {
+    [['石碑費用', grave], ['志納金（土地代）', yenFrom(t.donation_amount)], ['管理費(年)', yenFrom(t.annual_fee)]].forEach(function (p) {
       var d = document.createElement('div');
       var k = document.createElement('span'); k.className = 'k'; k.textContent = p[0];
       var v = document.createElement('span'); v.className = 'v'; v.textContent = p[1];
@@ -329,7 +329,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     if (t.description) { $('tDesc').textContent = t.description; $('secDesc').hidden = false; }
 
     var fees = $('tFees');
-    row(fees, 'お墓代', grave, 'num');
+    row(fees, '石碑費用', grave, 'num');
     row(fees, '志納金（土地代）', yenFrom(t.donation_amount), 'num');
     row(fees, '管理費(年)', yenFrom(t.annual_fee), 'num');
     row(fees, '送骨費用（依頼時）', typeof t.sokotsu_donation_amount === 'number' ? yenFrom(t.sokotsu_donation_amount) : '別途ご案内', 'num');
