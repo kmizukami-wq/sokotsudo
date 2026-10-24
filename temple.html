@@ -280,7 +280,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     var tags = $('tTags');
     var kuyo = (Array.isArray(t.kuyo_types) ? t.kuyo_types : []).slice().sort(function (a, b) { return KUYO_ORDER.indexOf(a) - KUYO_ORDER.indexOf(b); });
     kuyo.forEach(function (k) { var s = document.createElement('span'); s.className = 'tag gold'; s.textContent = k; tags.appendChild(s); });
-    [['feature_eitaikuyo', '永代供養'], ['feature_qr', 'QR管理'], ['feature_individual', '個別安置'], ['feature_pet', 'ペットと一緒']].forEach(function (f) {
+    [['feature_eitaikuyo', '永代供養付き'], ['feature_qr', 'QR管理'], ['feature_individual', '個別安置'], ['feature_pet', 'ペットと一緒']].forEach(function (f) {
       if (t[f[0]]) { var s = document.createElement('span'); s.className = 'tag'; s.textContent = f[1]; tags.appendChild(s); }
     });
 
