@@ -187,7 +187,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     <section>
       <h2 class="section-title">料金</h2>
       <table class="info-table" id="tFees"></table>
-      <p class="fee-note">※表示価格は全て税込です。志納金（土地代）・管理費(年)は区画により、送骨費用は距離により変わります。<br>※骨箱（22,000円）は送骨を依頼する場合のみ必要です。2回目以降の送骨料金は<a href="/price.html">料金ページ</a>をご確認ください。</p>
+      <p class="fee-note">※表示価格は全て税込です。志納金（土地代）は区画により、送骨費用は距離により変わります。<br>※骨箱（22,000円）は送骨を依頼する場合のみ必要です。2回目以降の送骨料金は<a href="/price.html">料金ページ</a>をご確認ください。</p>
     </section>
 
     <section>
@@ -287,7 +287,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     var price = Number(t.contract_amount) || 0;
     var grave = price > 0 ? yenFrom(price) : yen(price);
     $('tPrice').innerHTML = '';
-    [['石碑費用', grave], ['志納金（土地代）', yenFrom(t.donation_amount)], ['管理費(年)', yenFrom(t.annual_fee)]].forEach(function (p) {
+    [['石碑費用', grave], ['志納金（土地代）', yenFrom(t.donation_amount)], ['管理費（一括50年間分）', yen(t.annual_fee)]].forEach(function (p) {
       var d = document.createElement('div');
       var k = document.createElement('span'); k.className = 'k'; k.textContent = p[0];
       var v = document.createElement('span'); v.className = 'v'; v.textContent = p[1];
@@ -331,7 +331,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     var fees = $('tFees');
     row(fees, '石碑費用', grave, 'num');
     row(fees, '志納金（土地代）', yenFrom(t.donation_amount), 'num');
-    row(fees, '管理費(年)', yenFrom(t.annual_fee), 'num');
+    row(fees, '管理費（一括50年間分）', yen(t.annual_fee), 'num');
     row(fees, '送骨費用（依頼時）', typeof t.sokotsu_donation_amount === 'number' ? yenFrom(t.sokotsu_donation_amount) : '別途ご案内', 'num');
 
     var info = $('tInfo');
