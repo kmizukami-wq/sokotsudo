@@ -147,6 +147,15 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
   .t-price .k{margin-right:0}
   .t-price .v{text-align:right;font-variant-numeric:tabular-nums}
 }
+/* スマホ：画面下に常に表示する相談・見学ボタン（トップページと同じ見た目） */
+.cta-float{display:none}
+@media(max-width:768px){
+  body{padding-bottom:64px}
+  .cta-float{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:99;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(15,28,48,0.96);box-shadow:0 -4px 16px rgba(0,0,0,0.18)}
+  .cta-float a{flex:1;display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:2px;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:0.05em;text-decoration:none}
+  .cta-float .btn-call{background:var(--white);color:var(--navy2);margin-right:8px}
+  .cta-float .btn-visit{background:var(--gold);color:var(--navy)}
+}
 </style>
 </head>
 <body>
@@ -212,6 +221,12 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     </div>
   </div>
 </main>
+
+<!-- スマホ用：画面下の固定ボタン -->
+<div class="cta-float">
+  <a href="tel:0120740398" class="btn-call">📞 電話で相談</a>
+  <a href="/#visit" class="btn-visit" id="ctaVisitFloat">見学申込</a>
+</div>
 
 <footer>
   <div class="footer-inner">
@@ -356,6 +371,7 @@ footer{background:#080f1a;padding:48px 24px 24px;color:rgba(255,255,255,0.5)}
     }
 
     $('ctaVisit').href = '/?temple=' + encodeURIComponent(t.id) + '#visit';
+    $('ctaVisitFloat').href = $('ctaVisit').href;
     $('state').hidden = true;
     $('detail').hidden = false;
   }
