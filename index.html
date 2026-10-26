@@ -968,6 +968,9 @@ button[aria-busy="true"]::after { content: ' ⏳'; }
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
           <input type="checkbox" name="kuyo" value="永代供養墓" style="accent-color:var(--gold);width:16px;height:16px;"> 永代供養墓
         </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--text);">
+          <input type="checkbox" name="kuyo" value="送骨堂" style="accent-color:var(--gold);width:16px;height:16px;"> 送骨堂
+        </label>
       </div>
     </div>
 
@@ -1634,7 +1637,7 @@ function templePhotoUrl(t) {
   return /^https:\/\//.test(u) ? u.replace(/"/g, '%22') : '';
 }
 // 検索結果のタグ：CRMの供養方法（金色）＋CRMの特徴（永代供養・QR管理・個別安置）
-var KUYO_ORDER = ['樹木葬', '納骨堂', '永代供養墓'];
+var KUYO_ORDER = ['樹木葬', '納骨堂', '永代供養墓', '送骨堂'];
 function getTemples() {
   return (Array.isArray(estTemples) ? estTemples : []).map(function(t) {
     var types = (Array.isArray(t.types) ? t.types : []).slice().sort(function(a, b) { return KUYO_ORDER.indexOf(a) - KUYO_ORDER.indexOf(b); });
@@ -1713,11 +1716,17 @@ function updateResults() {
   // 供養方法フィルター（全タブ共通）
   var checkedKuyo = c.kuyo;
   if (checkedKuyo.length > 0) {
+    // 送骨堂：CRM の供養方法で「送骨堂」にチェックがある、または送骨費用が1円以上の寺院
+    var wantSokotsu = checkedKuyo.indexOf('送骨堂') !== -1;
+    var otherKuyo = checkedKuyo.filter(function(x) { return x !== '送骨堂'; });
     filtered = filtered.filter(function(t) {
       var ts = Array.isArray(t.types) ? t.types : [];
+      if (wantSokotsu && (ts.indexOf('送骨堂') !== -1 || (typeof t.sendKinugi === 'number' && t.sendKinugi >= 1))) return true;
+      if (otherKuyo.length === 0) return false;
+      var base = ts.filter(function(x) { return x !== '送骨堂'; });
       // 供養方法が未登録の寺院は除外しない（CRM で登録されるまでの暫定措置）
-      if (ts.length === 0) return true;
-      return ts.some(function(x) { return checkedKuyo.indexOf(x) !== -1; });
+      if (base.length === 0) return true;
+      return base.some(function(x) { return otherKuyo.indexOf(x) !== -1; });
     });
   }
   if (activeTab.includes('エリア')) {
@@ -1856,7 +1865,7 @@ function splitArea(area) {
 }
 
 function applyTempleData(rows) {
-  var KUYO = ['樹木葬', '納骨堂', '永代供養墓'];
+  var KUYO = ['樹木葬', '納骨堂', '永代供養墓', '送骨堂'];
   estTemples = rows.map(function(r) {
     var tags = [];
     if (r.feature_eitaikuyo)  tags.push('永代供養付き');
