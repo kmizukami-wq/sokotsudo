@@ -1,0 +1,3 @@
+# dev.sokotsudo.com 専用（main には入れない）：テスト用サイトを検索結果に載せない
+/*
+  X-Robots-Tag: noindex, nofollow
