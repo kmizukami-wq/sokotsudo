@@ -1876,6 +1876,7 @@ function applyTempleData(rows) {
     if (r.feature_qr)         tags.push('QR管理');
     if (r.feature_individual) tags.push('個別安置');
     if (r.feature_pet)        tags.push('ペットと一緒');
+    if (r.feature_sokotsu)    tags.push('送骨');
     return {
       id: r.id || '',
       name: r.name || '',
